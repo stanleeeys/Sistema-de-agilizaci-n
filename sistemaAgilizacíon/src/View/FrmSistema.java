@@ -4,6 +4,10 @@
  */
 package View;
 
+import Model.Cotizacion;
+import Model.CotizacionDAO;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author veget
@@ -13,6 +17,9 @@ public class FrmSistema extends javax.swing.JFrame {
     /**
      * Creates new form FrmSistema
      */
+    Cotizacion cl = new Cotizacion();
+    CotizacionDAO cotizacion = new CotizacionDAO();
+
     public FrmSistema() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -38,7 +45,7 @@ public class FrmSistema extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         txtPrecioU = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        txtPrecio = new javax.swing.JTextField();
+        txtPrecioT = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         btnExcel = new javax.swing.JButton();
@@ -47,9 +54,7 @@ public class FrmSistema extends javax.swing.JFrame {
         btnActualizar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
-        txtTitulo1 = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
-        txtPrecio1 = new javax.swing.JTextField();
+        txtAreaDeInvercion = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,7 +90,7 @@ public class FrmSistema extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "CANTIDAD", "UNIDAD DE MEDIDA", "DESCRIPCION/ESPECIFICACION TÉCNICA", "PRECIO UNITARIO", "PRECIO TOTAL", "AREA DE INVERSION Y RUBROS ESPECIFICOS", "FECHA  DE COMPRA"
+                "ID", "AREA DE INVERSION Y RUBROS ESPECIFICOS", "CANTIDAD", "UNIDAD DE MEDIDA", "DESCRIPCION/ESPECIFICACION TÉCNICA", "PRECIO UNITARIO", "PRECIO TOTAL", "FECHA  DE COMPRA"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -93,8 +98,8 @@ public class FrmSistema extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(50);
             jTable1.getColumnModel().getColumn(1).setPreferredWidth(50);
             jTable1.getColumnModel().getColumn(2).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(150);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(50);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(50);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(150);
             jTable1.getColumnModel().getColumn(5).setPreferredWidth(50);
             jTable1.getColumnModel().getColumn(6).setPreferredWidth(50);
             jTable1.getColumnModel().getColumn(7).setPreferredWidth(50);
@@ -114,16 +119,16 @@ public class FrmSistema extends javax.swing.JFrame {
 
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/GuardarTodo.png"))); // NOI18N
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         jLabel9.setBackground(new java.awt.Color(51, 51, 51));
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Area de invercion y rubros especificos");
-
-        jLabel10.setBackground(new java.awt.Color(51, 51, 51));
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel10.setText("Fecha de compra");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -140,16 +145,12 @@ public class FrmSistema extends javax.swing.JFrame {
                                 .addComponent(btnExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtDescripcion, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtPrecioU)
-                            .addComponent(txtPrecio)
+                            .addComponent(txtPrecioT)
                             .addComponent(txtUnidadM)
                             .addComponent(txtCantidad)
-                            .addComponent(txtTitulo1)
-                            .addComponent(txtPrecio1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtAreaDeInvercion)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(jLabel10))
                                     .addComponent(jLabel9)
                                     .addComponent(jLabel7)
                                     .addComponent(jLabel6)
@@ -182,7 +183,7 @@ public class FrmSistema extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtTitulo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtAreaDeInvercion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -202,12 +203,8 @@ public class FrmSistema extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtPrecio1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(txtPrecioT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -228,6 +225,45 @@ public class FrmSistema extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        if (camposProductoCompletos()) {
+            // Obtener los valores de los campos
+            int cantidad = Integer.parseInt(txtCantidad.getText());
+            String areaInversion = txtAreaDeInvercion.getText();
+            String unidadMedida = txtUnidadM.getText();
+            String descriccion = txtDescripcion.getText();
+            double preciounitario = Double.parseDouble(txtPrecioU.getText());
+            double precioTotal = Double.parseDouble(txtPrecioT.getText());
+
+            // Crear un nuevo producto
+            Cotizacion cl = new Cotizacion();
+            cl.setCantidad(cantidad);
+            cl.setArea(areaInversion);
+            cl.setUnidadMedida(unidadMedida);
+            cl.setDescripcion(descriccion);
+            cl.setPrecioUnitario(preciounitario);
+            cl.setPrecioTotal(preciounitario);
+           
+
+            // Registrar el producto
+            if (cotizacion.RegistrarCotizacion(cl)) {
+                // Mostrar mensaje de éxito
+                JOptionPane.showMessageDialog(null, "Producto registrado exitosamente");
+                // Limpiar los campos
+               
+            } else {
+                // Mostrar mensaje de error si falla el registro
+                JOptionPane.showMessageDialog(null, "Error, ya existe un producto con el mismo codigo", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            // Mostrar mensaje de advertencia si no todos los campos están completos
+            JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+            
+        
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -270,7 +306,6 @@ public class FrmSistema extends javax.swing.JFrame {
     private javax.swing.JButton btnExcel;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnPDF;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -280,12 +315,22 @@ public class FrmSistema extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField txtAreaDeInvercion;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtDescripcion;
-    private javax.swing.JTextField txtPrecio;
-    private javax.swing.JTextField txtPrecio1;
+    private javax.swing.JTextField txtPrecioT;
     private javax.swing.JTextField txtPrecioU;
-    private javax.swing.JTextField txtTitulo1;
     private javax.swing.JTextField txtUnidadM;
     // End of variables declaration//GEN-END:variables
+private boolean camposProductoCompletos() {
+        return !txtAreaDeInvercion.getText().isEmpty()
+                && !txtCantidad.getText().isEmpty()
+                && !txtDescripcion.getText().isEmpty()
+                
+                && !txtPrecioT.getText().isEmpty()
+                && !txtPrecioU.getText().isEmpty()
+                && !txtUnidadM.getText().isEmpty();
+        
+    }
+
 }
