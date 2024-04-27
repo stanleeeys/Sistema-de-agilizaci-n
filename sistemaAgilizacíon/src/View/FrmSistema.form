@@ -55,17 +55,12 @@
                               </Group>
                               <Component id="txtDescripcion" alignment="1" max="32767" attributes="0"/>
                               <Component id="txtPrecioU" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtPrecio" max="32767" attributes="0"/>
+                              <Component id="txtPrecioT" max="32767" attributes="0"/>
                               <Component id="txtUnidadM" alignment="0" max="32767" attributes="0"/>
                               <Component id="txtCantidad" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtTitulo1" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtPrecio1" alignment="1" max="32767" attributes="0"/>
+                              <Component id="txtAreaDeInvercion" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                          <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
-                                      </Group>
                                       <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
@@ -108,7 +103,7 @@
                   <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                   <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="txtTitulo1" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtAreaDeInvercion" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -128,12 +123,8 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="txtPrecio" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="txtPrecio1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="txtPrecioT" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="80" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnGuardar" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
                       <Component id="btnEliminar" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
@@ -223,7 +214,7 @@
             <Property name="text" type="java.lang.String" value="Precio Total"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtPrecio">
+        <Component class="javax.swing.JTextField" name="txtPrecioT">
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
           <AuxValues>
@@ -237,12 +228,12 @@
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="8" rowCount="0">
                     <Column editable="true" title="ID" type="java.lang.Object"/>
+                    <Column editable="true" title="AREA DE INVERSION Y RUBROS ESPECIFICOS" type="java.lang.Object"/>
                     <Column editable="true" title="CANTIDAD" type="java.lang.Object"/>
                     <Column editable="true" title="UNIDAD DE MEDIDA" type="java.lang.Object"/>
                     <Column editable="true" title="DESCRIPCION/ESPECIFICACION T&#xc9;CNICA" type="java.lang.Object"/>
                     <Column editable="true" title="PRECIO UNITARIO" type="java.lang.Object"/>
                     <Column editable="true" title="PRECIO TOTAL" type="java.lang.Object"/>
-                    <Column editable="true" title="AREA DE INVERSION Y RUBROS ESPECIFICOS" type="java.lang.Object"/>
                     <Column editable="true" title="FECHA  DE COMPRA" type="java.lang.Object"/>
                   </Table>
                 </Property>
@@ -263,12 +254,12 @@
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="150" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="150" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
@@ -336,6 +327,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Guardar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel9">
           <Properties>
@@ -351,23 +345,7 @@
             <Property name="text" type="java.lang.String" value="Area de invercion y rubros especificos"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtTitulo1">
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel10">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="33" green="33" red="33" type="rgb"/>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="14" style="1"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="0" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Fecha de compra"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="txtPrecio1">
+        <Component class="javax.swing.JTextField" name="txtAreaDeInvercion">
         </Component>
       </SubComponents>
     </Container>
