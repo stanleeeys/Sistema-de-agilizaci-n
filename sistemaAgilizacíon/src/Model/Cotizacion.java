@@ -3,7 +3,8 @@ package Model;
 
 
 public class Cotizacion {
-   private int cantidad;
+    private int id_cotizacion;
+    private int cantidad;
     private String areaInversion;
     private String unidadMedida;
     private String descripcion;
@@ -13,13 +14,22 @@ public class Cotizacion {
     public Cotizacion() {
     }
 
-    public Cotizacion(int cantidad, String areaInversion, String unidadMedida, String descripcion, double precioUnitario, double precioTotal) {
+    public Cotizacion(int id_cotizacion, int cantidad, String areaInversion, String unidadMedida, String descripcion, double precioUnitario, double precioTotal) {
+        this.id_cotizacion = id_cotizacion;
         this.cantidad = cantidad;
         this.areaInversion = areaInversion;
         this.unidadMedida = unidadMedida;
         this.descripcion = descripcion;
         this.precioUnitario = precioUnitario;
         this.precioTotal = precioTotal;
+    }
+
+    public int getId_cotizacion() {
+        return id_cotizacion;
+    }
+
+    public void setId_cotizacion(int id_cotizacion) {
+        this.id_cotizacion = id_cotizacion;
     }
 
     public int getCantidad() {
@@ -30,12 +40,12 @@ public class Cotizacion {
         this.cantidad = cantidad;
     }
 
-    public String getArea() {
+    public String getAreaInversion() {
         return areaInversion;
     }
 
-    public void setArea(String area) {
-        this.areaInversion = area;
+    public void setAreaInversion(String areaInversion) {
+        this.areaInversion = areaInversion;
     }
 
     public String getUnidadMedida() {
@@ -71,4 +81,3 @@ public class Cotizacion {
     }
     
 }
-
