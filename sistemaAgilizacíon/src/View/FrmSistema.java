@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.io.IOException;
 
 /**
  *
@@ -133,9 +134,19 @@ public class FrmSistema extends javax.swing.JFrame {
 
         btnExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/excel.png"))); // NOI18N
         btnExcel.setText("Excel");
+        btnExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcelActionPerformed(evt);
+            }
+        });
 
         btnPDF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pdf.png"))); // NOI18N
         btnPDF.setText("PDF");
+        btnPDF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPDFActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
@@ -352,6 +363,26 @@ public class FrmSistema extends javax.swing.JFrame {
         mostrarSumaVertical();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
+        
+        ExportarExcel obj;
+
+        try {
+            obj = new ExportarExcel();
+            obj.exportarExcel(tblCotizacion);
+        } catch (IOException ex) {
+            System.out.println("Error: " + ex);
+        }
+
+    }//GEN-LAST:event_btnExcelActionPerformed
+
+    
+    private void btnPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPDFActionPerformed
+        
+        
+        
+    }//GEN-LAST:event_btnPDFActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -411,7 +442,7 @@ public class FrmSistema extends javax.swing.JFrame {
     private javax.swing.JTextField txtUnidadM;
     // End of variables declaration//GEN-END:variables
 private boolean camposProductoCompletos() {
-        return !txtCantidad.getText().isEmpty()               
+        return !txtCantidad.getText().isEmpty()
                 && !txtDescripcion.getText().isEmpty()
                 && !txtPrecioT.getText().isEmpty()
                 && !txtPrecioU.getText().isEmpty()
@@ -436,7 +467,7 @@ private boolean camposProductoCompletos() {
         modelo.addRow(new Object[]{null}); // Agregar fila vacía para la suma
         tblCotizacion.setValueAt(sumaColumna6, numFilas, 6); // Establecer el valor de la suma en la fila agregada
     }
-    
+
     private void Limpiar() {
         txtAreaDeInvercion.setText("");
         txtCantidad.setText("");
