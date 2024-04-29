@@ -30,6 +30,7 @@ public class FrmSistema extends javax.swing.JFrame {
         ListarCliente();
         this.setLocationRelativeTo(null);
         this.setTitle("Sistema Agilides");
+        txtId.setVisible(false);
 
     }
     // Método para calcular la suma de la columna de precios finales
@@ -82,6 +83,7 @@ public class FrmSistema extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         txtAreaDeInvercion = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        txtId = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -120,6 +122,11 @@ public class FrmSistema extends javax.swing.JFrame {
                 "ID", "AREA DE INVERSION Y RUBROS ESPECIFICOS", "CANTIDAD", "UNIDAD DE MEDIDA", "DESCRIPCION/ESPECIFICACION TÉCNICA", "PRECIO UNITARIO", "PRECIO TOTAL", "FECHA  DE COMPRA"
             }
         ));
+        tblCotizacion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCotizacionMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblCotizacion);
         if (tblCotizacion.getColumnModel().getColumnCount() > 0) {
             tblCotizacion.getColumnModel().getColumn(0).setPreferredWidth(50);
@@ -158,6 +165,11 @@ public class FrmSistema extends javax.swing.JFrame {
 
         btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Actualizar (2).png"))); // NOI18N
         btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/GuardarTodo.png"))); // NOI18N
         btnGuardar.setText("Guardar");
@@ -188,37 +200,40 @@ public class FrmSistema extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton1))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtDescripcion)
-                    .addComponent(txtPrecioU, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtPrecioT, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtUnidadM, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCantidad, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtAreaDeInvercion, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                    .addComponent(txtDescripcion, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtPrecioU)
+                    .addComponent(txtPrecioT)
+                    .addComponent(txtUnidadM)
+                    .addComponent(txtCantidad)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(txtAreaDeInvercion, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
                             .addComponent(jLabel7)
                             .addComponent(jLabel6)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 743, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -233,7 +248,9 @@ public class FrmSistema extends javax.swing.JFrame {
                         .addGap(37, 37, 37)
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtAreaDeInvercion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtAreaDeInvercion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -284,26 +301,24 @@ public class FrmSistema extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
         if (camposProductoCompletos()) {
-            // Obtener los valores de los campos
+
             int cantidad = Integer.parseInt(txtCantidad.getText());
-            String areaInversion = txtAreaDeInvercion.getText();
+            String AreaInversion = txtAreaDeInvercion.getText();
             String unidadMedida = txtUnidadM.getText();
             String descriccion = txtDescripcion.getText();
             double preciounitario = Double.parseDouble(txtPrecioU.getText());
             double precioTotal = Double.parseDouble(txtPrecioT.getText());
 
-            // Crear un nuevo producto
             Cotizacion cl = new Cotizacion();
             cl.setCantidad(cantidad);
-            cl.setAreaInversion(areaInversion);
+            cl.setAreaInversion(AreaInversion);
             cl.setUnidadMedida(unidadMedida);
             cl.setDescripcion(descriccion);
             cl.setPrecioUnitario(preciounitario);
             cl.setPrecioTotal(precioTotal);
 
-            // Registrar el producto
             if (cotDao.RegistrarCotizacion(cl)) {
-                // Mostrar mensaje de éxito
+
                 JOptionPane.showMessageDialog(null, "Producto registrado exitosamente");
                 // Limpiar los campos
                 ListarCliente();
@@ -327,17 +342,16 @@ public class FrmSistema extends javax.swing.JFrame {
         int filaSeleccionada = tblCotizacion.getSelectedRow();
         if (filaSeleccionada == -1) {
             JOptionPane.showMessageDialog(null, "Por favor, seleccione una casilla para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return; // Salir del método si no se ha seleccionado ninguna fila
+            return;
         }
 
-        // Obtener el ID del producto seleccionado en la tabla
         int id_cotizacion = Integer.parseInt(tblCotizacion.getValueAt(filaSeleccionada, 0).toString());
 
         try {
-            // Preguntar al usuario si está seguro de eliminar el producto
+
             int confirmacion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas eliminar esta casilla?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
             if (confirmacion == JOptionPane.YES_OPTION) {
-                // Intentar eliminar el producto
+
                 boolean eliminado = cotDao.EliminarCotizacion(id_cotizacion);
                 if (eliminado) {
 
@@ -364,7 +378,7 @@ public class FrmSistema extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
-        
+
         ExportarExcel obj;
 
         try {
@@ -376,12 +390,71 @@ public class FrmSistema extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnExcelActionPerformed
 
-    
+
     private void btnPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPDFActionPerformed
-        
-        
-        
+
+
     }//GEN-LAST:event_btnPDFActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // TODO add your handling code here:
+
+        try {
+
+            int id_cotizacion = Integer.parseInt(txtId.getText());
+            int cantidad = Integer.parseInt(txtCantidad.getText());
+            String UnidadInversion = txtAreaDeInvercion.getText();
+            String unidadMedida = txtUnidadM.getText();
+            String descripcion = txtDescripcion.getText();
+            double precioUnitario = Double.parseDouble(txtPrecioU.getText());
+            double precioTotal = Double.parseDouble(txtPrecioT.getText());
+
+            Cotizacion cotizacion = new Cotizacion(id_cotizacion, cantidad,UnidadInversion, unidadMedida, descripcion, precioUnitario, precioTotal);
+
+            boolean modificacionExitosa = cotDao.modificarCotizacion(cotizacion);
+
+            if (modificacionExitosa) {
+
+                JOptionPane.showMessageDialog(null, "Cotización modificada exitosamente");
+                Limpiar();
+                ListarCliente();
+            } else {
+
+                JOptionPane.showMessageDialog(null, "Error al modificar la cotización", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException ex) {
+
+            JOptionPane.showMessageDialog(null, "Uno o más campos no contienen valores numéricos válidos", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+
+            JOptionPane.showMessageDialog(null, "Error al modificar la cotización en la base de datos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void tblCotizacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCotizacionMouseClicked
+        // TODO add your handling code here:
+
+        int fila = tblCotizacion.getSelectedRow();
+        if (fila != -1) { // Verifica si hay una fila seleccionada
+            try {
+                txtId.setText(tblCotizacion.getValueAt(fila, 0).toString());
+                txtCantidad.setText(tblCotizacion.getValueAt(fila, 2).toString());
+                
+                txtUnidadM.setText(tblCotizacion.getValueAt(fila, 3).toString());
+                txtDescripcion.setText(tblCotizacion.getValueAt(fila, 4).toString());
+                txtPrecioU.setText(tblCotizacion.getValueAt(fila, 5).toString());
+                txtPrecioT.setText(tblCotizacion.getValueAt(fila, 6).toString());
+            } catch (NullPointerException ex) {
+                // Manejar la excepción en caso de que no se pueda obtener un valor de la fila seleccionada
+                JOptionPane.showMessageDialog(null, "Error al obtener los datos de la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila antes de editar los datos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+
+
+    }//GEN-LAST:event_tblCotizacionMouseClicked
 
     /**
      * @param args the command line arguments
@@ -437,6 +510,7 @@ public class FrmSistema extends javax.swing.JFrame {
     private javax.swing.JTextField txtAreaDeInvercion;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtDescripcion;
+    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtPrecioT;
     private javax.swing.JTextField txtPrecioU;
     private javax.swing.JTextField txtUnidadM;
