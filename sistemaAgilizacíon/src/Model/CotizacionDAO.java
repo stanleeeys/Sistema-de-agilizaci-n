@@ -75,5 +75,23 @@ public class CotizacionDAO {
         }
         return procl;
     }
+      public boolean modificarCotizacion(Cotizacion cl) throws SQLException {
+       
+
+        String sql = "UPDATE tb_cotizacion SET cantidad=?, unidad_de_medida=?, descripcion=?, precio_unitario=?, precio_total=? WHERE id_cotizacion=?";
+        try (Connection con = cn.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, cl.getCantidad());
+            ps.setString(2, cl.getUnidadMedida());
+            ps.setString(3, cl.getDescripcion());
+            ps.setDouble(4, cl.getPrecioUnitario());
+            ps.setDouble(5, cl.getPrecioTotal());
+            ps.setInt(6, cl.getId_cotizacion());
+
+            int resultado = ps.executeUpdate();
+            return resultado > 0;
+        } catch (SQLException e) {
+            throw new SQLException("Error al modificar: " + e.getMessage(), e);
+        }
+    }
 
 }
