@@ -16,7 +16,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STBorder;
 
-public class ExportacionWord {
+public class ExportacionWordf2 {
 
     public void exportarTabla(List<Cotizacion> listaCotizaciones, String nombreArchivo) {
         try {
@@ -28,9 +28,9 @@ public class ExportacionWord {
             titulo.setSpacingAfter(200); 
             XWPFRun tituloRun = titulo.createRun();
             tituloRun.setBold(true); 
-            tituloRun.setFontSize(12);
+            tituloRun.setFontSize(12); 
             tituloRun.setFontFamily("Times New Roman"); 
-            tituloRun.setText("COTIZACION");
+            tituloRun.setText("ACTA DE RECEPCION DE BIENES     N°____");
 
             XWPFParagraph encabezado = documento.createParagraph();
             encabezado.setAlignment(ParagraphAlignment.LEFT); 
@@ -38,7 +38,7 @@ public class ExportacionWord {
             XWPFRun encabezadoRun = encabezado.createRun();
             encabezadoRun.setFontFamily("Times New Roman");
             encabezadoRun.setFontSize(10); 
-            encabezadoRun.setText("LUGAR Y FECHA: LUGAR, 29 DE MAYO DE 2023.");
+            encabezadoRun.setText("EL ORGANISMO DE ADMINISTRACION ESCOLAR: CONSEJO DIRECTIVO ESCOLAR QUE ADMINISTRA LA ESCUELA DE EDUCACION PARVULARIA LA REINA, MUNICIPIO: LA REINA, CODIGO:_10882______________ DEPARTAMENTO DE CHALATENANGO.");
             encabezadoRun.addBreak();
             encabezadoRun.setText(" ");
             encabezadoRun.addBreak();
@@ -50,14 +50,15 @@ public class ExportacionWord {
             encabezadoRun.addBreak();
             encabezadoRun.setText(" ");
             encabezadoRun.addBreak();
-            encabezadoRun.setText("Atendiendo la solicitud de cotización de fecha 27 DE Mayo de 2022, suscrita por el CDE que administra La Escuela de Educación Parvularia La LUGAR, ubicado en el Municipio de La LUGAR, atentamente remito la oferta en original apegada a las condiciones y especificaciones de compras detalladas a continuación:\n\n");
+            //encabezado.setAlignment(ParagraphAlignment.DISTRIBUTE);
+            encabezadoRun.setText("QUE EN FECHA 01/06/2023, EL PRESIDENTE DEL CENTRO ESCOLAR  Y EL SUSCRITO HACE CONSTAR QUE HA RECIBIDO DE ACUERDO A  LO CONVENIDO CON EL/LA  SEÑOR/A: MARGARITA URBINA SIBRIAN, LOS BIENES QUE  A CONTINUACION  SE DETALLAN");
             encabezadoRun.addBreak();
             encabezadoRun.setText(" ");
             encabezadoRun.addBreak();
 
             XWPFTable tabla = documento.createTable();
             tabla.setWidth("100%");
-            tabla.setTableAlignment(TableRowAlign.LEFT);
+            tabla.setTableAlignment(TableRowAlign.CENTER);
 
             
             CTTblPr tblPr = tabla.getCTTbl().addNewTblPr();
@@ -77,7 +78,7 @@ public class ExportacionWord {
                     celda = filaEncabezado.createCell();
                 }
                 XWPFParagraph p = celda.getParagraphs().get(0);
-                p.setAlignment(ParagraphAlignment.LEFT); 
+                p.setAlignment(ParagraphAlignment.DISTRIBUTE); 
                 XWPFRun r = p.createRun();
                 r.setFontSize(10); 
                 r.setFontFamily("Times New Roman"); 
@@ -97,7 +98,7 @@ public class ExportacionWord {
                     }
                    
                     XWPFParagraph p = celda.getParagraphs().get(0);
-                    p.setAlignment(ParagraphAlignment.LEFT); 
+                    p.setAlignment(ParagraphAlignment.DISTRIBUTE); 
                     XWPFRun r = p.createRun();
                     r.setFontSize(10); 
                     r.setFontFamily("Times New Roman");
