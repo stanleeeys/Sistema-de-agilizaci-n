@@ -1,5 +1,5 @@
 
-package com.streamliningsystem.model;
+package com.streamliningsystem.data.Provider;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,7 +13,7 @@ public class Conexion {
     public Connection getConnection(){
         try {
             String myBD= "jdbc:mysql://localhost:3306/sistemaagilizacion_bd?serverTimezone=UTC";
-            con = DriverManager.getConnection(myBD, "root", "");
+            con = DriverManager.getConnection(myBD, "nico", ")P4ssword");
             return con;
         } catch (SQLException e) {
             System.out.println("Error al conectar a la base de datos: " + e.toString());

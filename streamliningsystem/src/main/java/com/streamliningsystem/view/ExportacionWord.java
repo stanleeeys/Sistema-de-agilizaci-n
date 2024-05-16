@@ -1,6 +1,6 @@
 package com.streamliningsystem.view;
 
-import com.streamliningsystem.model.Cotizacion;
+import com.streamliningsystem.data.Models.Cotizacion;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;

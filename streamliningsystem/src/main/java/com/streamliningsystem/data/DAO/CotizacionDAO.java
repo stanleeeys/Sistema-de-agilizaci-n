@@ -1,6 +1,8 @@
 
-package com.streamliningsystem.model;
+package com.streamliningsystem.data.DAO;
 
+import com.streamliningsystem.data.Models.Cotizacion;
+import com.streamliningsystem.data.Provider.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,6 +41,8 @@ public class CotizacionDAO {
             }
         }
     }
+     
+     
      public boolean EliminarCotizacion(int id_cotizacion) throws SQLException {
         if (id_cotizacion <= 0) {
             throw new IllegalArgumentException("El ID del producto debe ser un número positivo.");
