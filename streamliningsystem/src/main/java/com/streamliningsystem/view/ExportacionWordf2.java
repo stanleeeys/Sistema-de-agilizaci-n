@@ -1,6 +1,6 @@
 package com.streamliningsystem.view;
 
-import com.streamliningsystem.model.Cotizacion;
+import com.streamliningsystem.data.Models.Cotizacion;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
@@ -22,6 +22,7 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.STPageOrientation;
 public class ExportacionWordf2 {
 
     public void exportarTabla(List<Cotizacion> listaCotizaciones, String nombreArchivo) {
+        
         try {
             XWPFDocument documento = new XWPFDocument();
 

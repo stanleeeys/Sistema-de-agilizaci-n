@@ -1,5 +1,5 @@
 
-package com.streamliningsystem.model;
+package com.streamliningsystem.data.Models;
 
 
 public class Cotizacion {
