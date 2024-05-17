@@ -1,6 +1,7 @@
 /home/ranger19/TareasU/Sistema-de-agilizaci-n/streamliningsystem/src/main/java/com/streamliningsystem/controllers/OrdenController.java
 /home/ranger19/TareasU/Sistema-de-agilizaci-n/streamliningsystem/src/main/java/com/streamliningsystem/data/Provider/Conexion.java
 /home/ranger19/TareasU/Sistema-de-agilizaci-n/streamliningsystem/src/main/java/com/streamliningsystem/data/Models/FechasER.java
+/home/ranger19/TareasU/Sistema-de-agilizaci-n/streamliningsystem/src/main/java/com/streamliningsystem/models/ViewModels/TablaOrdenVM.java
 /home/ranger19/TareasU/Sistema-de-agilizaci-n/streamliningsystem/src/main/java/com/streamliningsystem/models/ViewModels/DetalleOrdenVM.java
 /home/ranger19/TareasU/Sistema-de-agilizaci-n/streamliningsystem/src/main/java/com/streamliningsystem/view/FrmMain.java
 /home/ranger19/TareasU/Sistema-de-agilizaci-n/streamliningsystem/src/main/java/com/streamliningsystem/models/ViewModels/ClienteVM.java

@@ -20,6 +20,7 @@ com/streamliningsystem/models/ViewModels/OrdenVM.class
 com/streamliningsystem/view/FrmMain$3.class
 com/streamliningsystem/controllers/FechaERController.class
 com/streamliningsystem/controllers/ClienteController.class
+com/streamliningsystem/models/ViewModels/TablaOrdenVM.class
 com/streamliningsystem/view/FrmMains$5.class
 com/streamliningsystem/data/DAO/CotizacionDAO.class
 com/streamliningsystem/view/FrmSistema$6.class
@@ -47,3 +48,4 @@ com/streamliningsystem/data/Models/DetalleOrden.class
 com/streamliningsystem/controllers/OrdenController.class
 com/streamliningsystem/view/ExportarExcel.class
 com/streamliningsystem/view/FrmSistema$4.class
+com/streamliningsystem/view/FrmMain$5.class

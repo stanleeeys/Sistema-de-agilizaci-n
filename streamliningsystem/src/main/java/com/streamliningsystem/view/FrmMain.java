@@ -14,6 +14,7 @@ import com.streamliningsystem.models.ViewModels.DetalleOrdenVM;
 import com.streamliningsystem.models.ViewModels.FechaErVM;
 import com.streamliningsystem.models.ViewModels.OrdenVM;
 import com.streamliningsystem.models.ViewModels.ProveedorVM;
+import com.streamliningsystem.models.ViewModels.TablaOrdenVM;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -50,16 +51,15 @@ public class FrmMain extends javax.swing.JFrame {
     
     public void poblarTablaOrden() {
         
-        ArrayList<OrdenVM> ordenesVM = ordenController.listarOrden();
+        ArrayList<TablaOrdenVM> ordenesVM = ordenController.listarOrden();
         modeloTabla = (DefaultTableModel) tblOrdenes.getModel();
         modeloTabla.setRowCount(0); // Limpiar el modeloTabla de tabla antes de agregar nuevas filas
-        for (OrdenVM cl : ordenesVM) {
+        for (TablaOrdenVM cl : ordenesVM) {
             
-            Object[] ob = new Object[4]; // Crear el arreglo dentro del bucle
-            ob[0] = cl.getCodOrden();
-            ob[1] = cl.getClienteId();
-            ob[2] = cl.getFechasErId();
-            ob[3] = cl.getFechasErId();
+            Object[] ob = new Object[3]; // Crear el arreglo dentro del bucle
+            ob[0] = cl.getEncargadoCompra() + " " + cl.getNombreInstitucion();
+            ob[1] = cl.getFechaOrden();
+            ob[2] = cl.getFechaRecepcion();
 
             modeloTabla.addRow(ob);
         }
@@ -121,29 +121,33 @@ public class FrmMain extends javax.swing.JFrame {
 
         tblOrdenes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "N Orden", "Cliente", "Fecha Orden", "Fecha de recepcion"
+                "Cliente", "Fecha Orden", "Fecha de recepcion"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
+        tblOrdenes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblOrdenesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblOrdenes);
         if (tblOrdenes.getColumnModel().getColumnCount() > 0) {
-            tblOrdenes.getColumnModel().getColumn(0).setPreferredWidth(50);
-            tblOrdenes.getColumnModel().getColumn(1).setPreferredWidth(150);
-            tblOrdenes.getColumnModel().getColumn(2).setPreferredWidth(50);
-            tblOrdenes.getColumnModel().getColumn(3).setPreferredWidth(50);
+            tblOrdenes.getColumnModel().getColumn(0).setPreferredWidth(250);
+            tblOrdenes.getColumnModel().getColumn(1).setPreferredWidth(40);
+            tblOrdenes.getColumnModel().getColumn(2).setPreferredWidth(40);
         }
 
         jLabel3.setText("Buscar:");
@@ -489,6 +493,10 @@ public class FrmMain extends javax.swing.JFrame {
         this.setVisible(false);
 
     }//GEN-LAST:event_btnCrearNuevoActionPerformed
+
+    private void tblOrdenesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblOrdenesMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblOrdenesMouseClicked
 
     /**
      * @param args the command line arguments

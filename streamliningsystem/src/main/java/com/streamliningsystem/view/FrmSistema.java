@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.UUID;
 import javax.swing.DefaultComboBoxModel;
 
 public class FrmSistema extends javax.swing.JFrame {
@@ -1099,12 +1100,13 @@ public class FrmSistema extends javax.swing.JFrame {
 
     private String generarCodigo() {
 
-        Date fechaActual = new Date();
+        /*Date fechaActual = new Date();
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         String fechaActualS = formatoFecha.format(fechaActual);
-        String fechaSinBarras = fechaActualS.replaceAll("/", "");
+        String fechaSinBarras = fechaActualS.replaceAll("/", "");*/
+        UUID uuid = UUID.randomUUID();
 
-        return txtEncargadoCompra.getText() + fechaSinBarras;
+        return txtEncargadoCompra.getText() + uuid;
     }
 
     private boolean camposProductoCompletos() {

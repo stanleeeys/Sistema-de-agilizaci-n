@@ -3,6 +3,7 @@ package com.streamliningsystem.controllers;
 import com.streamliningsystem.data.DAO.OrdenDAO;
 import com.streamliningsystem.data.Models.Orden;
 import com.streamliningsystem.models.ViewModels.OrdenVM;
+import com.streamliningsystem.models.ViewModels.TablaOrdenVM;
 import java.util.ArrayList;
 
 public class OrdenController {
@@ -29,37 +30,42 @@ public class OrdenController {
         return ordenDAO.obtenerOrden();
     }
     
-    public ArrayList<OrdenVM> listarOrden() {
-
-        try {
-
-            ArrayList<Orden> listadoOrden = new ArrayList<Orden>();
-            ArrayList<OrdenVM> lOrdenVM = new ArrayList<OrdenVM>();
-
-            listadoOrden = ordenDAO.listarOrdenes();
-
-            for (Orden it : listadoOrden) {
-
-                OrdenVM ordenVM = new OrdenVM();
-                ordenVM.setIdOrden(it.getIdOrden());
-                ordenVM.setCodOrden(it.getCodOrden());
-                ordenVM.setEncargadoOrden(it.getEncargadoOrden());
-                ordenVM.setTotales(it.getTotales());
-                ordenVM.setClienteId(it.getClienteId());
-                ordenVM.setProveedorId(it.getProveedorId());
-                ordenVM.setFechasErId(it.getFechasErId());
-                
-
-                lOrdenVM.add(ordenVM);
-            }
-
-            return lOrdenVM;
-        } catch (Exception e) {
-            
-            System.err.println(e.toString());
-
-            return null;
-        }
+//    public ArrayList<OrdenVM> listarOrden() {
+//
+//        try {
+//
+//            ArrayList<Orden> listadoOrden = new ArrayList<Orden>();
+//            ArrayList<OrdenVM> lOrdenVM = new ArrayList<OrdenVM>();
+//
+//            //listadoOrden = ordenDAO.listarOrdenes();
+//
+//            for (Orden it : listadoOrden) {
+//
+//                OrdenVM ordenVM = new OrdenVM();
+//                ordenVM.setIdOrden(it.getIdOrden());
+//                ordenVM.setCodOrden(it.getCodOrden());
+//                ordenVM.setEncargadoOrden(it.getEncargadoOrden());
+//                ordenVM.setTotales(it.getTotales());
+//                ordenVM.setClienteId(it.getClienteId());
+//                ordenVM.setProveedorId(it.getProveedorId());
+//                ordenVM.setFechasErId(it.getFechasErId());
+//                
+//
+//                lOrdenVM.add(ordenVM);
+//            }
+//
+//            return lOrdenVM;
+//        } catch (Exception e) {
+//            
+//            System.err.println(e.toString());
+//
+//            return null;
+//        }
+//    }
+    
+    public ArrayList<TablaOrdenVM> listarOrden(){
+    
+        return ordenDAO.listarOrdenes();
     }
     
 }
