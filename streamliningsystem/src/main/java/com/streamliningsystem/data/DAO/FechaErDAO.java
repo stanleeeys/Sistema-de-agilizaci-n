@@ -16,7 +16,7 @@ public class FechaErDAO {
     ResultSet rSet;
 
     // METODO PARA INGRESAR UNA FECHA
-    public void ingresarFechas(FechasER fechasER) {
+    public boolean ingresarFechas(FechasER fechasER) {
 
         String consulta = "INSERT INTO FechasER"
                 + "(fecha_solicitud, fecha_cotizacion, fecha_orden, "
@@ -35,10 +35,11 @@ public class FechaErDAO {
 
             pStatement.execute();
             conexion.close();
+            return true;
 
         } catch (Exception e) {
 
-            System.err.println(e.toString());
+            return false;
         }
     }
 }

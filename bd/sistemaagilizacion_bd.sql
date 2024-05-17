@@ -1,76 +1,53 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Servidor: 127.0.0.1
--- Tiempo de generación: 28-04-2024 a las 07:00:02
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.0.30
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
+create table Cliente(
+	id_cliente int not null auto_increment,
+	encargado_compra varchar(255),
+	nombre_institucion varchar(512) not null,
+	municipio varchar(255) not null,
+	primary key(id_cliente)
+);
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+create table Proveedor(
+	id_proveedor int not null auto_increment,
+	nombre_proveedor varchar(512) not null,
+	primary key(id_proveedor)
 
---
--- Base de datos: `sistemaagilizacion_bd`
---
+);
 
--- --------------------------------------------------------
+create table FechasER(
+	id_fechas int not null auto_increment,
+	fecha_solicitud datetime not null,
+	fecha_cotizacion datetime not null,
+	fecha_orden datetime not null,
+	fecha_recepcion datetime not null,
+	fecha_plan_compras datetime not null,
+	primary key(id_fechas)
+);
 
---
--- Estructura de tabla para la tabla `tb_cotizacion`
---
 
-CREATE TABLE `tb_cotizacion` (
-  `id_cotizacion` int(11) NOT NULL,
-  `cantidad` int(100) NOT NULL,
-  `unidad_de_medida` varchar(100) NOT NULL,
-  `descripcion` varchar(200) NOT NULL,
-  `precio_unitario` decimal(5,2) NOT NULL,
-  `precio_total` decimal(5,2) NOT NULL,
-  `fecha_de_compra` datetime NOT NULL DEFAULT current_timestamp(),
-  `area_de_inversion_y_rubros_especificos` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+create table Orden(
+	id_orden int not null auto_increment,
+	cod_orden varchar(100) not null,
+	encargado_orden varchar(255) not null,
+	totales decimal(8,2),
+	cliente_id int not null,
+	proveedor_id int not null,
+	fechas_er_id int not null,
+	primary key(id_orden),
+	foreign key(cliente_id) references Cliente(id_cliente),
+	foreign key (proveedor_id) references Proveedor(id_proveedor),
+	foreign key (fechas_er_id) references FechasER(id_fechas)
+);
 
---
--- Volcado de datos para la tabla `tb_cotizacion`
---
-
-INSERT INTO `tb_cotizacion` (`id_cotizacion`, `cantidad`, `unidad_de_medida`, `descripcion`, `precio_unitario`, `precio_total`, `fecha_de_compra`, `area_de_inversion_y_rubros_especificos`) VALUES
-(9, 2, 'C/U', 'GALONES DE AGUA', 12.00, 12.00, '2024-04-27 22:36:43', 'S'),
-(10, 2, 'C/U', 'CUBETAS DE PINTURA', 12.00, 12.00, '2024-04-27 22:37:26', 'S'),
-(11, 3, 'c/u', 'kit para inodoro', 15.00, 15.00, '2024-04-27 22:43:34', ''),
-(12, 6, 'c/u', 'spray de diferente color', 4.00, 21.00, '2024-04-27 22:49:06', ''),
-(14, 234, 'awd', 'awd', 14.00, 14.00, '2024-04-27 22:51:24', ''),
-(15, 13, 'cu', 'lo que sea', 12.50, 13.80, '2024-04-27 22:58:21', '');
-
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `tb_cotizacion`
---
-ALTER TABLE `tb_cotizacion`
-  ADD PRIMARY KEY (`id_cotizacion`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `tb_cotizacion`
---
-ALTER TABLE `tb_cotizacion`
-  MODIFY `id_cotizacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+create table DetallesOrden(
+	id_detalle_orden int not null auto_increment,
+	num_articulo int not null,
+	cantidad int not null,
+	unidad_medida varchar(50),
+	descripcion_articulo varchar(512) not null,
+	precio_unitario decimal(8,2) not null,
+	precio_total decimal(8,2),
+	orden_id int not null,
+	primary key(id_detalle_orden),
+	foreign key(orden_id) references Orden(id_orden)
+);
