@@ -12,21 +12,13 @@ public class FechaERController {
     //Metodo de insercion de fechas
     public boolean guardarFechas(FechaErVM fechaErVM) {
 
-        try {
-            
-            FechasER fechasER = new FechasER();
-            fechasER.setFechaSolicitud(fechaErVM.fechaSolicitud);
-            fechasER.setFechaCotizacion(fechaErVM.fechaCotizacion);
-            fechasER.setFechaOrden(fechaErVM.fechaOrden);
-            fechasER.setFechaRecepcion(fechaErVM.fechaRecepcion);
-            fechasER.setFechaPlanCompras(fechaErVM.fechaPlanCompras);
-            
-            fechaErDAO.ingresarFechas(fechasER);           
-            return true;
-            
-        } catch (Exception e) {
-            
-            return false;
-        }              
+        FechasER fechasER = new FechasER();
+        fechasER.setFechaSolicitud(fechaErVM.fechaSolicitud);
+        fechasER.setFechaCotizacion(fechaErVM.fechaCotizacion);
+        fechasER.setFechaOrden(fechaErVM.fechaOrden);
+        fechasER.setFechaRecepcion(fechaErVM.fechaRecepcion);
+        fechasER.setFechaPlanCompras(fechaErVM.fechaPlanCompras);
+
+        return fechaErDAO.ingresarFechas(fechasER);
     }
 }
