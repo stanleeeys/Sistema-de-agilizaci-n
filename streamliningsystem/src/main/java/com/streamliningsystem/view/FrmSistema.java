@@ -738,44 +738,51 @@ public class FrmSistema extends javax.swing.JFrame {
     /*ESTE EVENTO SIRVE PARA GUARDAR LOS DATOS DEL FORMULARIO EN LA BD*/
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
+            try {
         if (verificacionCamposVacios()) {
+            // Inicializar los objetos de las entidades
+            ClienteVM clienteVM = new ClienteVM();
+            clienteVM.setEncargadoCompra(txtEncargadoCompra.getText().trim());
+            clienteVM.setNombreInstitucion(txtNombreInstitucion.getText().trim());
+            clienteVM.setMunicipio(txtMunicipio.getText().trim());
 
-            clienteVM = new ClienteVM();
-            clienteVM.setEncargadoCompra(txtEncargadoCompra.getText());
-            clienteVM.setNombreInstitucion(txtNombreInstitucion.getText());
-            clienteVM.setMunicipio(txtMunicipio.getText());
+            // Guardar cliente
             boolean g1 = clienteC.guardarCliente(clienteVM);
+            if (!g1) throw new Exception("Error al guardar el cliente");
 
-            fechaErVM = new FechaErVM();
+            FechaErVM fechaErVM = new FechaErVM();
             fechaErVM.setFechaSolicitud(dtmSolicitudCotizacion.getDate());
             fechaErVM.setFechaCotizacion(dtmCotizacion.getDate());
             fechaErVM.setFechaOrden(dtmOrdenCompra.getDate());
             fechaErVM.setFechaRecepcion(dtmRecepcion.getDate());
             fechaErVM.setFechaPlanCompras(dtmPlanCompras.getDate());
+
+            // Guardar fechas
             boolean g2 = fechaERController.guardarFechas(fechaErVM);
+            if (!g2) throw new Exception("Error al guardar las fechas");
 
             int clienteId = clienteC.obtenerCliente();
             int fechaId = fechaERController.obtenerFecha();
-            int ValuememberTF[] = null;
 
-            ordenVM = new OrdenVM();
+            OrdenVM ordenVM = new OrdenVM();
             ordenVM.setCodOrden(generarCodigo());
-            ordenVM.setEncargadoOrden(txtEncargadoOrden.getText());
-            ordenVM.setTotales(Double.parseDouble(txtTotales.getText()));
+            ordenVM.setEncargadoOrden(txtEncargadoOrden.getText().trim());
+            ordenVM.setTotales(Double.parseDouble(txtTotales.getText().trim()));
             ordenVM.setClienteId(clienteId);
             ordenVM.setProveedorId(cbxProveedor.getSelectedIndex() + 1);
             ordenVM.setFechasErId(fechaId);
+
+            // Guardar orden
             boolean g3 = ordenController.guardarOrden(ordenVM);
+            if (!g3) throw new Exception("Error al guardar la orden");
 
             int ordenId = ordenController.obtenerOrden();
+
+            DefaultTableModel modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
             int g4 = 0;
 
-            modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
-
-            //int numFilas = modeloTabla.getRowCount();
             for (int fila = 0; fila < modeloTabla.getRowCount(); fila++) {
-
-                detalleOrdenVM = new DetalleOrdenVM();
+                DetalleOrdenVM detalleOrdenVM = new DetalleOrdenVM();
                 detalleOrdenVM.setNumArticulo((Integer) modeloTabla.getValueAt(fila, 0));
                 detalleOrdenVM.setCantidad((Integer) modeloTabla.getValueAt(fila, 1));
                 detalleOrdenVM.setUnidadMedida((String) modeloTabla.getValueAt(fila, 2));
@@ -785,30 +792,28 @@ public class FrmSistema extends javax.swing.JFrame {
                 detalleOrdenVM.setOrdenId(ordenId);
 
                 boolean guardado = detalleOrdenController.guardarDetalleOrden(detalleOrdenVM);
+                if (!guardado) throw new Exception("Error al guardar el detalle de la orden");
                 g4++;
             }
 
             if (g1 && g2 && g3 && g4 == modeloTabla.getRowCount()) {
-
-                JOptionPane.showMessageDialog(null, "Orden "
-                        + "registrada exitosamente", "Exito",
-                        JOptionPane.INFORMATION_MESSAGE);
-
-                // Limpiar los campos
-                //ListarCliente();
+                JOptionPane.showMessageDialog(this, "Orden registrada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                
+                // Limpiar los campos y actualizar la tabla
                 Limpiar();
-
+                FrmMain frmMain = new FrmMain();
+                frmMain.setVisible(true);
+                this.setVisible(false);
             } else {
-                // Mostrar mensaje de error si falla el registro
-                JOptionPane.showMessageDialog(null, "Lo siento, "
-                        + "se detecto un erro interno", "Error",
-                        JOptionPane.ERROR_MESSAGE);
+                throw new Exception("Error interno detectado");
             }
-
         } else {
-            // Mostrar mensaje de advertencia si no todos los campos están completos
-            JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al registrar la orden: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
 

@@ -46,7 +46,7 @@ public class ClienteDAO {
         
         conexion = conexionDb.getConnection();
 
-        String consulta = "SELECT id_cliente FROM Cliente ORDER BY id_cliente DESC LIMIT 1";
+        String consulta = "SELECT id_cliente FROM cliente ORDER BY id_cliente DESC LIMIT 1";
         int idCliente = -1; // Valor por defecto si no se encuentra ningún cliente
 
         try {
