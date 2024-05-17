@@ -10,29 +10,31 @@ public class OrdeDetalleDAO {
     
     // Variables Globales
     Conexion conexionDb = new Conexion();
-    Connection conexion = conexionDb.getConnection();
+    Connection conexion;
     PreparedStatement pStatement;
     ResultSet rSet;
 
     // METODO PARA INGRESAR UNA DETALLE ORDEN
-    public boolean ingresarDetalleOrden(DetalleOrden orden) {
+    public boolean ingresarDetalleOrden(DetalleOrden detalleOrden) {
 
-        String consulta = "INSERT INTO DetallesOrden (num_articulo, cantidad, unidad_medida, descripcion_articulo, precio_unitario, fechas_er_id) VALUES (?, ?, ?, ?, ?, ?)";
+        
+        conexion = conexionDb.getConnection();
+        String consulta = "INSERT INTO DetallesOrden (num_articulo, cantidad, unidad_medida, descripcion_articulo, precio_unitario, precio_total, orden_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try {
 
-            /*pStatement = conexion.prepareStatement(consulta);
+            pStatement = conexion.prepareStatement(consulta);
 
-            pStatement.setInt(1, orden.getIdOrden());
-            pStatement.setString(2, orden.getCodOrden());
-            pStatement.setString(3, orden.getEncargadoOrden());
-            pStatement.setDouble(4, orden.getTotales());
-            pStatement.setInt(5, orden.getClienteId());
-            pStatement.setInt(6, orden.getProveedorId());
-            pStatement.setDouble(7, orden.getFechasErId());
+            pStatement.setInt(1, detalleOrden.getNumArticulo());
+            pStatement.setInt(2, detalleOrden.getCantidad());
+            pStatement.setString(3, detalleOrden.getUnidadMedida());
+            pStatement.setString(4, detalleOrden.getDescripcionArticulo());
+            pStatement.setDouble(5, detalleOrden.getPrecioUnitario());
+            pStatement.setDouble(6, detalleOrden.getPrecioTotal());
+            pStatement.setInt(7, detalleOrden.getOrdenId());
             pStatement.execute();
 
-            conexion.close();*/
+            conexion.close();
 
             return true;
 
@@ -40,7 +42,5 @@ public class OrdeDetalleDAO {
 
             return false;
         }
-
-    }
-    
+    }    
 }

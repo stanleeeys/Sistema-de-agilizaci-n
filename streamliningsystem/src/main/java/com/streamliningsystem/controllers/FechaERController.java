@@ -21,4 +21,10 @@ public class FechaERController {
 
         return fechaErDAO.ingresarFechas(fechasER);
     }
+    
+    
+    public int obtenerFecha(){
+    
+        return fechaErDAO.obtenerFecha();
+    }
 }

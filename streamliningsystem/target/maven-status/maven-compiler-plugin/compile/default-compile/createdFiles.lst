@@ -6,8 +6,10 @@ com/streamliningsystem/data/DAO/ProveedorDAO.class
 com/streamliningsystem/models/ViewModels/ProveedorVM.class
 com/streamliningsystem/view/FrmMain$2.class
 com/streamliningsystem/view/FrmMains$6.class
+com/streamliningsystem/controllers/DetalleOrdenController.class
 com/streamliningsystem/view/ExportacionWord.class
 com/streamliningsystem/models/ViewModels/ClienteVM.class
+com/streamliningsystem/models/ViewModels/DetalleOrdenVM.class
 com/streamliningsystem/view/FrmSistema$5.class
 com/streamliningsystem/data/Models/Cotizacion.class
 com/streamliningsystem/view/FrmMains$2.class
@@ -26,6 +28,7 @@ com/streamliningsystem/view/FrmMain.class
 com/streamliningsystem/data/DAO/FechaErDAO.class
 com/streamliningsystem/view/FrmMain$4.class
 com/streamliningsystem/data/Models/FechasER.class
+com/streamliningsystem/data/DAO/OrdeDetalleDAO.class
 com/streamliningsystem/view/FrmMains$1.class
 com/streamliningsystem/view/FrmSistema$3.class
 com/streamliningsystem/view/FrmMain$1.class
@@ -41,5 +44,6 @@ com/streamliningsystem/view/FrmSistema.class
 com/streamliningsystem/data/DAO/ClienteDAO.class
 com/streamliningsystem/controllers/ProveedorController.class
 com/streamliningsystem/data/Models/DetalleOrden.class
+com/streamliningsystem/controllers/OrdenController.class
 com/streamliningsystem/view/ExportarExcel.class
 com/streamliningsystem/view/FrmSistema$4.class

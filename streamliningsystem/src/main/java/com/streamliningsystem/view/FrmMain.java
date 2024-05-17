@@ -4,6 +4,19 @@
  */
 package com.streamliningsystem.view;
 
+import com.streamliningsystem.controllers.ClienteController;
+import com.streamliningsystem.controllers.DetalleOrdenController;
+import com.streamliningsystem.controllers.FechaERController;
+import com.streamliningsystem.controllers.OrdenController;
+import com.streamliningsystem.controllers.ProveedorController;
+import com.streamliningsystem.models.ViewModels.ClienteVM;
+import com.streamliningsystem.models.ViewModels.DetalleOrdenVM;
+import com.streamliningsystem.models.ViewModels.FechaErVM;
+import com.streamliningsystem.models.ViewModels.OrdenVM;
+import com.streamliningsystem.models.ViewModels.ProveedorVM;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ranger19
@@ -13,9 +26,46 @@ public class FrmMain extends javax.swing.JFrame {
     /**
      * Creates new form FrmMain
      */
+    // Objetos globales *******************************************************
+    //CONTROLADORES
+    ClienteController clienteC = new ClienteController();
+    FechaERController fechaERController = new FechaERController();
+    ProveedorController proveedorController = new ProveedorController();
+    OrdenController ordenController = new OrdenController();
+    DetalleOrdenController detalleOrdenController = new DetalleOrdenController();
+
+    //VIEW MODELS
+    ClienteVM clienteVM;
+    FechaErVM fechaErVM;
+    ProveedorVM proveedorVM;
+    OrdenVM ordenVM;
+    DetalleOrdenVM detalleOrdenVM;
+    DefaultTableModel modeloTabla = new DefaultTableModel();
+
     public FrmMain() {
         initComponents();
+        poblarTablaOrden();
     }
+    
+    
+    public void poblarTablaOrden() {
+        
+        ArrayList<OrdenVM> ordenesVM = ordenController.listarOrden();
+        modeloTabla = (DefaultTableModel) tblOrdenes.getModel();
+        modeloTabla.setRowCount(0); // Limpiar el modeloTabla de tabla antes de agregar nuevas filas
+        for (OrdenVM cl : ordenesVM) {
+            
+            Object[] ob = new Object[4]; // Crear el arreglo dentro del bucle
+            ob[0] = cl.getCodOrden();
+            ob[1] = cl.getClienteId();
+            ob[2] = cl.getFechasErId();
+            ob[3] = cl.getFechasErId();
+
+            modeloTabla.addRow(ob);
+        }
+        tblOrdenes.setModel(modeloTabla); // Establecer el modeloTabla de tabla una vez que se han agregado todas las filas
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,7 +81,7 @@ public class FrmMain extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblOrdenes = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -52,7 +102,7 @@ public class FrmMain extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnCrearNuevo = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -69,7 +119,7 @@ public class FrmMain extends javax.swing.JFrame {
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
         jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Ordenes"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblOrdenes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -88,12 +138,12 @@ public class FrmMain extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(150);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(50);
+        jScrollPane1.setViewportView(tblOrdenes);
+        if (tblOrdenes.getColumnModel().getColumnCount() > 0) {
+            tblOrdenes.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tblOrdenes.getColumnModel().getColumn(1).setPreferredWidth(150);
+            tblOrdenes.getColumnModel().getColumn(2).setPreferredWidth(50);
+            tblOrdenes.getColumnModel().getColumn(3).setPreferredWidth(50);
         }
 
         jLabel3.setText("Buscar:");
@@ -325,11 +375,11 @@ public class FrmMain extends javax.swing.JFrame {
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
         jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Opciones"));
 
-        jButton1.setText("Crear Nuevo");
-        jButton1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 153, 51), 2, true));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnCrearNuevo.setText("Crear Nuevo");
+        btnCrearNuevo.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 153, 51), 2, true));
+        btnCrearNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnCrearNuevoActionPerformed(evt);
             }
         });
 
@@ -351,7 +401,7 @@ public class FrmMain extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCrearNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
@@ -367,7 +417,7 @@ public class FrmMain extends javax.swing.JFrame {
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnCrearNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -426,11 +476,19 @@ public class FrmMain extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    /*  EVENTO PARA CREAR NUEVA ORDEN*/
+    private void btnCrearNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearNuevoActionPerformed
         // TODO add your handling code here:
-        
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+
+        FrmSistema FrmSistema = new FrmSistema();
+
+        // Mostrar el formulario de destino
+        FrmSistema.setVisible(true);
+
+        // Ocultar el formulario actual si es necesario
+        this.setVisible(false);
+
+    }//GEN-LAST:event_btnCrearNuevoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -468,7 +526,7 @@ public class FrmMain extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnCrearNuevo;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -494,9 +552,9 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTable tblOrdenes;
     // End of variables declaration//GEN-END:variables
 }
