@@ -10,12 +10,14 @@ public class ClienteDAO {
 
     // Variables Globales
     Conexion conexionDb = new Conexion();
-    Connection conexion = conexionDb.getConnection();
+    Connection conexion;
     PreparedStatement pStatement;
     ResultSet rSet;
 
     // METODO PARA INGRESAR UNA CLIENTE
     public void ingresarCliente(Cliente cliente) {
+        
+        conexion = conexionDb.getConnection();
 
         String consulta = "INSERT INTO Cliente"
                 + "(encargado_compra, nombre_institucion, municipio)"
@@ -33,10 +35,37 @@ public class ClienteDAO {
             conexion.close();
 
         } catch (Exception e) {
-            
+
             System.err.println(e.toString());
         }
 
+    }
+
+    //METODO PARA BUSCAR ULTIMO CLIENTE
+    public int obtenerCliente() {
+        
+        conexion = conexionDb.getConnection();
+
+        String consulta = "SELECT id_cliente FROM Cliente ORDER BY id_cliente DESC LIMIT 1";
+        int idCliente = -1; // Valor por defecto si no se encuentra ningún cliente
+
+        try {
+
+            pStatement = conexion.prepareStatement(consulta);
+
+            rSet = pStatement.executeQuery();
+
+            if (rSet.next()) {
+                idCliente = rSet.getInt("id_cliente");
+            }
+
+            conexion.close();
+            return idCliente;
+
+        } catch (Exception e) {
+            System.err.println("Error: " + e);
+            return -1; // También podría lanzar una excepción o manejar el error de otra forma
+        }
     }
 
 }

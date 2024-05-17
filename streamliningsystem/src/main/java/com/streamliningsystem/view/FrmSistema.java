@@ -9,28 +9,32 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import javax.swing.DefaultComboBoxModel;
 
 public class FrmSistema extends javax.swing.JFrame {
 
     // Objetos globales *******************************************************
-    
     //CONTROLADORES
     ClienteController clienteC = new ClienteController();
     FechaERController fechaERController = new FechaERController();
     ProveedorController proveedorController = new ProveedorController();
-    
+    OrdenController ordenController = new OrdenController();
+    DetalleOrdenController detalleOrdenController = new DetalleOrdenController();
+
     //VIEW MODELS
     ClienteVM clienteVM;
     FechaErVM fechaErVM;
     ProveedorVM proveedorVM;
-    
+    OrdenVM ordenVM;
+    DetalleOrdenVM detalleOrdenVM;
+
     Cotizacion cot = new Cotizacion();
     CotizacionDAO cotDao = new CotizacionDAO();
     DefaultTableModel modeloTabla = new DefaultTableModel();
-    
 
     public FrmSistema() {
         initComponents();
@@ -41,9 +45,9 @@ public class FrmSistema extends javax.swing.JFrame {
         txtId.setVisible(false);
 
     }
-    
-    public void cargarCombobox(){
-        
+
+    public void cargarCombobox() {
+
         ArrayList<ProveedorVM> listProveedor = proveedorController.mostrarProveedores();
         Iterator iteratorProveedores = listProveedor.iterator();
         DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
@@ -51,10 +55,10 @@ public class FrmSistema extends javax.swing.JFrame {
         cbxProveedor.removeAll();
         String filasCBX[] = new String[2];
         int valueMember[] = new int[listProveedor.size()];
-        
+
         int contador = 0;
-        while (iteratorProveedores.hasNext()) {            
-            
+        while (iteratorProveedores.hasNext()) {
+
             ProveedorVM proveedorVM;
             proveedorVM = (ProveedorVM) iteratorProveedores.next();
             valueMember[contador] = proveedorVM.getIdProveedor();
@@ -63,11 +67,8 @@ public class FrmSistema extends javax.swing.JFrame {
         }
         cbxProveedor.setModel(comboBoxModel);
     }
-    
-    
-    
-    // Método para calcular la suma de la columna de precios finales
 
+    // Método para calcular la suma de la columna de precios finales
     public void ListarCliente() {
         List<Cotizacion> ListarCl = cotDao.ListarCotizacion();
         modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
@@ -733,37 +734,73 @@ public class FrmSistema extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /*ESTE EVENTO SIRVE PARA GUARDAR LOS DATOS DEL FORMULARIO EN LA BD*/
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
-        // TODO add your handling code here: Double.parseDouble(txtPrecioT.getText())
         if (verificacionCamposVacios()) {
 
             clienteVM = new ClienteVM();
             clienteVM.setEncargadoCompra(txtEncargadoCompra.getText());
             clienteVM.setNombreInstitucion(txtNombreInstitucion.getText());
             clienteVM.setMunicipio(txtMunicipio.getText());
-            
+            boolean g1 = clienteC.guardarCliente(clienteVM);
+
             fechaErVM = new FechaErVM();
             fechaErVM.setFechaSolicitud(dtmSolicitudCotizacion.getDate());
             fechaErVM.setFechaCotizacion(dtmCotizacion.getDate());
             fechaErVM.setFechaOrden(dtmOrdenCompra.getDate());
             fechaErVM.setFechaRecepcion(dtmRecepcion.getDate());
             fechaErVM.setFechaPlanCompras(dtmPlanCompras.getDate());
+            boolean g2 = fechaERController.guardarFechas(fechaErVM);
 
-            if (clienteC.guardarCliente(clienteVM) && fechaERController.guardarFechas(fechaErVM)) {
+            int clienteId = clienteC.obtenerCliente();
+            int fechaId = fechaERController.obtenerFecha();
+            int ValuememberTF[] = null;
+
+            ordenVM = new OrdenVM();
+            ordenVM.setCodOrden(generarCodigo());
+            ordenVM.setEncargadoOrden(txtEncargadoOrden.getText());
+            ordenVM.setTotales(Double.parseDouble(txtTotales.getText()));
+            ordenVM.setClienteId(clienteId);
+            ordenVM.setProveedorId(cbxProveedor.getSelectedIndex() + 1);
+            ordenVM.setFechasErId(fechaId);
+            boolean g3 = ordenController.guardarOrden(ordenVM);
+
+            int ordenId = ordenController.obtenerOrden();
+            int g4 = 0;
+
+            modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
+
+            //int numFilas = modeloTabla.getRowCount();
+            for (int fila = 0; fila < modeloTabla.getRowCount(); fila++) {
+
+                detalleOrdenVM = new DetalleOrdenVM();
+                detalleOrdenVM.setNumArticulo((Integer) modeloTabla.getValueAt(fila, 0));
+                detalleOrdenVM.setCantidad((Integer) modeloTabla.getValueAt(fila, 1));
+                detalleOrdenVM.setUnidadMedida((String) modeloTabla.getValueAt(fila, 2));
+                detalleOrdenVM.setDescripcionArticulo((String) modeloTabla.getValueAt(fila, 3));
+                detalleOrdenVM.setPrecioUnitario((Double) modeloTabla.getValueAt(fila, 4));
+                detalleOrdenVM.setPrecioTotal((Double) modeloTabla.getValueAt(fila, 5));
+                detalleOrdenVM.setOrdenId(ordenId);
+
+                boolean guardado = detalleOrdenController.guardarDetalleOrden(detalleOrdenVM);
+                g4++;
+            }
+
+            if (g1 && g2 && g3 && g4 == modeloTabla.getRowCount()) {
 
                 JOptionPane.showMessageDialog(null, "Orden "
                         + "registrada exitosamente", "Exito",
                         JOptionPane.INFORMATION_MESSAGE);
 
                 // Limpiar los campos
-                ListarCliente();
+                //ListarCliente();
                 Limpiar();
 
             } else {
                 // Mostrar mensaje de error si falla el registro
                 JOptionPane.showMessageDialog(null, "Lo siento, "
-                        + "se detecto un erro interno", "Error", 
+                        + "se detecto un erro interno", "Error",
                         JOptionPane.ERROR_MESSAGE);
             }
 
@@ -867,61 +904,100 @@ public class FrmSistema extends javax.swing.JFrame {
     private void tblCotizacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCotizacionMouseClicked
         // TODO add your handling code here:
 
-        int fila = tblCotizacion.getSelectedRow();
-        if (fila != -1) { // Verifica si hay una fila seleccionada
-            try {
-                txtId.setText(tblCotizacion.getValueAt(fila, 0).toString());
-                txtCantidad.setText(tblCotizacion.getValueAt(fila, 2).toString());
-
-                txtUnidadM.setText(tblCotizacion.getValueAt(fila, 3).toString());
-                txtDescripcion.setText(tblCotizacion.getValueAt(fila, 4).toString());
-                txtPrecioU.setText(tblCotizacion.getValueAt(fila, 5).toString());
-                txtPrecioT.setText(tblCotizacion.getValueAt(fila, 6).toString());
-            } catch (NullPointerException ex) {
-                // Manejar la excepción en caso de que no se pueda obtener un valor de la fila seleccionada
-                JOptionPane.showMessageDialog(null, "Error al obtener los datos de la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila antes de editar los datos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        }
-
+//        int fila = tblCotizacion.getSelectedRow();
+//        if (fila != -1) { // Verifica si hay una fila seleccionada
+//            try {
+//                txtId.setText(tblCotizacion.getValueAt(fila, 0).toString());
+//                txtCantidad.setText(tblCotizacion.getValueAt(fila, 2).toString());
+//
+//                txtUnidadM.setText(tblCotizacion.getValueAt(fila, 3).toString());
+//                txtDescripcion.setText(tblCotizacion.getValueAt(fila, 4).toString());
+//                txtPrecioU.setText(tblCotizacion.getValueAt(fila, 5).toString());
+//                txtPrecioT.setText(tblCotizacion.getValueAt(fila, 6).toString());
+//            } catch (NullPointerException ex) {
+//                // Manejar la excepción en caso de que no se pueda obtener un valor de la fila seleccionada
+//                JOptionPane.showMessageDialog(null, "Error al obtener los datos de la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
+//            }
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila antes de editar los datos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+//        }
 
     }//GEN-LAST:event_tblCotizacionMouseClicked
 
+    // EVENTO PARA AGREGAR DATOS A LA TABLA
     private void btnAgregarDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarDetalleActionPerformed
-        // TODO add your handling code here:
-        
-        int numeroItem = tblCotizacion.getRowCount() + 1;
-        String descripcion = txtDescripcion.getText();
-        int cantidad = Integer.parseInt(txtCantidad.getText());
-        double precioUnitario = Double.parseDouble(txtPrecioU.getText());
-        String unidadMedida = txtUnidadM.getText();
-        double precioTotal = cantidad * precioUnitario;
-        
-        
-        modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
-        Object[] filaAgregar = {numeroItem, cantidad, unidadMedida, descripcion, precioUnitario, precioTotal};
-        modeloTabla.addRow(filaAgregar);
-        
-        double totales = 0;        
-        int numFilas = modeloTabla.getRowCount();
-        
-        for (int fila = 0; fila < numFilas; fila++) {
-            
-            double pTotal = (Double) modeloTabla.getValueAt(fila, modeloTabla.getColumnCount() -1);
-            
-            totales += pTotal;
+
+        try {
+            // Validación de campos vacíos
+            String descripcion = txtDescripcion.getText();
+            if (descripcion.isEmpty()) {
+                throw new IllegalArgumentException("La descripción no puede estar vacía.");
+            }
+
+            String strCantidad = txtCantidad.getText();
+            if (strCantidad.isEmpty()) {
+                throw new IllegalArgumentException("La cantidad no puede estar vacía.");
+            }
+
+            String strPrecioUnitario = txtPrecioU.getText();
+            if (strPrecioUnitario.isEmpty()) {
+                throw new IllegalArgumentException("El precio unitario no puede estar vacío.");
+            }
+
+            String unidadMedida = txtUnidadM.getText();
+            if (unidadMedida.isEmpty()) {
+                throw new IllegalArgumentException("La unidad de medida no puede estar vacía.");
+            }
+
+            // Validación de números
+            int cantidad;
+            try {
+                cantidad = Integer.parseInt(strCantidad);
+                if (cantidad <= 0) {
+                    throw new IllegalArgumentException("La cantidad debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("La cantidad debe ser un número válido.");
+            }
+
+            double precioUnitario;
+            try {
+                precioUnitario = Double.parseDouble(strPrecioUnitario);
+                if (precioUnitario <= 0) {
+                    throw new IllegalArgumentException("El precio unitario debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("El precio unitario debe ser un número válido.");
+            }
+
+            // Cálculo de precio total
+            double precioTotal = cantidad * precioUnitario;
+
+            // Agregar fila a la tabla
+            int numeroItem = tblCotizacion.getRowCount() + 1;
+            modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
+            Object[] filaAgregar = {numeroItem, cantidad, unidadMedida, descripcion, precioUnitario, precioTotal};
+            modeloTabla.addRow(filaAgregar);
+
+            // Calcular totales
+            double totales = 0;
+            int numFilas = modeloTabla.getRowCount();
+            for (int fila = 0; fila < numFilas; fila++) {
+                double pTotal = (Double) modeloTabla.getValueAt(fila, modeloTabla.getColumnCount() - 1);
+                totales += pTotal;
+            }
+
+            txtTotales.setText(String.valueOf(totales));
+            txtDescripcion.setText("");
+            txtCantidad.setText("");
+            txtPrecioU.setText("");
+
+        } catch (IllegalArgumentException e) {
+            // Manejo de excepciones y mostrar mensaje de error
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error de validación", JOptionPane.ERROR_MESSAGE);
         }
-        
-        txtTotales.setText(String.valueOf(totales));
-        txtDescripcion.setText("");
-        txtCantidad.setText("");
-        txtPrecioU.setText("");
     }//GEN-LAST:event_btnAgregarDetalleActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -1020,6 +1096,16 @@ public class FrmSistema extends javax.swing.JFrame {
     private javax.swing.JTextField txtUnidadM;
     private javax.swing.JTextField txtVigenciaCotizacion;
     // End of variables declaration//GEN-END:variables
+
+    private String generarCodigo() {
+
+        Date fechaActual = new Date();
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        String fechaActualS = formatoFecha.format(fechaActual);
+        String fechaSinBarras = fechaActualS.replaceAll("/", "");
+
+        return txtEncargadoCompra.getText() + fechaSinBarras;
+    }
 
     private boolean camposProductoCompletos() {
 

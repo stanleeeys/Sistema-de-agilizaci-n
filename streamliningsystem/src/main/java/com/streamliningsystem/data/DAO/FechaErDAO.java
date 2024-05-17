@@ -11,12 +11,14 @@ public class FechaErDAO {
 
     // Variables Globales
     Conexion conexionDb = new Conexion();
-    Connection conexion = conexionDb.getConnection();
+    Connection conexion;
     PreparedStatement pStatement;
     ResultSet rSet;
 
     // METODO PARA INGRESAR UNA FECHA
     public boolean ingresarFechas(FechasER fechasER) {
+        
+        conexion = conexionDb.getConnection();
 
         String consulta = "INSERT INTO FechasER"
                 + "(fecha_solicitud, fecha_cotizacion, fecha_orden, "
@@ -40,6 +42,31 @@ public class FechaErDAO {
         } catch (Exception e) {
 
             return false;
+        }
+    }
+
+    //METODO PARA BUSCAR ULTIMO CLIENTE
+    public int obtenerFecha() {
+
+        
+        conexion = conexionDb.getConnection();
+        String consulta = "SELECT id_fechas FROM FechasER ORDER BY id_fechas DESC LIMIT 1";
+        int idCliente = -1; // Valor por defecto si no se encuentra ningún fechas
+
+        try {
+            pStatement = conexion.prepareStatement(consulta);
+            rSet = pStatement.executeQuery();
+
+            if (rSet.next()) {
+                idCliente = rSet.getInt("id_fechas");
+            }
+
+            conexion.close();
+            return idCliente;
+
+        } catch (Exception e) {
+            System.err.println("Error: " + e);
+            return -1; // También podría lanzar una excepción o manejar el error de otra forma
         }
     }
 }

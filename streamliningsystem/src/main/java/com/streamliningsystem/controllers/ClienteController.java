@@ -27,4 +27,9 @@ public class ClienteController {
             return false;
         }
     }
+    
+    public int obtenerCliente(){
+    
+        return clienteDao.obtenerCliente();
+    }
 }
