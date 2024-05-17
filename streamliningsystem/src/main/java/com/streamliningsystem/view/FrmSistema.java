@@ -1,8 +1,7 @@
 package com.streamliningsystem.view;
 
 import com.streamliningsystem.controllers.*;
-import com.streamliningsystem.data.Models.Cotizacion;
-import com.streamliningsystem.data.DAO.CotizacionDAO;
+
 import com.streamliningsystem.models.ViewModels.*;
 import java.sql.SQLException;
 import java.util.List;
@@ -33,8 +32,6 @@ public class FrmSistema extends javax.swing.JFrame {
     OrdenVM ordenVM;
     DetalleOrdenVM detalleOrdenVM;
 
-    Cotizacion cot = new Cotizacion();
-    CotizacionDAO cotDao = new CotizacionDAO();
     DefaultTableModel modeloTabla = new DefaultTableModel();
 
     public FrmSistema() {
@@ -67,24 +64,6 @@ public class FrmSistema extends javax.swing.JFrame {
             contador++;
         }
         cbxProveedor.setModel(comboBoxModel);
-    }
-
-    // Método para calcular la suma de la columna de precios finales
-    public void ListarCliente() {
-        List<Cotizacion> ListarCl = cotDao.ListarCotizacion();
-        modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
-        modeloTabla.setRowCount(0); // Limpiar el modeloTabla de tabla antes de agregar nuevas filas
-        for (Cotizacion cl : ListarCl) {
-            Object[] ob = new Object[7]; // Crear el arreglo dentro del bucle
-            ob[0] = cl.getId_cotizacion();
-            ob[2] = cl.getCantidad();
-            ob[3] = cl.getUnidadMedida();
-            ob[4] = cl.getDescripcion();
-            ob[5] = cl.getPrecioUnitario();
-            ob[6] = cl.getPrecioTotal();
-            modeloTabla.addRow(ob);
-        }
-        tblCotizacion.setModel(modeloTabla); // Establecer el modeloTabla de tabla una vez que se han agregado todas las filas
     }
 
     /**
@@ -150,15 +129,10 @@ public class FrmSistema extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         dtmLimite = new com.toedter.calendar.JDateChooser();
         jPanel7 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnExcel = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         txtId = new javax.swing.JTextField();
-        txtAreaDeInvercion = new javax.swing.JTextField();
-        txtPrecioT = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -166,7 +140,7 @@ public class FrmSistema extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Items"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Detalles Orden", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         tblCotizacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -215,6 +189,11 @@ public class FrmSistema extends javax.swing.JFrame {
         jLabel1.setText("TOTALES");
 
         txtTotales.setEnabled(false);
+        txtTotales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTotalesActionPerformed(evt);
+            }
+        });
 
         jLabel4.setBackground(new java.awt.Color(51, 51, 51));
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -232,8 +211,18 @@ public class FrmSistema extends javax.swing.JFrame {
         btnLimpiarTodo.setText("Limpiar");
 
         btnEliminarDetalle.setText("Eliminar");
+        btnEliminarDetalle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarDetalleActionPerformed(evt);
+            }
+        });
 
         btnActualizarDetalle.setText("Actualizar");
+        btnActualizarDetalle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarDetalleActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -290,9 +279,7 @@ public class FrmSistema extends javax.swing.JFrame {
                                         .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGap(61, 61, 61)))
                                 .addGap(49, 49, 49))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnLimpiarTodo, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(btnLimpiarTodo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -331,7 +318,7 @@ public class FrmSistema extends javax.swing.JFrame {
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Datos de Provedor"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Datos de Provedor", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         cbxProveedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -372,7 +359,7 @@ public class FrmSistema extends javax.swing.JFrame {
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Fechas de Emicion Y Recepcion"));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Fechas de Emicion Y Recepcion", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         jLabel2.setText("Fecha de solicitud de cotizacion:");
 
@@ -442,7 +429,7 @@ public class FrmSistema extends javax.swing.JFrame {
         );
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Datos del Cliente"));
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Datos del Cliente", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         jLabel15.setText("A nombre de:");
 
@@ -571,23 +558,13 @@ public class FrmSistema extends javax.swing.JFrame {
         );
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Opciones"));
-
-        jButton3.setText("jButton3");
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Opciones", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/GuardarTodo.png"))); // NOI18N
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
-            }
-        });
-
-        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
-        btnEliminar.setText("Eliminar");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
             }
         });
 
@@ -607,40 +584,26 @@ public class FrmSistema extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("TOTAL");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        txtId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                txtIdActionPerformed(evt);
             }
         });
-
-        txtAreaDeInvercion.setEditable(false);
-        txtAreaDeInvercion.setEnabled(false);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+            .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnGuardar)
-                .addGap(18, 18, 18)
-                .addComponent(btnEliminar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnActualizar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
                 .addComponent(btnExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtAreaDeInvercion, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtPrecioT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -648,15 +611,10 @@ public class FrmSistema extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExcel)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton1)
-                    .addComponent(txtAreaDeInvercion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPrecioT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(65, Short.MAX_VALUE))
+                    .addComponent(btnExcel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
@@ -738,124 +696,92 @@ public class FrmSistema extends javax.swing.JFrame {
     /*ESTE EVENTO SIRVE PARA GUARDAR LOS DATOS DEL FORMULARIO EN LA BD*/
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
-            try {
-        if (verificacionCamposVacios()) {
-            // Inicializar los objetos de las entidades
-            ClienteVM clienteVM = new ClienteVM();
-            clienteVM.setEncargadoCompra(txtEncargadoCompra.getText().trim());
-            clienteVM.setNombreInstitucion(txtNombreInstitucion.getText().trim());
-            clienteVM.setMunicipio(txtMunicipio.getText().trim());
+        try {
+            if (verificacionCamposVacios()) {
+                // Inicializar los objetos de las entidades
+                ClienteVM clienteVM = new ClienteVM();
+                clienteVM.setEncargadoCompra(txtEncargadoCompra.getText().trim());
+                clienteVM.setNombreInstitucion(txtNombreInstitucion.getText().trim());
+                clienteVM.setMunicipio(txtMunicipio.getText().trim());
 
-            // Guardar cliente
-            boolean g1 = clienteC.guardarCliente(clienteVM);
-            if (!g1) throw new Exception("Error al guardar el cliente");
+                // Guardar cliente
+                boolean g1 = clienteC.guardarCliente(clienteVM);
+                if (!g1) {
+                    throw new Exception("Error al guardar el cliente");
+                }
 
-            FechaErVM fechaErVM = new FechaErVM();
-            fechaErVM.setFechaSolicitud(dtmSolicitudCotizacion.getDate());
-            fechaErVM.setFechaCotizacion(dtmCotizacion.getDate());
-            fechaErVM.setFechaOrden(dtmOrdenCompra.getDate());
-            fechaErVM.setFechaRecepcion(dtmRecepcion.getDate());
-            fechaErVM.setFechaPlanCompras(dtmPlanCompras.getDate());
+                FechaErVM fechaErVM = new FechaErVM();
+                fechaErVM.setFechaSolicitud(dtmSolicitudCotizacion.getDate());
+                fechaErVM.setFechaCotizacion(dtmCotizacion.getDate());
+                fechaErVM.setFechaOrden(dtmOrdenCompra.getDate());
+                fechaErVM.setFechaRecepcion(dtmRecepcion.getDate());
+                fechaErVM.setFechaPlanCompras(dtmPlanCompras.getDate());
 
-            // Guardar fechas
-            boolean g2 = fechaERController.guardarFechas(fechaErVM);
-            if (!g2) throw new Exception("Error al guardar las fechas");
+                // Guardar fechas
+                boolean g2 = fechaERController.guardarFechas(fechaErVM);
+                if (!g2) {
+                    throw new Exception("Error al guardar las fechas");
+                }
 
-            int clienteId = clienteC.obtenerCliente();
-            int fechaId = fechaERController.obtenerFecha();
+                int clienteId = clienteC.obtenerCliente();
+                int fechaId = fechaERController.obtenerFecha();
 
-            OrdenVM ordenVM = new OrdenVM();
-            ordenVM.setCodOrden(generarCodigo());
-            ordenVM.setEncargadoOrden(txtEncargadoOrden.getText().trim());
-            ordenVM.setTotales(Double.parseDouble(txtTotales.getText().trim()));
-            ordenVM.setClienteId(clienteId);
-            ordenVM.setProveedorId(cbxProveedor.getSelectedIndex() + 1);
-            ordenVM.setFechasErId(fechaId);
+                OrdenVM ordenVM = new OrdenVM();
+                ordenVM.setCodOrden(generarCodigo());
+                ordenVM.setEncargadoOrden(txtEncargadoOrden.getText().trim());
+                ordenVM.setTotales(Double.parseDouble(txtTotales.getText().trim()));
+                ordenVM.setClienteId(clienteId);
+                ordenVM.setProveedorId(cbxProveedor.getSelectedIndex() + 1);
+                ordenVM.setFechasErId(fechaId);
 
-            // Guardar orden
-            boolean g3 = ordenController.guardarOrden(ordenVM);
-            if (!g3) throw new Exception("Error al guardar la orden");
+                // Guardar orden
+                boolean g3 = ordenController.guardarOrden(ordenVM);
+                if (!g3) {
+                    throw new Exception("Error al guardar la orden");
+                }
 
-            int ordenId = ordenController.obtenerOrden();
+                int ordenId = ordenController.obtenerOrden();
 
-            DefaultTableModel modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
-            int g4 = 0;
+                DefaultTableModel modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
+                int g4 = 0;
 
-            for (int fila = 0; fila < modeloTabla.getRowCount(); fila++) {
-                DetalleOrdenVM detalleOrdenVM = new DetalleOrdenVM();
-                detalleOrdenVM.setNumArticulo((Integer) modeloTabla.getValueAt(fila, 0));
-                detalleOrdenVM.setCantidad((Integer) modeloTabla.getValueAt(fila, 1));
-                detalleOrdenVM.setUnidadMedida((String) modeloTabla.getValueAt(fila, 2));
-                detalleOrdenVM.setDescripcionArticulo((String) modeloTabla.getValueAt(fila, 3));
-                detalleOrdenVM.setPrecioUnitario((Double) modeloTabla.getValueAt(fila, 4));
-                detalleOrdenVM.setPrecioTotal((Double) modeloTabla.getValueAt(fila, 5));
-                detalleOrdenVM.setOrdenId(ordenId);
+                for (int fila = 0; fila < modeloTabla.getRowCount(); fila++) {
+                    DetalleOrdenVM detalleOrdenVM = new DetalleOrdenVM();
+                    detalleOrdenVM.setNumArticulo((Integer) modeloTabla.getValueAt(fila, 0));
+                    detalleOrdenVM.setCantidad((Integer) modeloTabla.getValueAt(fila, 1));
+                    detalleOrdenVM.setUnidadMedida((String) modeloTabla.getValueAt(fila, 2));
+                    detalleOrdenVM.setDescripcionArticulo((String) modeloTabla.getValueAt(fila, 3));
+                    detalleOrdenVM.setPrecioUnitario((Double) modeloTabla.getValueAt(fila, 4));
+                    detalleOrdenVM.setPrecioTotal((Double) modeloTabla.getValueAt(fila, 5));
+                    detalleOrdenVM.setOrdenId(ordenId);
 
-                boolean guardado = detalleOrdenController.guardarDetalleOrden(detalleOrdenVM);
-                if (!guardado) throw new Exception("Error al guardar el detalle de la orden");
-                g4++;
-            }
+                    boolean guardado = detalleOrdenController.guardarDetalleOrden(detalleOrdenVM);
+                    if (!guardado) {
+                        throw new Exception("Error al guardar el detalle de la orden");
+                    }
+                    g4++;
+                }
 
-            if (g1 && g2 && g3 && g4 == modeloTabla.getRowCount()) {
-                JOptionPane.showMessageDialog(this, "Orden registrada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                
-                // Limpiar los campos y actualizar la tabla
-                Limpiar();
-                FrmMain frmMain = new FrmMain();
-                frmMain.setVisible(true);
-                this.setVisible(false);
+                if (g1 && g2 && g3 && g4 == modeloTabla.getRowCount()) {
+                    JOptionPane.showMessageDialog(this, "Orden registrada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+                    // Limpiar los campos y actualizar la tabla
+                    Limpiar();
+                    FrmMain frmMain = new FrmMain();
+                    frmMain.setVisible(true);
+                    this.setVisible(false);
+                } else {
+                    throw new Exception("Error interno detectado");
+                }
             } else {
-                throw new Exception("Error interno detectado");
+                JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos", "Advertencia", JOptionPane.WARNING_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al registrar la orden: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al registrar la orden: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
 
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
-        int filaSeleccionada = tblCotizacion.getSelectedRow();
-        if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(null, "Por favor, seleccione una casilla para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        int id_cotizacion = Integer.parseInt(tblCotizacion.getValueAt(filaSeleccionada, 0).toString());
-
-        try {
-
-            int confirmacion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas eliminar esta casilla?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
-            if (confirmacion == JOptionPane.YES_OPTION) {
-
-                boolean eliminado = cotDao.EliminarCotizacion(id_cotizacion);
-                if (eliminado) {
-
-                    JOptionPane.showMessageDialog(null, "casilla eliminada exitosamente.");
-                    ListarCliente();
-
-                } else {
-                    JOptionPane.showMessageDialog(null, "Error al eliminar la casilla.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "Error al obtener el ID de la casilla seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al eliminar,  de la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace(); // Mostrar detalles del error en la consola para fines de depuración
-        }
-
-
-    }//GEN-LAST:event_btnEliminarActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        mostrarSumaVertical();
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
 
@@ -874,59 +800,29 @@ public class FrmSistema extends javax.swing.JFrame {
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
 
-        try {
-
-            int id_cotizacion = Integer.parseInt(txtId.getText());
-            int cantidad = Integer.parseInt(txtCantidad.getText());
-            String UnidadInversion = txtAreaDeInvercion.getText();
-            String unidadMedida = txtUnidadM.getText();
-            String descripcion = txtDescripcion.getText();
-            double precioUnitario = Double.parseDouble(txtPrecioU.getText());
-            double precioTotal = Double.parseDouble(txtPrecioT.getText());
-
-            Cotizacion cotizacion = new Cotizacion(id_cotizacion, cantidad, UnidadInversion, unidadMedida, descripcion, precioUnitario, precioTotal);
-
-            boolean modificacionExitosa = cotDao.modificarCotizacion(cotizacion);
-
-            if (modificacionExitosa) {
-
-                JOptionPane.showMessageDialog(null, "Cotización modificada exitosamente");
-                Limpiar();
-                ListarCliente();
-            } else {
-
-                JOptionPane.showMessageDialog(null, "Error al modificar la cotización", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (NumberFormatException ex) {
-
-            JOptionPane.showMessageDialog(null, "Uno o más campos no contienen valores numéricos válidos", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException ex) {
-
-            JOptionPane.showMessageDialog(null, "Error al modificar la cotización en la base de datos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
 
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void tblCotizacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCotizacionMouseClicked
         // TODO add your handling code here:
 
-//        int fila = tblCotizacion.getSelectedRow();
-//        if (fila != -1) { // Verifica si hay una fila seleccionada
-//            try {
-//                txtId.setText(tblCotizacion.getValueAt(fila, 0).toString());
-//                txtCantidad.setText(tblCotizacion.getValueAt(fila, 2).toString());
-//
-//                txtUnidadM.setText(tblCotizacion.getValueAt(fila, 3).toString());
-//                txtDescripcion.setText(tblCotizacion.getValueAt(fila, 4).toString());
-//                txtPrecioU.setText(tblCotizacion.getValueAt(fila, 5).toString());
-//                txtPrecioT.setText(tblCotizacion.getValueAt(fila, 6).toString());
-//            } catch (NullPointerException ex) {
-//                // Manejar la excepción en caso de que no se pueda obtener un valor de la fila seleccionada
-//                JOptionPane.showMessageDialog(null, "Error al obtener los datos de la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila antes de editar los datos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-//        }
+        int fila = tblCotizacion.getSelectedRow();
+        if (fila != -1) { // Verifica si hay una fila seleccionada
+            try {
+                txtId.setText(tblCotizacion.getValueAt(fila, 0).toString());
+                txtCantidad.setText(tblCotizacion.getValueAt(fila, 1).toString());
+                txtUnidadM.setText(tblCotizacion.getValueAt(fila, 2).toString());
+                txtDescripcion.setText(tblCotizacion.getValueAt(fila, 3).toString());
+                txtPrecioU.setText(tblCotizacion.getValueAt(fila, 4).toString());
+                // Corregir el índice para el precio total
+                txtTotales.setText(tblCotizacion.getValueAt(fila, 5).toString());
+            } catch (NullPointerException | ArrayIndexOutOfBoundsException ex) {
+                // Manejar la excepción en caso de que no se pueda obtener un valor de la fila seleccionada
+                JOptionPane.showMessageDialog(null, "Error al obtener los datos de la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila antes de editar los datos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
 
     }//GEN-LAST:event_tblCotizacionMouseClicked
 
@@ -1004,6 +900,122 @@ public class FrmSistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAgregarDetalleActionPerformed
 
+    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIdActionPerformed
+
+    private void txtTotalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTotalesActionPerformed
+
+    private void btnEliminarDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarDetalleActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
+
+        // Obtener el índice de la fila seleccionada
+        int filaSeleccionada = tblCotizacion.getSelectedRow();
+
+        // Verificar si hay una fila seleccionada
+        if (filaSeleccionada != -1) {
+            // Eliminar la fila del modelo de la tabla
+            modeloTabla.removeRow(filaSeleccionada);
+
+            // Recalcular el total de todos los precios después de eliminar la fila
+            double totales = 0;
+            int numFilas = modeloTabla.getRowCount();
+            for (int fila = 0; fila < numFilas; fila++) {
+                double precioTotal = (Double) modeloTabla.getValueAt(fila, modeloTabla.getColumnCount() - 1);
+                totales += precioTotal;
+            }
+            txtTotales.setText(String.valueOf(totales));
+
+            JOptionPane.showMessageDialog(this, "Detalle eliminado correctamente.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            // Mostrar mensaje de advertencia si no hay ninguna fila seleccionada
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEliminarDetalleActionPerformed
+
+    private void btnActualizarDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarDetalleActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
+
+        // Obtener el índice de la fila seleccionada
+        int filaSeleccionada = tblCotizacion.getSelectedRow();
+
+        // Verificar si hay una fila seleccionada
+        if (filaSeleccionada != -1) {
+            try {
+                // Obtener y validar los valores de los campos de entrada
+                String descripcion = txtDescripcion.getText();
+                if (descripcion.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Por favor llene la descripción.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String cantidadStr = txtCantidad.getText();
+                int cantidad;
+                try {
+                    cantidad = Integer.parseInt(cantidadStr);
+                    if (cantidad <= 0) {
+                        JOptionPane.showMessageDialog(this, "La cantidad debe ser un número positivo.", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "La cantidad debe ser un número.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String precioUnitarioStr = txtPrecioU.getText();
+                double precioUnitario;
+                try {
+                    precioUnitario = Double.parseDouble(precioUnitarioStr);
+                    if (precioUnitario < 0) {
+                        JOptionPane.showMessageDialog(this, "El precio unitario no puede ser negativo.", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "El precio unitario debe ser un número.", "Error de validación", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String unidadMedida = txtUnidadM.getText();
+                if (unidadMedida.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "La unidad de medida no puede estar vacía.", "Error de validación", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Calcular el precio total
+                double precioTotal = cantidad * precioUnitario;
+
+                // Actualizar la fila en la tabla
+                modeloTabla.setValueAt(cantidad, filaSeleccionada, 1);
+                modeloTabla.setValueAt(unidadMedida, filaSeleccionada, 2);
+                modeloTabla.setValueAt(descripcion, filaSeleccionada, 3);
+                modeloTabla.setValueAt(precioUnitario, filaSeleccionada, 4);
+                modeloTabla.setValueAt(precioTotal, filaSeleccionada, 5);
+
+                // Recalcular el total de todos los precios después de actualizar la fila
+                double totales = 0;
+                int numFilas = modeloTabla.getRowCount();
+                for (int fila = 0; fila < numFilas; fila++) {
+                    double pTotal = (Double) modeloTabla.getValueAt(fila, modeloTabla.getColumnCount() - 1);
+                    totales += pTotal;
+                }
+                txtTotales.setText(String.valueOf(totales));
+
+                JOptionPane.showMessageDialog(this, "Detalle actualizado correctamente.", "Información", JOptionPane.INFORMATION_MESSAGE);
+
+               Limpiar();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al actualizar el detalle: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            // Mostrar mensaje de advertencia si no hay ninguna fila seleccionada
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para actualizar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnActualizarDetalleActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -1041,7 +1053,6 @@ public class FrmSistema extends javax.swing.JFrame {
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnActualizarDetalle;
     private javax.swing.JButton btnAgregarDetalle;
-    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnEliminarDetalle;
     private javax.swing.JButton btnExcel;
     private javax.swing.JButton btnGuardar;
@@ -1053,8 +1064,6 @@ public class FrmSistema extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser dtmPlanCompras;
     private com.toedter.calendar.JDateChooser dtmRecepcion;
     private com.toedter.calendar.JDateChooser dtmSolicitudCotizacion;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1085,7 +1094,6 @@ public class FrmSistema extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblCotizacion;
-    private javax.swing.JTextField txtAreaDeInvercion;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtEncargadoCompra;
@@ -1096,7 +1104,6 @@ public class FrmSistema extends javax.swing.JFrame {
     private javax.swing.JTextField txtMunicipio;
     private javax.swing.JTextField txtNombreInstitucion;
     private javax.swing.JTextField txtPlazoEntrega;
-    private javax.swing.JTextField txtPrecioT;
     private javax.swing.JTextField txtPrecioU;
     private javax.swing.JTextField txtTotales;
     private javax.swing.JTextField txtUnidadM;
@@ -1133,31 +1140,13 @@ public class FrmSistema extends javax.swing.JFrame {
                 && (dtmPlanCompras.getDate() != null);
     }
 
-    private void mostrarSumaVertical() {
-        int numFilas = tblCotizacion.getRowCount();
-        double sumaColumna6 = 0.0;
-
-        // Calcular la suma de la columna 6
-        for (int fila = 0; fila < numFilas; fila++) {
-            Object valor = tblCotizacion.getValueAt(fila, 6); // Columna 6
-            if (valor instanceof Number) {
-                sumaColumna6 += ((Number) valor).doubleValue();
-            }
-        }
-
-        // Agregar la suma al final de la columna 6
-        DefaultTableModel modelo = (DefaultTableModel) tblCotizacion.getModel();
-        modelo.addRow(new Object[]{null}); // Agregar fila vacía para la suma
-        tblCotizacion.setValueAt(sumaColumna6, numFilas, 6); // Establecer el valor de la suma en la fila agregada
-    }
-
     private void Limpiar() {
-        txtAreaDeInvercion.setText("");
+
         txtCantidad.setText("");
         txtDescripcion.setText("");
-        txtPrecioT.setText("");
         txtPrecioU.setText("");
         txtUnidadM.setText("");
 
     }
+
 }
