@@ -19,7 +19,7 @@ public class OrdeDetalleDAO {
 
         
         conexion = conexionDb.getConnection();
-        String consulta = "INSERT INTO DetallesOrden (num_articulo, cantidad, unidad_medida, descripcion_articulo, precio_unitario, precio_total, orden_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String consulta = "INSERT INTO detallesorden (num_articulo, cantidad, unidad_medida, descripcion_articulo, precio_unitario, precio_total, orden_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try {
 
