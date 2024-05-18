@@ -68,4 +68,10 @@ public class OrdenController {
         return ordenDAO.listarOrdenes();
     }
     
+    
+    public TablaOrdenVM datosOrden(int id){
+        
+        return ordenDAO.obtenerOrdenId(id);
+    }
+    
 }
