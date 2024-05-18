@@ -188,7 +188,7 @@ public class FrmSistema extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 13)); // NOI18N
         jLabel1.setText("TOTALES");
 
-        txtTotales.setEnabled(false);
+        txtTotales.setEditable(false);
         txtTotales.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTotalesActionPerformed(evt);

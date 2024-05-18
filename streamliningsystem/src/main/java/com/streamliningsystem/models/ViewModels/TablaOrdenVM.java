@@ -3,29 +3,6 @@ package com.streamliningsystem.models.ViewModels;
 import java.util.Date;
 
 public class TablaOrdenVM {
-    
-    
-    public int idOrden;
-
-    public String codOrden;
-
-    public String encargadoOrden;
-
-    public double totales;
-
-    public int clienteId;
-
-    public int proveedorId;
-
-    public int fechasErId;
-    
-    public String encargadoCompra;
-
-    public String nombreInstitucion;
-    
-    public Date fechaOrden;
-
-    public Date fechaRecepcion;
 
     public int getIdOrden() {
         return idOrden;
@@ -99,6 +76,38 @@ public class TablaOrdenVM {
         this.nombreInstitucion = nombreInstitucion;
     }
 
+    public String getMunicipio() {
+        return municipio;
+    }
+
+    public void setMunicipio(String municipio) {
+        this.municipio = municipio;
+    }
+
+    public String getNombreProveedor() {
+        return nombreProveedor;
+    }
+
+    public void setNombreProveedor(String nombreProveedor) {
+        this.nombreProveedor = nombreProveedor;
+    }
+
+    public Date getFechaSolicitud() {
+        return fechaSolicitud;
+    }
+
+    public void setFechaSolicitud(Date fechaSolicitud) {
+        this.fechaSolicitud = fechaSolicitud;
+    }
+
+    public Date getFechaCotizacion() {
+        return fechaCotizacion;
+    }
+
+    public void setFechaCotizacion(Date fechaCotizacion) {
+        this.fechaCotizacion = fechaCotizacion;
+    }
+
     public Date getFechaOrden() {
         return fechaOrden;
     }
@@ -113,7 +122,48 @@ public class TablaOrdenVM {
 
     public void setFechaRecepcion(Date fechaRecepcion) {
         this.fechaRecepcion = fechaRecepcion;
-    }     
+    }
+
+    public Date getFechaPlanCompras() {
+        return fechaPlanCompras;
+    }
+
+    public void setFechaPlanCompras(Date fechaPlanCompras) {
+        this.fechaPlanCompras = fechaPlanCompras;
+    }
+
+    public int idOrden;
+
+    public String codOrden;
+
+    public String encargadoOrden;
+
+    public double totales;
+
+    public int clienteId;
+
+    public int proveedorId;
+
+    public int fechasErId;
+
+    public String encargadoCompra;
+
+    public String nombreInstitucion;
+    
+    public String municipio;
+
+    public String nombreProveedor;
+
+    public Date fechaSolicitud;
+
+    public Date fechaCotizacion;
+
+    public Date fechaOrden;
+
+    public Date fechaRecepcion;
+
+    public Date fechaPlanCompras;
 
     
+
 }

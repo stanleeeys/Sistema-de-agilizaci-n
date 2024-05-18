@@ -21,7 +21,7 @@ public class OrdenDAO {
 
         conexion = conexionDb.getConnection();
 
-        String consulta = "INSERT INTO orden (cod_orden, encargado_orden, totales, cliente_id, proveedor_id, fechas_er_id) VALUES (?, ?, ?, ?, ?, ?)";
+        String consulta = "INSERT INTO Orden (cod_orden, encargado_orden, totales, cliente_id, proveedor_id, fechas_er_id) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
 
@@ -75,13 +75,13 @@ public class OrdenDAO {
         conexion = conexionDb.getConnection();
 
         ArrayList<TablaOrdenVM> ordenes = new ArrayList<TablaOrdenVM>();
-        String consulta = "SELECT Orden.cod_orden, Orden.encargado_orden, Orden.totales, Orden.cliente_id, Orden.proveedor_id, Orden.fechas_er_id, \n"
-                + "Cliente.encargado_compra, Cliente.nombre_institucion,\n"
-                + "FechasER.fecha_orden, FechasER.fecha_recepcion\n"
-                + "from Orden\n"
-                + "INNER JOIN Cliente on Orden.cliente_id  = Cliente.id_cliente\n"
-                + "INNER JOIN FechasER on Orden.fechas_er_id = FechasER.id_fechas\n"
-                + "ORDER BY Orden.id_orden DESC";
+        String consulta = "SELECT Orden.id_orden, Orden.cod_orden, Orden.encargado_orden, Orden.totales, Orden.cliente_id, Orden.proveedor_id, Orden.fechas_er_id,"
+                + " Cliente.encargado_compra, Cliente.nombre_institucion,"
+                + " FechasER.fecha_orden, FechasER.fecha_recepcion"
+                + " from Orden"
+                + " INNER JOIN Cliente on Orden.cliente_id  = Cliente.id_cliente"
+                + " INNER JOIN FechasER on Orden.fechas_er_id = FechasER.id_fechas"
+                + " ORDER BY Orden.id_orden DESC";
 
         try {
 
@@ -91,6 +91,7 @@ public class OrdenDAO {
             while (rSet.next()) {
 
                 TablaOrdenVM oOrden = new TablaOrdenVM();
+                oOrden.setIdOrden(rSet.getInt("id_orden"));
                 oOrden.setCodOrden(rSet.getString("cod_orden"));
                 oOrden.setEncargadoOrden(rSet.getString("encargado_orden"));
                 oOrden.setTotales(rSet.getDouble("totales"));
@@ -102,6 +103,59 @@ public class OrdenDAO {
                 oOrden.setFechaOrden(rSet.getDate("fecha_orden"));
                 oOrden.setFechaRecepcion(rSet.getDate("fecha_recepcion"));
                 ordenes.add(oOrden);
+            }
+
+            conexion.close();
+            return ordenes;
+
+        } catch (Exception e) {
+
+            System.err.println("error" + e);
+            return null;
+        }
+    }
+
+    // METODO PARA VER LOS PROVEEDORES
+    public TablaOrdenVM obtenerOrdenId(int idOrden) {
+
+        conexion = conexionDb.getConnection();
+
+        TablaOrdenVM ordenes = new TablaOrdenVM();
+
+        String consulta = "SELECT Orden.id_orden, Orden.cod_orden, Orden.encargado_orden, Orden.totales, Orden.cliente_id, Orden.proveedor_id, Orden.fechas_er_id, "
+                + "Cliente.encargado_compra, Cliente.nombre_institucion, Cliente.municipio,"
+                + " Proveedor.nombre_proveedor,"
+                + " FechasER.fecha_solicitud , FechasER.fecha_cotizacion, FechasER.fecha_orden, FechasER.fecha_recepcion, FechasER.fecha_plan_compras"
+                + " from Orden"
+                + " INNER JOIN Cliente on Orden.cliente_id  = Cliente.id_cliente"
+                + " INNER JOIN Proveedor on Orden.proveedor_id = Proveedor.id_proveedor"
+                + " INNER JOIN FechasER on Orden.fechas_er_id = FechasER.id_fechas"
+                + " WHERE Orden.id_orden = ?";
+
+        try {
+
+            pStatement = conexion.prepareStatement(consulta);
+            pStatement.setInt(1, idOrden);
+            rSet = pStatement.executeQuery();
+
+            if (rSet.next()) {
+
+                ordenes.setIdOrden(rSet.getInt("id_orden"));
+                ordenes.setCodOrden(rSet.getString("cod_orden"));
+                ordenes.setEncargadoOrden(rSet.getString("encargado_orden"));
+                ordenes.setTotales(rSet.getDouble("totales"));
+                ordenes.setClienteId(rSet.getInt("cliente_id"));
+                ordenes.setProveedorId(rSet.getInt("proveedor_id"));
+                ordenes.setFechasErId(rSet.getInt("fechas_er_id"));
+                ordenes.setEncargadoCompra(rSet.getString("encargado_compra"));
+                ordenes.setNombreInstitucion(rSet.getString("nombre_institucion"));
+                ordenes.setMunicipio(rSet.getString("municipio"));
+                ordenes.setNombreProveedor(rSet.getString("nombre_proveedor"));
+                ordenes.setFechaSolicitud(rSet.getDate("fecha_solicitud"));
+                ordenes.setFechaCotizacion(rSet.getDate("fecha_cotizacion"));
+                ordenes.setFechaOrden(rSet.getDate("fecha_orden"));
+                ordenes.setFechaRecepcion(rSet.getDate("fecha_recepcion"));
+                ordenes.setFechaPlanCompras(rSet.getDate("fecha_plan_compras"));
             }
 
             conexion.close();
