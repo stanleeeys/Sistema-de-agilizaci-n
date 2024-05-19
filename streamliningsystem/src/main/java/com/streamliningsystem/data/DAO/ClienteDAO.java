@@ -15,14 +15,13 @@ public class ClienteDAO {
     ResultSet rSet;
 
     // METODO PARA INGRESAR UNA CLIENTE
-    public void ingresarCliente(Cliente cliente) {
-        
+    public boolean ingresarCliente(Cliente cliente) {
+
         conexion = conexionDb.getConnection();
 
         String consulta = "INSERT INTO Cliente"
                 + "(encargado_compra, nombre_institucion, municipio)"
                 + "VALUES (?, ?, ?)";
-
         try {
 
             pStatement = conexion.prepareStatement(consulta);
@@ -34,19 +33,50 @@ public class ClienteDAO {
             pStatement.execute();
             conexion.close();
 
+            return true;
+
         } catch (Exception e) {
 
             System.err.println(e.toString());
+            return false;
         }
+    }
 
+    public boolean actualizarCliente(Cliente cliente) {
+
+        conexion = conexionDb.getConnection();
+
+        String consulta = "UPDATE Cliente SET "
+                + "encargado_compra = ?, "
+                + "nombre_institucion = ?, "
+                + "municipio = ? "
+                + "WHERE id_cliente = ?";
+        try {
+
+            pStatement = conexion.prepareStatement(consulta);
+
+            pStatement.setString(1, cliente.getEncargadoCompra());
+            pStatement.setString(2, cliente.getNombreInstitucion());
+            pStatement.setString(3, cliente.getMunicipio());
+            pStatement.setInt(4, cliente.getIdCliente());
+
+            int actualizadoExitoso = pStatement.executeUpdate();
+
+            return actualizadoExitoso > 0;
+
+        } catch (Exception e) {
+
+            System.err.println(e.toString());
+            return false;
+        }
     }
 
     //METODO PARA BUSCAR ULTIMO CLIENTE
     public int obtenerCliente() {
-        
+
         conexion = conexionDb.getConnection();
 
-        String consulta = "SELECT id_cliente FROM cliente ORDER BY id_cliente DESC LIMIT 1";
+        String consulta = "SELECT id_cliente FROM Cliente ORDER BY id_cliente DESC LIMIT 1";
         int idCliente = -1; // Valor por defecto si no se encuentra ningún cliente
 
         try {

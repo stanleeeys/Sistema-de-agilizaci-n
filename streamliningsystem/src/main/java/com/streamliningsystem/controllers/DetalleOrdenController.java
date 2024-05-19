@@ -1,6 +1,6 @@
 package com.streamliningsystem.controllers;
 
-import com.streamliningsystem.data.DAO.OrdeDetalleDAO;
+import com.streamliningsystem.data.DAO.DetalleOrdenDAO;
 import com.streamliningsystem.data.Models.DetalleOrden;
 import com.streamliningsystem.models.ViewModels.DetalleOrdenVM;
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class DetalleOrdenController {
 
     // Objetos Globales
-    OrdeDetalleDAO ordenDetalleDAO = new OrdeDetalleDAO();
+    DetalleOrdenDAO ordenDetalleDAO = new DetalleOrdenDAO();
 
     //Metodo de insercion de fechas
     public boolean guardarDetalleOrden(DetalleOrdenVM ordenDetalleVM) {
@@ -24,6 +24,22 @@ public class DetalleOrdenController {
 
         return ordenDetalleDAO.ingresarDetalleOrden(ordenDetalle);
     }
+    
+    public boolean actualizarDetalleOrden(DetalleOrdenVM ordenDetalleVM) {
+
+        DetalleOrden ordenDetalle = new DetalleOrden();
+        ordenDetalle.setIdDetalleOrden(ordenDetalleVM.idDetalleOrden);
+        ordenDetalle.setNumArticulo(ordenDetalleVM.numArticulo);
+        ordenDetalle.setCantidad(ordenDetalleVM.cantidad);
+        ordenDetalle.setUnidadMedida(ordenDetalleVM.unidadMedida);
+        ordenDetalle.setDescripcionArticulo(ordenDetalleVM.descripcionArticulo);
+        ordenDetalle.setPrecioUnitario(ordenDetalleVM.precioUnitario);
+        ordenDetalle.setPrecioTotal(ordenDetalleVM.precioTotal);
+        ordenDetalle.setOrdenId(ordenDetalleVM.ordenId);
+
+        return ordenDetalleDAO.ingresarDetalleOrden(ordenDetalle);
+    }
+    
 
     public ArrayList<DetalleOrdenVM> listarDetalleOrden(int id) {
 

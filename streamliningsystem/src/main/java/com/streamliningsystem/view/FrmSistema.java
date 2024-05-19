@@ -40,7 +40,7 @@ public class FrmSistema extends javax.swing.JFrame {
         cargarCombobox();
         this.setLocationRelativeTo(null);
         this.setTitle("Sistema Agilides");
-        txtId.setVisible(false);
+        //txtId.setVisible(false);
 
     }
 
@@ -132,8 +132,6 @@ public class FrmSistema extends javax.swing.JFrame {
         btnGuardar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnExcel = new javax.swing.JButton();
-        txtId = new javax.swing.JTextField();
-        jPanel8 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -232,11 +230,6 @@ public class FrmSistema extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTotales, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(345, 345, 345)
                         .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -279,7 +272,12 @@ public class FrmSistema extends javax.swing.JFrame {
                                         .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGap(61, 61, 61)))
                                 .addGap(49, 49, 49))
-                            .addComponent(btnLimpiarTodo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnLimpiarTodo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtTotales, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -309,12 +307,12 @@ public class FrmSistema extends javax.swing.JFrame {
                         .addComponent(btnActualizarDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnLimpiarTodo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtTotales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(5, 5, 5))
+                    .addComponent(txtTotales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addContainerGap())
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -379,7 +377,7 @@ public class FrmSistema extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(dtmOrdenCompra, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
                     .addComponent(dtmSolicitudCotizacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -388,7 +386,7 @@ public class FrmSistema extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(dtmCotizacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
                         .addGap(11, 11, 11))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -527,7 +525,7 @@ public class FrmSistema extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel22)
-                            .addComponent(dtmLimite, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(dtmLimite, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE))
                         .addGap(222, 222, 222)))
                 .addContainerGap())
         );
@@ -577,16 +575,10 @@ public class FrmSistema extends javax.swing.JFrame {
         });
 
         btnExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/excel.png"))); // NOI18N
-        btnExcel.setText("Excel");
+        btnExcel.setText("D");
         btnExcel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcelActionPerformed(evt);
-            }
-        });
-
-        txtId.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIdActionPerformed(evt);
             }
         });
 
@@ -596,14 +588,12 @@ public class FrmSistema extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(btnExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -612,22 +602,8 @@ public class FrmSistema extends javax.swing.JFrame {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExcel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(btnExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -635,48 +611,35 @@ public class FrmSistema extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(7, 7, 7)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(54, 54, 54))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -687,11 +650,27 @@ public class FrmSistema extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 704, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
+
+        ExportarExcel obj;
+
+        try {
+            obj = new ExportarExcel();
+            obj.exportarExcel(tblCotizacion);
+        } catch (IOException ex) {
+            System.out.println("Error: " + ex);
+        }
+    }//GEN-LAST:event_btnExcelActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnActualizarActionPerformed
 
     /*ESTE EVENTO SIRVE PARA GUARDAR LOS DATOS DEL FORMULARIO EN LA BD*/
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -779,52 +758,115 @@ public class FrmSistema extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al registrar la orden: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-
-    private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
-
-        ExportarExcel obj;
-
-        try {
-            obj = new ExportarExcel();
-            obj.exportarExcel(tblCotizacion);
-        } catch (IOException ex) {
-            System.out.println("Error: " + ex);
-        }
-
-    }//GEN-LAST:event_btnExcelActionPerformed
-
-
-    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+    private void btnActualizarDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarDetalleActionPerformed
         // TODO add your handling code here:
+        DefaultTableModel modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
 
+        // Obtener el índice de la fila seleccionada
+        int filaSeleccionada = tblCotizacion.getSelectedRow();
 
-    }//GEN-LAST:event_btnActualizarActionPerformed
-
-    private void tblCotizacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCotizacionMouseClicked
-        // TODO add your handling code here:
-
-        int fila = tblCotizacion.getSelectedRow();
-        if (fila != -1) { // Verifica si hay una fila seleccionada
+        // Verificar si hay una fila seleccionada
+        if (filaSeleccionada != -1) {
             try {
-                txtId.setText(tblCotizacion.getValueAt(fila, 0).toString());
-                txtCantidad.setText(tblCotizacion.getValueAt(fila, 1).toString());
-                txtUnidadM.setText(tblCotizacion.getValueAt(fila, 2).toString());
-                txtDescripcion.setText(tblCotizacion.getValueAt(fila, 3).toString());
-                txtPrecioU.setText(tblCotizacion.getValueAt(fila, 4).toString());
-                // Corregir el índice para el precio total
-                txtTotales.setText(tblCotizacion.getValueAt(fila, 5).toString());
-            } catch (NullPointerException | ArrayIndexOutOfBoundsException ex) {
-                // Manejar la excepción en caso de que no se pueda obtener un valor de la fila seleccionada
-                JOptionPane.showMessageDialog(null, "Error al obtener los datos de la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
+                // Obtener y validar los valores de los campos de entrada
+                String descripcion = txtDescripcion.getText();
+                if (descripcion.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Por favor llene la descripción.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String cantidadStr = txtCantidad.getText();
+                int cantidad;
+                try {
+                    cantidad = Integer.parseInt(cantidadStr);
+                    if (cantidad <= 0) {
+                        JOptionPane.showMessageDialog(this, "La cantidad debe ser un número positivo.", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "La cantidad debe ser un número.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String precioUnitarioStr = txtPrecioU.getText();
+                double precioUnitario;
+                try {
+                    precioUnitario = Double.parseDouble(precioUnitarioStr);
+                    if (precioUnitario < 0) {
+                        JOptionPane.showMessageDialog(this, "El precio unitario no puede ser negativo.", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "El precio unitario debe ser un número.", "Error de validación", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String unidadMedida = txtUnidadM.getText();
+                if (unidadMedida.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "La unidad de medida no puede estar vacía.", "Error de validación", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Calcular el precio total
+                double precioTotal = cantidad * precioUnitario;
+
+                // Actualizar la fila en la tabla
+                modeloTabla.setValueAt(cantidad, filaSeleccionada, 1);
+                modeloTabla.setValueAt(unidadMedida, filaSeleccionada, 2);
+                modeloTabla.setValueAt(descripcion, filaSeleccionada, 3);
+                modeloTabla.setValueAt(precioUnitario, filaSeleccionada, 4);
+                modeloTabla.setValueAt(precioTotal, filaSeleccionada, 5);
+
+                // Recalcular el total de todos los precios después de actualizar la fila
+                double totales = 0;
+                int numFilas = modeloTabla.getRowCount();
+                for (int fila = 0; fila < numFilas; fila++) {
+                    double pTotal = (Double) modeloTabla.getValueAt(fila, modeloTabla.getColumnCount() - 1);
+                    totales += pTotal;
+                }
+                txtTotales.setText(String.valueOf(totales));
+
+                JOptionPane.showMessageDialog(this, "Detalle actualizado correctamente.", "Información", JOptionPane.INFORMATION_MESSAGE);
+
+                Limpiar();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al actualizar el detalle: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila antes de editar los datos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            // Mostrar mensaje de advertencia si no hay ninguna fila seleccionada
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para actualizar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
+    }//GEN-LAST:event_btnActualizarDetalleActionPerformed
 
-    }//GEN-LAST:event_tblCotizacionMouseClicked
+    private void btnEliminarDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarDetalleActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
+
+        // Obtener el índice de la fila seleccionada
+        int filaSeleccionada = tblCotizacion.getSelectedRow();
+
+        // Verificar si hay una fila seleccionada
+        if (filaSeleccionada != -1) {
+            // Eliminar la fila del modelo de la tabla
+            modeloTabla.removeRow(filaSeleccionada);
+
+            // Recalcular el total de todos los precios después de eliminar la fila
+            double totales = 0;
+            int numFilas = modeloTabla.getRowCount();
+            for (int fila = 0; fila < numFilas; fila++) {
+                double precioTotal = (Double) modeloTabla.getValueAt(fila, modeloTabla.getColumnCount() - 1);
+                totales += precioTotal;
+            }
+            txtTotales.setText(String.valueOf(totales));
+
+            JOptionPane.showMessageDialog(this, "Detalle eliminado correctamente.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            // Mostrar mensaje de advertencia si no hay ninguna fila seleccionada
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEliminarDetalleActionPerformed
 
     // EVENTO PARA AGREGAR DATOS A LA TABLA
     private void btnAgregarDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarDetalleActionPerformed
@@ -900,121 +942,33 @@ public class FrmSistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAgregarDetalleActionPerformed
 
-    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdActionPerformed
-
     private void txtTotalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTotalesActionPerformed
 
-    private void btnEliminarDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarDetalleActionPerformed
+    private void tblCotizacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCotizacionMouseClicked
         // TODO add your handling code here:
-        DefaultTableModel modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
 
-        // Obtener el índice de la fila seleccionada
-        int filaSeleccionada = tblCotizacion.getSelectedRow();
-
-        // Verificar si hay una fila seleccionada
-        if (filaSeleccionada != -1) {
-            // Eliminar la fila del modelo de la tabla
-            modeloTabla.removeRow(filaSeleccionada);
-
-            // Recalcular el total de todos los precios después de eliminar la fila
-            double totales = 0;
-            int numFilas = modeloTabla.getRowCount();
-            for (int fila = 0; fila < numFilas; fila++) {
-                double precioTotal = (Double) modeloTabla.getValueAt(fila, modeloTabla.getColumnCount() - 1);
-                totales += precioTotal;
-            }
-            txtTotales.setText(String.valueOf(totales));
-
-            JOptionPane.showMessageDialog(this, "Detalle eliminado correctamente.", "Información", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            // Mostrar mensaje de advertencia si no hay ninguna fila seleccionada
-            JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_btnEliminarDetalleActionPerformed
-
-    private void btnActualizarDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarDetalleActionPerformed
-        // TODO add your handling code here:
-        DefaultTableModel modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
-
-        // Obtener el índice de la fila seleccionada
-        int filaSeleccionada = tblCotizacion.getSelectedRow();
-
-        // Verificar si hay una fila seleccionada
-        if (filaSeleccionada != -1) {
+        int fila = tblCotizacion.getSelectedRow();
+        if (fila != -1) { // Verifica si hay una fila seleccionada
             try {
-                // Obtener y validar los valores de los campos de entrada
-                String descripcion = txtDescripcion.getText();
-                if (descripcion.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Por favor llene la descripción.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                String cantidadStr = txtCantidad.getText();
-                int cantidad;
-                try {
-                    cantidad = Integer.parseInt(cantidadStr);
-                    if (cantidad <= 0) {
-                        JOptionPane.showMessageDialog(this, "La cantidad debe ser un número positivo.", "Error", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(this, "La cantidad debe ser un número.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                String precioUnitarioStr = txtPrecioU.getText();
-                double precioUnitario;
-                try {
-                    precioUnitario = Double.parseDouble(precioUnitarioStr);
-                    if (precioUnitario < 0) {
-                        JOptionPane.showMessageDialog(this, "El precio unitario no puede ser negativo.", "Error", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(this, "El precio unitario debe ser un número.", "Error de validación", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                String unidadMedida = txtUnidadM.getText();
-                if (unidadMedida.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "La unidad de medida no puede estar vacía.", "Error de validación", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                // Calcular el precio total
-                double precioTotal = cantidad * precioUnitario;
-
-                // Actualizar la fila en la tabla
-                modeloTabla.setValueAt(cantidad, filaSeleccionada, 1);
-                modeloTabla.setValueAt(unidadMedida, filaSeleccionada, 2);
-                modeloTabla.setValueAt(descripcion, filaSeleccionada, 3);
-                modeloTabla.setValueAt(precioUnitario, filaSeleccionada, 4);
-                modeloTabla.setValueAt(precioTotal, filaSeleccionada, 5);
-
-                // Recalcular el total de todos los precios después de actualizar la fila
-                double totales = 0;
-                int numFilas = modeloTabla.getRowCount();
-                for (int fila = 0; fila < numFilas; fila++) {
-                    double pTotal = (Double) modeloTabla.getValueAt(fila, modeloTabla.getColumnCount() - 1);
-                    totales += pTotal;
-                }
-                txtTotales.setText(String.valueOf(totales));
-
-                JOptionPane.showMessageDialog(this, "Detalle actualizado correctamente.", "Información", JOptionPane.INFORMATION_MESSAGE);
-
-               Limpiar();
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error al actualizar el detalle: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                //txtId.setText(tblCotizacion.getValueAt(fila, 0).toString());
+                txtCantidad.setText(tblCotizacion.getValueAt(fila, 1).toString());
+                txtUnidadM.setText(tblCotizacion.getValueAt(fila, 2).toString());
+                txtDescripcion.setText(tblCotizacion.getValueAt(fila, 3).toString());
+                txtPrecioU.setText(tblCotizacion.getValueAt(fila, 4).toString());
+                // Corregir el índice para el precio total
+                txtTotales.setText(tblCotizacion.getValueAt(fila, 5).toString());
+            } catch (NullPointerException | ArrayIndexOutOfBoundsException ex) {
+                // Manejar la excepción en caso de que no se pueda obtener un valor de la fila seleccionada
+                JOptionPane.showMessageDialog(null, "Error al obtener los datos de la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            // Mostrar mensaje de advertencia si no hay ninguna fila seleccionada
-            JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para actualizar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila antes de editar los datos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_btnActualizarDetalleActionPerformed
+    }//GEN-LAST:event_tblCotizacionMouseClicked
+
+
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -1091,7 +1045,6 @@ public class FrmSistema extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblCotizacion;
     private javax.swing.JTextField txtCantidad;
@@ -1099,7 +1052,6 @@ public class FrmSistema extends javax.swing.JFrame {
     private javax.swing.JTextField txtEncargadoCompra;
     private javax.swing.JTextField txtEncargadoOrden;
     private javax.swing.JTextField txtGarantia;
-    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtLugarEntrega;
     private javax.swing.JTextField txtMunicipio;
     private javax.swing.JTextField txtNombreInstitucion;

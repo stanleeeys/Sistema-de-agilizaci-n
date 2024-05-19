@@ -2,13 +2,12 @@ package com.streamliningsystem.data.DAO;
 
 import com.streamliningsystem.data.Models.DetalleOrden;
 import com.streamliningsystem.data.Provider.Conexion;
-import com.streamliningsystem.models.ViewModels.TablaOrdenVM;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-public class OrdeDetalleDAO {
+public class DetalleOrdenDAO {
 
     // Variables Globales
     Conexion conexionDb = new Conexion();
@@ -20,7 +19,15 @@ public class OrdeDetalleDAO {
     public boolean ingresarDetalleOrden(DetalleOrden detalleOrden) {
 
         conexion = conexionDb.getConnection();
-        String consulta = "INSERT INTO DetallesOrden (num_articulo, cantidad, unidad_medida, descripcion_articulo, precio_unitario, precio_total, orden_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String consulta = "INSERT INTO DetallesOrden "
+                + "(num_articulo, "
+                + "cantidad, "
+                + "unidad_medida, "
+                + "descripcion_articulo, "
+                + "precio_unitario, "
+                + "precio_total, "
+                + "orden_id) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try {
 
@@ -38,6 +45,63 @@ public class OrdeDetalleDAO {
             conexion.close();
 
             return true;
+
+        } catch (Exception e) {
+
+            return false;
+        }
+    }
+
+    public boolean actualizarDetalleOrden(DetalleOrden detalleOrden) {
+
+        conexion = conexionDb.getConnection();
+        String consulta = "UPDATE DetallesOrden SET "
+                + "num_articulo = ?, "
+                + "cantidad = ?, "
+                + "unidad_medida = ?, "
+                + "descripcion_articulo = ?, "
+                + "precio_unitario = ?, "
+                + "precio_total = ?, "
+                + "orden_id = ? "
+                + "WHERE id_detalle_orden = ?";
+
+        try {
+
+            pStatement = conexion.prepareStatement(consulta);
+
+            pStatement.setInt(1, detalleOrden.getNumArticulo());
+            pStatement.setInt(2, detalleOrden.getCantidad());
+            pStatement.setString(3, detalleOrden.getUnidadMedida());
+            pStatement.setString(4, detalleOrden.getDescripcionArticulo());
+            pStatement.setDouble(5, detalleOrden.getPrecioUnitario());
+            pStatement.setDouble(6, detalleOrden.getPrecioTotal());
+            pStatement.setInt(7, detalleOrden.getOrdenId());
+            pStatement.setInt(8, detalleOrden.getIdDetalleOrden());
+
+            int confirmacion = pStatement.executeUpdate();
+
+            return confirmacion > 0;
+
+        } catch (Exception e) {
+
+            return false;
+        }
+    }
+
+    public boolean eliminarDetalleOrden(int idDetalle) {
+
+        conexion = conexionDb.getConnection();
+        String consulta = "DELETE FROM DetallesOrden WHERE "
+                + "id_detalle_orden = ?";
+
+        try {
+
+            pStatement = conexion.prepareStatement(consulta);
+            pStatement.setInt(1, idDetalle);
+
+            int confirmacion = pStatement.executeUpdate();
+
+            return confirmacion > 0;
 
         } catch (Exception e) {
 

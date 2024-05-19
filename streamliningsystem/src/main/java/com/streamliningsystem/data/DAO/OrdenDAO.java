@@ -46,6 +46,42 @@ public class OrdenDAO {
 
     }
 
+    public boolean actualizarOrden(Orden orden) {
+
+        conexion = conexionDb.getConnection();
+
+        String consulta = "UPDATE Orden SET "
+                + "cod_orden = ?, "
+                + "encargado_orden = ?, "
+                + "totales = ?, "
+                + "cliente_id = ?, "
+                + "proveedor_id = ?, "
+                + "fechas_er_id = ? "
+                + "WHERE id_orden = ?";
+
+        try {
+
+            pStatement = conexion.prepareStatement(consulta);
+
+            pStatement.setString(1, orden.getCodOrden());
+            pStatement.setString(2, orden.getEncargadoOrden());
+            pStatement.setDouble(3, orden.getTotales());
+            pStatement.setInt(4, orden.getClienteId());
+            pStatement.setInt(5, orden.getProveedorId());
+            pStatement.setInt(6, orden.getFechasErId());
+            pStatement.setInt(7, orden.getIdOrden()); // Asumiendo que Orden tiene un método getIdOrden()
+
+            int confirmacion = pStatement.executeUpdate();
+
+            return confirmacion > 0;
+
+        } catch (Exception e) {
+
+            return false;
+        }
+
+    }
+
     public int obtenerOrden() {
 
         conexion = conexionDb.getConnection();

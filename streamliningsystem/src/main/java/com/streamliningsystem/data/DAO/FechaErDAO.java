@@ -17,7 +17,7 @@ public class FechaErDAO {
 
     // METODO PARA INGRESAR UNA FECHA
     public boolean ingresarFechas(FechasER fechasER) {
-        
+
         conexion = conexionDb.getConnection();
 
         String consulta = "INSERT INTO FechasER"
@@ -45,10 +45,42 @@ public class FechaErDAO {
         }
     }
 
+    public boolean actualizarFechas(FechasER fechasER) {
+
+        conexion = conexionDb.getConnection();
+
+        String consulta = "UPDATE FechasER SET "
+                + "fecha_solicitud = ?, "
+                + "fecha_cotizacion = ?, "
+                + "fecha_orden = ?, "
+                + "fecha_recepcion = ?, "
+                + "fecha_plan_compras = ? "
+                + "WHERE id_fechas = ?";
+
+        try {
+
+            pStatement = conexion.prepareStatement(consulta);
+
+            pStatement.setDate(1, new java.sql.Date(fechasER.getFechaSolicitud().getTime()));
+            pStatement.setDate(2, new java.sql.Date(fechasER.getFechaCotizacion().getTime()));
+            pStatement.setDate(3, new java.sql.Date(fechasER.getFechaOrden().getTime()));
+            pStatement.setDate(4, new java.sql.Date(fechasER.getFechaRecepcion().getTime()));
+            pStatement.setDate(5, new java.sql.Date(fechasER.getFechaPlanCompras().getTime()));
+            pStatement.setInt(6, fechasER.getIdFechas());
+
+            int confirmacion = pStatement.executeUpdate();
+
+            return confirmacion > 0;
+
+        } catch (Exception e) {
+
+            return false;
+        }
+    }
+
     //METODO PARA BUSCAR ULTIMO CLIENTE
     public int obtenerFecha() {
 
-        
         conexion = conexionDb.getConnection();
         String consulta = "SELECT id_fechas FROM FechasER ORDER BY id_fechas DESC LIMIT 1";
         int idCliente = -1; // Valor por defecto si no se encuentra ningún fechas
