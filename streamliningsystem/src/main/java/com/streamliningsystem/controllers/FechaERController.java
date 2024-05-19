@@ -22,6 +22,20 @@ public class FechaERController {
         return fechaErDAO.ingresarFechas(fechasER);
     }
     
+    public boolean actualizarFechas(FechaErVM fechaErVM) {
+
+        FechasER fechasER = new FechasER();
+        fechasER.setIdFechas(fechaErVM.idFechas);
+        fechasER.setFechaSolicitud(fechaErVM.fechaSolicitud);
+        fechasER.setFechaCotizacion(fechaErVM.fechaCotizacion);
+        fechasER.setFechaOrden(fechaErVM.fechaOrden);
+        fechasER.setFechaRecepcion(fechaErVM.fechaRecepcion);
+        fechasER.setFechaPlanCompras(fechaErVM.fechaPlanCompras);
+
+        return fechaErDAO.ingresarFechas(fechasER);
+    }
+    
+    
     
     public int obtenerFecha(){
     

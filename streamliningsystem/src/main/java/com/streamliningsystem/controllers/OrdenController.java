@@ -7,8 +7,8 @@ import com.streamliningsystem.models.ViewModels.TablaOrdenVM;
 import java.util.ArrayList;
 
 public class OrdenController {
-    
-     // Objetos Globales
+
+    // Objetos Globales
     OrdenDAO ordenDAO = new OrdenDAO();
 
     //Metodo de insercion de fechas
@@ -24,12 +24,26 @@ public class OrdenController {
 
         return ordenDAO.ingresarOrden(orden);
     }
-    
-    public int obtenerOrden(){
-    
+
+    public boolean actualizarOrden(OrdenVM ordenVM) {
+
+        Orden orden = new Orden();
+        orden.setIdOrden(ordenVM.idOrden);
+        orden.setCodOrden(ordenVM.codOrden);
+        orden.setEncargadoOrden(ordenVM.encargadoOrden);
+        orden.setTotales(ordenVM.totales);
+        orden.setClienteId(ordenVM.clienteId);
+        orden.setProveedorId(ordenVM.proveedorId);
+        orden.setFechasErId(ordenVM.fechasErId);
+
+        return ordenDAO.ingresarOrden(orden);
+    }
+
+    public int obtenerOrden() {
+
         return ordenDAO.obtenerOrden();
     }
-    
+
 //    public ArrayList<OrdenVM> listarOrden() {
 //
 //        try {
@@ -62,16 +76,14 @@ public class OrdenController {
 //            return null;
 //        }
 //    }
-    
-    public ArrayList<TablaOrdenVM> listarOrden(){
-    
+    public ArrayList<TablaOrdenVM> listarOrden() {
+
         return ordenDAO.listarOrdenes();
     }
-    
-    
-    public TablaOrdenVM datosOrden(int id){
-        
+
+    public TablaOrdenVM datosOrden(int id) {
+
         return ordenDAO.obtenerOrdenId(id);
     }
-    
+
 }

@@ -139,7 +139,7 @@ public class ExportacionWord {
             nuevoParrafoRun4.setFontFamily("Times New Roman");
             nuevoParrafoRun4.setFontSize(10);
             nuevoParrafoRun4.setBold(true);
-            nuevoParrafoRun4.setText("LA REINA, Chalatenango");
+            nuevoParrafoRun4.setText(municipio);
 
             XWPFRun nuevoParrafoRun5 = nuevoParrafo.createRun();
             nuevoParrafoRun5.setFontFamily("Times New Roman");
@@ -150,7 +150,7 @@ public class ExportacionWord {
             nuevoParrafoRun6.setFontFamily("Times New Roman");
             nuevoParrafoRun6.setFontSize(10);
             nuevoParrafoRun6.setBold(true);
-            nuevoParrafoRun6.setText("29 DE MAYO DEL CORRIENTE AÑO");
+            nuevoParrafoRun6.setText("DIA DE MES DEL CORRIENTE AÑO");
 
             XWPFRun nuevoParrafoRun7 = nuevoParrafo.createRun();
             nuevoParrafoRun7.setFontFamily("Times New Roman");
@@ -300,7 +300,7 @@ public class ExportacionWord {
             run3.addTab();
             run3.addTab();
             run3.addTab();
-            run3.setText("MARGARITA URBINA SIBRIAN");
+            run3.setText(encargadoOrden);
 
             XWPFRun run4 = parrafoNuevo.createRun();
             run4.addBreak();
@@ -319,7 +319,7 @@ public class ExportacionWord {
             /**
              * ***************************************************************
              */
-            //PAGINA 2
+            //*************************************************************************************************************************PAGINA 2
             documento.createParagraph().createRun().addBreak(BreakType.PAGE);
 
             XWPFParagraph parrafoTitulo = documento.createParagraph();
@@ -395,7 +395,7 @@ public class ExportacionWord {
             XWPFRun runNuevo3 = parrafoNuevo1.createRun();
             runNuevo3.setFontFamily("Times New Roman");
             runNuevo3.setFontSize(10);
-            runNuevo3.setText(",  suscrita por el CDE que administra La ");
+            runNuevo3.setText(",  suscrita por el CDE que administra el ");
 
 // Parte "LA REINA, Chalatenango" en negrita
             XWPFRun runNuevo4 = parrafoNuevo1.createRun();
@@ -408,7 +408,7 @@ public class ExportacionWord {
             XWPFRun runNuevo5 = parrafoNuevo1.createRun();
             runNuevo5.setFontFamily("Times New Roman");
             runNuevo5.setFontSize(10);
-            runNuevo5.setText(", ubicado en el Municipio de");
+            runNuevo5.setText(", ubicado en el Municipio de ");
 
 // Parte "29 DE MAYO DEL CORRIENTE AÑO" en negrita
             XWPFRun runNuevo6 = parrafoNuevo1.createRun();
@@ -422,6 +422,7 @@ public class ExportacionWord {
             runNuevo7.setFontFamily("Times New Roman");
             runNuevo7.setFontSize(10);
             runNuevo7.setText(", atentamente remito la oferta en original apegada a las condiciones y especificaciones de compras detalladas a continuación:");
+            runNuevo7.addBreak();
 
             // Crear la tabla
             XWPFTable tabla20 = documento.createTable();
@@ -438,8 +439,12 @@ public class ExportacionWord {
             tblPr20.getTblBorders().addNewInsideV().setVal(STBorder.SINGLE);
 
 // Crear el encabezado de la tabla
-            String[] encabezadoTabla20 = {"No.", "Cantidad", "Unidad de medida", "Descripción/especificación técnica"};
+            String[] encabezadoTabla20 = {"No.", "Cantidad", "Unidad de medida", "Descripción/especificación técnica", "Precio Unitario", "Precio Total"};
             XWPFTableRow filaEncabezado20 = tabla20.getRow(0);
+
+// Color celeste pálido
+            String colorCelestePálido = "9EC6E6";
+
             for (int i = 0; i < encabezadoTabla20.length; i++) {
                 XWPFTableCell celda20 = filaEncabezado20.getCell(i);
                 if (celda20 == null) {
@@ -452,6 +457,9 @@ public class ExportacionWord {
                 r20.setFontFamily("Times New Roman");
                 r20.setBold(true);
                 r20.setText(encabezadoTabla20[i]);
+
+                // Establecer el color de fondo
+                celda20.setColor(colorCelestePálido);
             }
 
 // Poblar las filas con los datos
@@ -505,24 +513,101 @@ public class ExportacionWord {
                 rDescripcion20.setFontSize(10);
                 rDescripcion20.setFontFamily("Times New Roman");
                 rDescripcion20.setText(detalle20.descripcionArticulo);
+
+                // Columna Precio Unitario
+                XWPFTableCell celdaPrecioUnitario20 = fila20.getCell(4);
+                if (celdaPrecioUnitario20 == null) {
+                    celdaPrecioUnitario20 = fila20.createCell();
+                }
+                XWPFParagraph pPrecioUnitario20 = celdaPrecioUnitario20.getParagraphs().get(0);
+                pPrecioUnitario20.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun rPrecioUnitario20 = pPrecioUnitario20.createRun();
+                rPrecioUnitario20.setFontSize(10);
+                rPrecioUnitario20.setFontFamily("Times New Roman");
+                rPrecioUnitario20.setText(String.valueOf(detalle20.precioUnitario));
+
+                // Columna Precio Total
+                XWPFTableCell celdaPrecioTotal20 = fila20.getCell(5);
+                if (celdaPrecioTotal20 == null) {
+                    celdaPrecioTotal20 = fila20.createCell();
+                }
+                XWPFParagraph pPrecioTotal20 = celdaPrecioTotal20.getParagraphs().get(0);
+                pPrecioTotal20.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun rPrecioTotal20 = pPrecioTotal20.createRun();
+                rPrecioTotal20.setFontSize(10);
+                rPrecioTotal20.setFontFamily("Times New Roman");
+                rPrecioTotal20.setText(String.valueOf(detalle20.precioTotal));
+            }
+
+            XWPFTableRow pieTabla = tabla20.createRow();
+
+// Crear celdas para las otras columnas
+            for (int i = 0; i < encabezadoTabla20.length; i++) {
+                XWPFTableCell celdaPie = pieTabla.getCell(i);
+                if (celdaPie == null) {
+                    celdaPie = pieTabla.createCell();
+                }
+                XWPFParagraph pPie = celdaPie.getParagraphs().get(0);
+                pPie.setAlignment(ParagraphAlignment.RIGHT);
+                XWPFRun rPie = pPie.createRun();
+                rPie.setFontSize(10);
+                rPie.setFontFamily("Times New Roman");
+                rPie.setBold(true);
+                if (i == 2) {
+                    rPie.setText("Totales"); // Tercera columna
+                } else if (i == encabezadoTabla20.length - 1) {
+                    rPie.setText("$" + String.valueOf(totales)); // Última columna
+                } else {
+                    rPie.setText(""); // Otras columnas, dejar en blanco
+                }
+            }
+
+// Crear celda para el valor de los totales en la tercera columna
+            XWPFTableCell celdaTotal = pieTabla.getCell(2);
+            if (celdaTotal == null) {
+                celdaTotal = pieTabla.createCell();
+            }
+            XWPFParagraph pTotal = celdaTotal.getParagraphs().get(0);
+            pTotal.setAlignment(ParagraphAlignment.LEFT);
+            XWPFRun rTotal = pTotal.createRun();
+            rTotal.setFontSize(10);
+            rTotal.setFontFamily("Times New Roman");
+            rTotal.setBold(true);
+            rTotal.setText(""); // Tercera columna
+
+            // Después de agregar todas las filas y antes de agregar la fila de totales
+            XWPFTableRow ultimaFila = tabla20.getRow(tabla20.getNumberOfRows() - 1);
+
+            for (int i = 0; i < encabezadoTabla20.length; i++) {
+                XWPFTableCell celda = ultimaFila.getCell(i);
+                if (celda == null) {
+                    celda = ultimaFila.createCell();
+                }
+                XWPFParagraph p = celda.getParagraphs().get(0);
+                p.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun r = p.createRun();
+
+                // Establecer el color de fondo
+                celda.setColor(colorCelestePálido);
             }
 
             // Crear el párrafo para el nuevo contenido
             XWPFParagraph nuevoParrafo10 = documento.createParagraph();
             nuevoParrafo10.setAlignment(ParagraphAlignment.LEFT);
-            nuevoParrafo10.setSpacingAfter(50);
+            nuevoParrafo10.setSpacingAfter(100);
 
 // Crear el contenido del párrafo
             XWPFRun nuevoRun10 = nuevoParrafo10.createRun();
             nuevoRun10.setFontFamily("Times New Roman");
             nuevoRun10.setFontSize(10);
-            nuevoRun10.setText("1.PLAZO DE ENTREGA");
             nuevoRun10.addBreak();
-            nuevoRun10.setText("2. LUGAR DE ENTREGA.");
+            nuevoRun10.setText("1.PLAZO DE ENTREGA: INMEDIATA");
             nuevoRun10.addBreak();
-            nuevoRun10.setText("3. VIGENCIA DE LA COTIZACION.");
+            nuevoRun10.setText("2. LUGAR DE ENTREGA: CENTRO ESCOLAR.");
             nuevoRun10.addBreak();
-            nuevoRun10.setText("4. TIEMPO DE GARANTIA DE LOS BIENES (EN CASO QUE APLIQUE)");
+            nuevoRun10.setText("3. VIGENCIA DE LA COTIZACION: 15 DIAS.");
+            nuevoRun10.addBreak();
+            nuevoRun10.setText("4. TIEMPO DE GARANTIA DE LOS BIENES: 30 DIAS.");
             nuevoRun10.addBreak();
 
             // Crear el párrafo
@@ -563,12 +648,12 @@ public class ExportacionWord {
             run3_20.addBreak();
             run3_20.setFontFamily("Times New Roman");
             run3_20.setFontSize(10);
+            run3_20.setText(encargadoOrden);
+            run3_20.addTab();
+            run3_20.addTab();
+            run3_20.addTab();
+            run3_20.addTab();
             run3_20.setText("Nombre del Encargado de Compras");
-            run3_20.addTab();
-            run3_20.addTab();
-            run3_20.addTab();
-            run3_20.addTab();
-            run3_20.setText("MARGARITA URBINA SIBRIAN");
 
 // Cuarto run
             XWPFRun run4_20 = parrafoNuevo20.createRun();
@@ -584,9 +669,629 @@ public class ExportacionWord {
             run4_20.addTab();
             run4_20.addTab();
             run4_20.setText("SELLO");
+            /**
+             * *********************************************************************************************************
+             * PAGINA 3
+             */
+
+            documento.createParagraph().createRun().addBreak(BreakType.PAGE);
+
+            // Crear el párrafo del título
+            XWPFParagraph parrafoTitulo30 = documento.createParagraph();
+            parrafoTitulo30.setAlignment(ParagraphAlignment.CENTER);
+            parrafoTitulo30.setSpacingAfter(200);
+            parrafoTitulo30.getCTP().addNewPPr().addNewShd().setFill("9EC6E6");
+            XWPFRun runTitulo30 = parrafoTitulo30.createRun();
+            runTitulo30.setBold(true);
+            runTitulo30.setFontSize(12);
+            runTitulo30.setFontFamily("Times New Roman");
+            runTitulo30.setText("ORDEN DE COMPRA DE BIENES Y SERVICIOS N° ______");
+
+// Crear el párrafo del encabezado
+            XWPFParagraph parrafoEncabezado30 = documento.createParagraph();
+            parrafoEncabezado30.setAlignment(ParagraphAlignment.LEFT);
+            parrafoEncabezado30.setSpacingAfter(200);
+
+// Parte "LUGAR Y FECHA: "
+            XWPFRun runEncabezado301 = parrafoEncabezado30.createRun();
+            runEncabezado301.setFontFamily("Times New Roman");
+            runEncabezado301.setFontSize(10);
+            runEncabezado301.setText("LUGAR Y FECHA: ");
+
+// Parte "MUNICIPIO, FECHA" en negrita
+            XWPFRun runEncabezado302 = parrafoEncabezado30.createRun();
+            runEncabezado302.setFontFamily("Times New Roman");
+            runEncabezado302.setFontSize(10);
+            runEncabezado302.setBold(true); // Texto en negrita
+            runEncabezado302.setText(municipio + ", " + fechaCotizacionStr);
+            runEncabezado302.addBreak();
+
+// Saltos de línea
+            XWPFRun runEncabezado303 = parrafoEncabezado30.createRun();
+            runEncabezado303.setFontFamily("Times New Roman");
+            runEncabezado303.setFontSize(10);
+            runEncabezado303.addBreak();
+            runEncabezado303.setText("SEÑORES");
+            runEncabezado303.addBreak();
+
+// Parte "ESCUELA DE EDUCACIÓN PARVULARIA LUGAR" en negrita
+            XWPFRun runEncabezado304 = parrafoEncabezado30.createRun();
+            runEncabezado304.setFontFamily("Times New Roman");
+            runEncabezado304.setFontSize(10);
+            runEncabezado304.setBold(true); // Texto en negrita
+            runEncabezado304.setText(nombreProveedor);
+            runEncabezado304.addBreak();
+
+// Parte "Presente."
+            XWPFRun runEncabezado305 = parrafoEncabezado30.createRun();
+            runEncabezado305.setFontFamily("Times New Roman");
+            runEncabezado305.setFontSize(10);
+            runEncabezado305.setText("Presente.");
+
+// Crear el párrafo para el nuevo contenido
+            XWPFParagraph parrafoNuevo301 = documento.createParagraph();
+            parrafoNuevo301.setAlignment(ParagraphAlignment.DISTRIBUTE);
+            parrafoNuevo301.setSpacingAfter(50);
+
+// Parte "Atendiendo la solicitud de cotización de fecha "
+            XWPFRun runNuevo301 = parrafoNuevo301.createRun();
+            runNuevo301.setFontFamily("Times New Roman");
+            runNuevo301.setFontSize(10);
+            runNuevo301.setText("Por este medio se comunica que el  CDE de el ");
+
+// Parte con la fecha en negrita
+            XWPFRun runNuevo302 = parrafoNuevo301.createRun();
+            runNuevo302.setFontFamily("Times New Roman");
+            runNuevo302.setFontSize(10);
+            runNuevo302.setBold(true);
+            runNuevo302.setText(nombreInstitucion);
+
+// Parte ", suscrita por el CDE que administra el "
+            XWPFRun runNuevo303 = parrafoNuevo301.createRun();
+            runNuevo303.setFontFamily("Times New Roman");
+            runNuevo303.setFontSize(10);
+            runNuevo303.setText(", ha decidido adquirir en esa empresa los bienes o servicios que más adelante se detallan, de acuerdo a los precios y condiciones de su  oferta del día");
+
+// Parte con el nombre de la institución en negrita
+            XWPFRun runNuevo304 = parrafoNuevo301.createRun();
+            runNuevo304.setFontFamily("Times New Roman");
+            runNuevo304.setFontSize(10);
+            runNuevo304.setBold(true);
+            runNuevo304.setText("" + fechaCotizacionStr + ".");
+            runNuevo304.addBreak();
+
+// Parte ", ubicado en el Municipio de "
+            XWPFRun runNuevo305 = parrafoNuevo301.createRun();
+            runNuevo305.setFontFamily("Times New Roman");
+            runNuevo305.setFontSize(10);
+            runNuevo305.setText("Los bienes y/o servicios deberán entregarse  en la ");
+
+// Parte con el municipio en negrita
+            XWPFRun runNuevo306 = parrafoNuevo301.createRun();
+            runNuevo306.setFontFamily("Times New Roman");
+            runNuevo306.setFontSize(10);
+            runNuevo306.setBold(true);
+            runNuevo306.setText(nombreInstitucion);
+
+// Parte final del párrafo
+            XWPFRun runNuevo307 = parrafoNuevo301.createRun();
+            runNuevo307.setFontFamily("Times New Roman");
+            runNuevo307.setFontSize(10);
+            runNuevo307.setText(" el día 00 de MES de ANIO, de las HORA horas a las HORA horas DE LA MAÑANA.");
+            runNuevo307.addBreak();
+
+// Crear la tabla
+            XWPFTable tabla3020 = documento.createTable();
+            tabla3020.setWidth("100%");
+            tabla3020.setTableAlignment(TableRowAlign.CENTER);
+
+// Configurar bordes de la tabla
+            CTTblPr tblPr3020 = tabla3020.getCTTbl().addNewTblPr();
+            tblPr3020.addNewTblBorders().addNewBottom().setVal(STBorder.SINGLE);
+            tblPr3020.getTblBorders().addNewLeft().setVal(STBorder.SINGLE);
+            tblPr3020.getTblBorders().addNewRight().setVal(STBorder.SINGLE);
+            tblPr3020.getTblBorders().addNewTop().setVal(STBorder.SINGLE);
+            tblPr3020.getTblBorders().addNewInsideH().setVal(STBorder.SINGLE);
+            tblPr3020.getTblBorders().addNewInsideV().setVal(STBorder.SINGLE);
+
+// Crear el encabezado de la tabla
+            String[] encabezadoTabla3020 = {"No.", "Cantidad", "Unidad de medida", "Descripción/especificación técnica", "Precio Unitario", "Precio Total"};
+            XWPFTableRow filaEncabezado3020 = tabla3020.getRow(0);
+
+            String colorCelestePálido30 = "9EC6E6";
+
+            for (int i = 0; i < encabezadoTabla3020.length; i++) {
+                XWPFTableCell celda3020 = filaEncabezado3020.getCell(i);
+                if (celda3020 == null) {
+                    celda3020 = filaEncabezado3020.createCell();
+                }
+                XWPFParagraph p3020 = celda3020.getParagraphs().get(0);
+                p3020.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun r3020 = p3020.createRun();
+                r3020.setFontSize(10);
+                r3020.setFontFamily("Times New Roman");
+                r3020.setBold(true);
+                r3020.setText(encabezadoTabla3020[i]);
+
+                // Establecer el color de fondo
+                celda3020.setColor(colorCelestePálido30);
+            }
+
+// Poblar las filas con los datos
+            for (DetalleOrdenVM detalle3020 : importarDetalles(ordenId)) {
+                XWPFTableRow fila3020 = tabla3020.createRow();
+
+                // Columna No.
+                XWPFTableCell celdaNo3020 = fila3020.getCell(0);
+                if (celdaNo3020 == null) {
+                    celdaNo3020 = fila3020.createCell();
+                }
+                XWPFParagraph pNo3020 = celdaNo3020.getParagraphs().get(0);
+                pNo3020.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun rNo3020 = pNo3020.createRun();
+                rNo3020.setFontSize(10);
+                rNo3020.setFontFamily("Times New Roman");
+                rNo3020.setText(String.valueOf(detalle3020.numArticulo));
+
+                // Columna Cantidad
+                XWPFTableCell celdaCantidad3020 = fila3020.getCell(1);
+                if (celdaCantidad3020 == null) {
+                    celdaCantidad3020 = fila3020.createCell();
+                }
+                XWPFParagraph pCantidad3020 = celdaCantidad3020.getParagraphs().get(0);
+                pCantidad3020.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun rCantidad3020 = pCantidad3020.createRun();
+                rCantidad3020.setFontSize(10);
+                rCantidad3020.setFontFamily("Times New Roman");
+                rCantidad3020.setText(String.valueOf(detalle3020.cantidad));
+
+                // Columna Unidad de medida
+                XWPFTableCell celdaUnidadMedida3020 = fila3020.getCell(2);
+                if (celdaUnidadMedida3020 == null) {
+                    celdaUnidadMedida3020 = fila3020.createCell();
+                }
+                XWPFParagraph pUnidadMedida3020 = celdaUnidadMedida3020.getParagraphs().get(0);
+                pUnidadMedida3020.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun rUnidadMedida3020 = pUnidadMedida3020.createRun();
+                rUnidadMedida3020.setFontSize(10);
+                rUnidadMedida3020.setFontFamily("Times New Roman");
+                rUnidadMedida3020.setText(detalle3020.unidadMedida);
+
+                // Columna Descripción/especificación técnica
+                XWPFTableCell celdaDescripcion3020 = fila3020.getCell(3);
+                if (celdaDescripcion3020 == null) {
+                    celdaDescripcion3020 = fila3020.createCell();
+                }
+                XWPFParagraph pDescripcion3020 = celdaDescripcion3020.getParagraphs().get(0);
+                pDescripcion3020.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun rDescripcion3020 = pDescripcion3020.createRun();
+                rDescripcion3020.setFontSize(10);
+                rDescripcion3020.setFontFamily("Times New Roman");
+                rDescripcion3020.setText(detalle3020.descripcionArticulo);
+
+                // Columna Precio Unitario
+                XWPFTableCell celdaPrecioUnitario3020 = fila3020.getCell(4);
+                if (celdaPrecioUnitario3020 == null) {
+                    celdaPrecioUnitario3020 = fila3020.createCell();
+                }
+                XWPFParagraph pPrecioUnitario3020 = celdaPrecioUnitario3020.getParagraphs().get(0);
+                pPrecioUnitario3020.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun rPrecioUnitario3020 = pPrecioUnitario3020.createRun();
+                rPrecioUnitario3020.setFontSize(10);
+                rPrecioUnitario3020.setFontFamily("Times New Roman");
+                rPrecioUnitario3020.setText(String.valueOf(detalle3020.precioUnitario));
+
+                // Columna Precio Total
+                XWPFTableCell celdaPrecioTotal3020 = fila3020.getCell(5);
+                if (celdaPrecioTotal3020 == null) {
+                    celdaPrecioTotal3020 = fila3020.createCell();
+                }
+                XWPFParagraph pPrecioTotal3020 = celdaPrecioTotal3020.getParagraphs().get(0);
+                pPrecioTotal3020.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun rPrecioTotal3020 = pPrecioTotal3020.createRun();
+                rPrecioTotal3020.setFontSize(10);
+                rPrecioTotal3020.setFontFamily("Times New Roman");
+                rPrecioTotal3020.setText(String.valueOf(detalle3020.precioTotal));
+            }
+
+            XWPFTableRow pieTabla30 = tabla3020.createRow();
+
+// Crear celdas para las otras columnas
+            for (int i = 0; i < encabezadoTabla3020.length; i++) {
+                XWPFTableCell celdaPie30 = pieTabla30.getCell(i);
+                if (celdaPie30 == null) {
+                    celdaPie30 = pieTabla30.createCell();
+                }
+                XWPFParagraph pPie30 = celdaPie30.getParagraphs().get(0);
+                pPie30.setAlignment(ParagraphAlignment.RIGHT);
+                XWPFRun rPie30 = pPie30.createRun();
+                rPie30.setFontSize(10);
+                rPie30.setFontFamily("Times New Roman");
+                rPie30.setBold(true);
+                if (i == 2) {
+                    rPie30.setText("Totales"); // Tercera columna
+                } else if (i == encabezadoTabla3020.length - 1) {
+                    rPie30.setText("$" + String.valueOf(totales)); // Última columna
+                } else {
+                    rPie30.setText(""); // Otras columnas, dejar en blanco
+                }
+            }
+
+// Crear celda para el valor de los totales en la tercera columna
+            XWPFTableCell celdaTotal30 = pieTabla30.getCell(2);
+            if (celdaTotal30 == null) {
+                celdaTotal30 = pieTabla30.createCell();
+            }
+            XWPFParagraph pTotal30 = celdaTotal30.getParagraphs().get(0);
+            pTotal30.setAlignment(ParagraphAlignment.LEFT);
+            XWPFRun rTotal30 = pTotal30.createRun();
+            rTotal30.setFontSize(10);
+            rTotal30.setFontFamily("Times New Roman");
+            rTotal30.setBold(true);
+            rTotal30.setText(""); // Tercera columna
+
+// Después de agregar todas las filas y antes de agregar la fila de totales
+            XWPFTableRow ultimaFila30 = tabla3020.getRow(tabla3020.getNumberOfRows() - 1);
+
+            for (int i = 0; i < encabezadoTabla3020.length; i++) {
+                XWPFTableCell celda30 = ultimaFila30.getCell(i);
+                if (celda30 == null) {
+                    celda30 = ultimaFila30.createCell();
+                }
+                XWPFParagraph p30 = celda30.getParagraphs().get(0);
+                p30.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun r30 = p30.createRun();
+
+                // Establecer el color de fondo
+                celda30.setColor(colorCelestePálido30);
+            }
+
+// Crear el párrafo para el nuevo contenido
+            XWPFParagraph nuevoParrafo30 = documento.createParagraph();
+            nuevoParrafo30.setAlignment(ParagraphAlignment.LEFT);
+            nuevoParrafo30.setSpacingAfter(100);
+
+            XWPFRun nuevoRun30 = nuevoParrafo30.createRun();
+            nuevoRun30.setFontFamily("Times New Roman");
+            nuevoRun30.setFontSize(10);
+            nuevoRun30.addBreak();
+            nuevoRun30.setText("Para efectos de cobro presentar esta orden de compra, original y copia de factura de consumidor final a nombre de:  C.D.E. " + nombreInstitucion + ".");
+            nuevoRun30.addBreak();
+
+// Crear el párrafo
+            XWPFParagraph parrafoNuevo3020 = documento.createParagraph();
+            parrafoNuevo3020.setAlignment(ParagraphAlignment.LEFT);
+            parrafoNuevo3020.setSpacingAfter(200);
+
+// Primer run
+//            XWPFRun run1_3020 = parrafoNuevo3020.createRun();
+//            run1_3020.setFontFamily("Times New Roman");
+//            run1_3020.setFontSize(10);
+//            run1_3020.addBreak();
+//            run1_3020.setText("ENTREGA: ");
+//            run1_3020.addTab();
+//            run1_3020.addTab();
+//            run1_3020.addTab();
+//            run1_3020.addTab();
+//            run1_3020.addTab();
+//            run1_3020.addTab();
+//            run1_3020.setText("RECIBE:");
+// Segundo run
+            XWPFRun run2_3020 = parrafoNuevo3020.createRun();
+            run2_3020.addBreak();
+            run2_3020.setFontFamily("Times New Roman");
+            run2_3020.setFontSize(10);
+            run2_3020.setText(" ");
+            run2_3020.addBreak();
+            run2_3020.setText(" ");
+            run2_3020.addBreak();
+            run2_3020.setText("F.___________________________________");
+            run2_3020.addTab();
+            run2_3020.addTab();
+            run2_3020.setText("F.___________________________________");
+
+// Tercer run
+            XWPFRun run3_3020 = parrafoNuevo3020.createRun();
+            run3_3020.addBreak();
+            run3_3020.setFontFamily("Times New Roman");
+            run3_3020.setFontSize(10);
+            run3_3020.setText("Nombre del Encargado de Compras");
+            run3_3020.addTab();
+            run3_3020.addTab();
+            run3_3020.addTab();
+            run3_3020.addTab();
+            run3_3020.setText(encargadoOrden);
+
+// Cuarto run
+            XWPFRun run4_3020 = parrafoNuevo3020.createRun();
+            run4_3020.addBreak();
+            run4_3020.setFontFamily("Times New Roman");
+            run4_3020.setFontSize(10);
+            run4_3020.setText("SELLO");
+            run4_3020.addTab();
+            run4_3020.addTab();
+            run4_3020.addTab();
+            run4_3020.addTab();
+            run4_3020.addTab();
+            run4_3020.addTab();
+            run4_3020.addTab();
+            run4_3020.setText("SELLO");
 
             /**
-             * ***************
+             * **********************************************************************************
+             * PAGINA 4
+             */
+            documento.createParagraph().createRun().addBreak(BreakType.PAGE);
+
+            // Crear el párrafo del título
+            XWPFParagraph parrafoTitulo40 = documento.createParagraph();
+            parrafoTitulo40.setAlignment(ParagraphAlignment.CENTER);
+            parrafoTitulo40.setSpacingAfter(200);
+            parrafoTitulo40.getCTP().addNewPPr().addNewShd().setFill("9EC6E6");
+            XWPFRun runTitulo40 = parrafoTitulo40.createRun();
+            runTitulo40.setBold(true);
+            runTitulo40.setFontSize(12);
+            runTitulo40.setFontFamily("Times New Roman");
+            runTitulo40.setText("ACTA DE RECEPCION DE BIENES     N°____");
+
+            // Crear la tabla
+            XWPFTable tablaContenido = documento.createTable();
+            tablaContenido.setWidth("100%");
+            tablaContenido.setTableAlignment(TableRowAlign.CENTER);
+
+// Agregar una fila a la tabla
+            XWPFTableRow filaContenido = tablaContenido.getRow(0);
+            if (filaContenido == null) {
+                filaContenido = tablaContenido.createRow();
+            }
+
+// Columna de contenido
+            XWPFTableCell celdaContenido = filaContenido.getCell(0);
+            if (celdaContenido == null) {
+                celdaContenido = filaContenido.createCell();
+            }
+            XWPFParagraph parrafoContenido = celdaContenido.getParagraphs().get(0);
+            parrafoContenido.setAlignment(ParagraphAlignment.DISTRIBUTE);
+            XWPFRun runContenido = parrafoContenido.createRun();
+            runContenido.setFontSize(10);
+            runContenido.setFontFamily("Times New Roman");
+            runContenido.setText("EL ORGANISMO DE ADMINISTRACION ESCOLAR: CONSEJO DIRECTIVO ESCOLAR QUE ADMINISTRA" + nombreInstitucion + "MUNICIPIO:" + municipio + " , CODIGO: _______ DEPARTAMENTO DE CHALATENANGO.");
+
+            // Crear la tabla
+            XWPFTable tablaContenidoNuevo = documento.createTable();
+            tablaContenidoNuevo.setWidth("100%");
+            tablaContenidoNuevo.setTableAlignment(TableRowAlign.CENTER);
+
+// Agregar una fila a la tabla
+            XWPFTableRow filaContenidoNuevo = tablaContenidoNuevo.getRow(0);
+            if (filaContenidoNuevo == null) {
+                filaContenidoNuevo = tablaContenidoNuevo.createRow();
+            }
+
+// Columna de contenido
+            XWPFTableCell celdaContenidoNuevo = filaContenidoNuevo.getCell(0);
+            if (celdaContenidoNuevo == null) {
+                celdaContenidoNuevo = filaContenidoNuevo.createCell();
+            }
+            XWPFParagraph parrafoContenidoNuevo = celdaContenidoNuevo.getParagraphs().get(0);
+            parrafoContenidoNuevo.setAlignment(ParagraphAlignment.LEFT);
+            XWPFRun runContenidoNuevo = parrafoContenidoNuevo.createRun();
+            runContenidoNuevo.setFontSize(10);
+            runContenidoNuevo.setFontFamily("Times New Roman");
+            runContenidoNuevo.setText("EN FECHA " + fechaRecepcionStr + ", EL PRESIDENTE DEL CENTRO ESCOLAR Y EL SUSCRITO HACEN CONSTAR QUE HA RECIBIDO DE ACUERDO A LO CONVENIDO CON EL/LA SEÑOR/A: " + encargadoOrden + ", LOS BIENES QUE A CONTINUACIÓN SE DETALLAN:");
+
+            // Crear la tabla
+            XWPFTable tabla40 = documento.createTable();
+            tabla40.setWidth("100%");
+            tabla40.setTableAlignment(TableRowAlign.CENTER);
+
+// Configurar bordes de la tabla
+            CTTblPr tblPr40 = tabla40.getCTTbl().addNewTblPr();
+            tblPr40.addNewTblBorders().addNewBottom().setVal(STBorder.SINGLE);
+            tblPr40.getTblBorders().addNewLeft().setVal(STBorder.SINGLE);
+            tblPr40.getTblBorders().addNewRight().setVal(STBorder.SINGLE);
+            tblPr40.getTblBorders().addNewTop().setVal(STBorder.SINGLE);
+            tblPr40.getTblBorders().addNewInsideH().setVal(STBorder.SINGLE);
+            tblPr40.getTblBorders().addNewInsideV().setVal(STBorder.SINGLE);
+
+// Crear el encabezado de la tabla
+            String[] encabezadoTabla40 = {"No.", "Cantidad", "Unidad de medida", "Descripción/especificación técnica", "Precio Unitario", "Precio Total"};
+            XWPFTableRow filaEncabezado40 = tabla40.getRow(0);
+
+            String colorCelestePálido40 = "9EC6E6";
+
+            for (int i = 0; i < encabezadoTabla40.length; i++) {
+                XWPFTableCell celda40 = filaEncabezado40.getCell(i);
+                if (celda40 == null) {
+                    celda40 = filaEncabezado40.createCell();
+                }
+                XWPFParagraph p40 = celda40.getParagraphs().get(0);
+                p40.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun r40 = p40.createRun();
+                r40.setFontSize(10);
+                r40.setFontFamily("Times New Roman");
+                r40.setBold(true);
+                r40.setText(encabezadoTabla40[i]);
+
+                // Establecer el color de fondo
+                celda40.setColor(colorCelestePálido40);
+            }
+
+// Poblar las filas con los datos
+            for (DetalleOrdenVM detalle40 : importarDetalles(ordenId)) {
+                XWPFTableRow fila40 = tabla40.createRow();
+
+                // Columna No.
+                XWPFTableCell celdaNo40 = fila40.getCell(0);
+                if (celdaNo40 == null) {
+                    celdaNo40 = fila40.createCell();
+                }
+                XWPFParagraph pNo40 = celdaNo40.getParagraphs().get(0);
+                pNo40.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun rNo40 = pNo40.createRun();
+                rNo40.setFontSize(10);
+                rNo40.setFontFamily("Times New Roman");
+                rNo40.setText(String.valueOf(detalle40.numArticulo));
+
+                // Columna Cantidad
+                XWPFTableCell celdaCantidad40 = fila40.getCell(1);
+                if (celdaCantidad40 == null) {
+                    celdaCantidad40 = fila40.createCell();
+                }
+                XWPFParagraph pCantidad40 = celdaCantidad40.getParagraphs().get(0);
+                pCantidad40.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun rCantidad40 = pCantidad40.createRun();
+                rCantidad40.setFontSize(10);
+                rCantidad40.setFontFamily("Times New Roman");
+                rCantidad40.setText(String.valueOf(detalle40.cantidad));
+
+                // Columna Unidad de medida
+                XWPFTableCell celdaUnidadMedida40 = fila40.getCell(2);
+                if (celdaUnidadMedida40 == null) {
+                    celdaUnidadMedida40 = fila40.createCell();
+                }
+                XWPFParagraph pUnidadMedida40 = celdaUnidadMedida40.getParagraphs().get(0);
+                pUnidadMedida40.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun rUnidadMedida40 = pUnidadMedida40.createRun();
+                rUnidadMedida40.setFontSize(10);
+                rUnidadMedida40.setFontFamily("Times New Roman");
+                rUnidadMedida40.setText(detalle40.unidadMedida);
+
+                // Columna Descripción/especificación técnica
+                XWPFTableCell celdaDescripcion40 = fila40.getCell(3);
+                if (celdaDescripcion40 == null) {
+                    celdaDescripcion40 = fila40.createCell();
+                }
+                XWPFParagraph pDescripcion40 = celdaDescripcion40.getParagraphs().get(0);
+                pDescripcion40.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun rDescripcion40 = pDescripcion40.createRun();
+                rDescripcion40.setFontSize(10);
+                rDescripcion40.setFontFamily("Times New Roman");
+                rDescripcion40.setText(detalle40.descripcionArticulo);
+
+                // Columna Precio Unitario
+                XWPFTableCell celdaPrecioUnitario40 = fila40.getCell(4);
+                if (celdaPrecioUnitario40 == null) {
+                    celdaPrecioUnitario40 = fila40.createCell();
+                }
+                XWPFParagraph pPrecioUnitario40 = celdaPrecioUnitario40.getParagraphs().get(0);
+                pPrecioUnitario40.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun rPrecioUnitario40 = pPrecioUnitario40.createRun();
+                rPrecioUnitario40.setFontSize(10);
+                rPrecioUnitario40.setFontFamily("Times New Roman");
+                rPrecioUnitario40.setText(String.valueOf(detalle40.precioUnitario));
+
+                // Columna Precio Total
+                XWPFTableCell celdaPrecioTotal40 = fila40.getCell(5);
+                if (celdaPrecioTotal40 == null) {
+                    celdaPrecioTotal40 = fila40.createCell();
+                }
+                XWPFParagraph pPrecioTotal40 = celdaPrecioTotal40.getParagraphs().get(0);
+                pPrecioTotal40.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun rPrecioTotal40 = pPrecioTotal40.createRun();
+                rPrecioTotal40.setFontSize(10);
+                rPrecioTotal40.setFontFamily("Times New Roman");
+                rPrecioTotal40.setText(String.valueOf(detalle40.precioTotal));
+            }
+
+            // Crear una nueva fila para el pie de la tabla
+            XWPFTableRow pieTabla40 = tabla40.createRow();
+
+// Crear celdas para las otras columnas
+            for (int i = 0; i < encabezadoTabla40.length; i++) {
+                XWPFTableCell celdaPie40 = pieTabla40.getCell(i);
+                if (celdaPie40 == null) {
+                    celdaPie40 = pieTabla40.createCell();
+                }
+                XWPFParagraph pPie40 = celdaPie40.getParagraphs().get(0);
+                pPie40.setAlignment(ParagraphAlignment.RIGHT);
+                XWPFRun rPie40 = pPie40.createRun();
+                rPie40.setFontSize(10);
+                rPie40.setFontFamily("Times New Roman");
+                rPie40.setBold(true);
+                if (i == 2) {
+                    rPie40.setText("Totales"); // Tercera columna
+                } else if (i == encabezadoTabla40.length - 1) {
+                    rPie40.setText("$" + String.valueOf(totales)); // Última columna
+                } else {
+                    rPie40.setText(""); // Otras columnas, dejar en blanco
+                }
+            }
+
+// Crear celda para el valor de los totales en la tercera columna
+            XWPFTableCell celdaTotal40 = pieTabla40.getCell(2);
+            if (celdaTotal40 == null) {
+                celdaTotal40 = pieTabla40.createCell();
+            }
+            XWPFParagraph pTotal40 = celdaTotal40.getParagraphs().get(0);
+            pTotal40.setAlignment(ParagraphAlignment.LEFT);
+            XWPFRun rTotal40 = pTotal40.createRun();
+            rTotal40.setFontSize(10);
+            rTotal40.setFontFamily("Times New Roman");
+            rTotal40.setBold(true);
+            rTotal40.setText(""); // Tercera columna
+
+// Después de agregar todas las filas y antes de agregar la fila de totales
+            XWPFTableRow ultimaFila40 = tabla40.getRow(tabla40.getNumberOfRows() - 1);
+
+            for (int i = 0; i < encabezadoTabla40.length; i++) {
+                XWPFTableCell celda40 = ultimaFila40.getCell(i);
+                if (celda40 == null) {
+                    celda40 = ultimaFila40.createCell();
+                }
+                XWPFParagraph p40 = celda40.getParagraphs().get(0);
+                p40.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun r40 = p40.createRun();
+
+                // Establecer el color de fondo
+                celda40.setColor(colorCelestePálido40);
+            }
+
+// Crear el párrafo
+            XWPFParagraph parrafoNuevo4030 = documento.createParagraph();
+            parrafoNuevo4030.setAlignment(ParagraphAlignment.LEFT);
+            parrafoNuevo4030.setSpacingAfter(200);
+            
+            
+            // Primer run
+            XWPFRun run1_40 = parrafoNuevo4030.createRun();
+            run1_40.setFontFamily("Times New Roman");
+            run1_40.setFontSize(10);
+            run1_40.addBreak();
+            run1_40.setText("RECIBIDO POR: ");
+            run1_40.addBreak();
+            run1_40.setText(" ");
+            run1_40.addBreak();
+            run1_40.setText("___________________________________");
+            run1_40.addTab();
+            run1_40.setText("PRESIDENTE");
+            run1_40.addTab();
+            run1_40.setText("FIRMA Y SELLO");
+            run1_40.addBreak();
+            run1_40.setText("NOMBRE");
+            
+
+// Segundo run
+            XWPFRun run2_4030 = parrafoNuevo4030.createRun();
+            run2_4030.addBreak();
+            run2_4030.setFontFamily("Times New Roman");
+            run2_4030.setFontSize(10);
+            run2_4030.addBreak();
+            run2_4030.setText("ENTREGADO POR: ");
+            run2_4030.addBreak();
+            run2_4030.setText(" ");
+            run2_4030.addBreak();
+            run2_4030.setText("___________________________________");
+            run2_4030.addTab();
+            run2_4030.setText("PROVEEDORA");
+            run2_4030.addTab();
+            run2_4030.setText("FIRMA Y SELLO.");
+            run2_4030.addBreak();
+            run2_4030.setText("NOMBRE");
+
+            /**
+             * *****************************************************************************************
+             * PAGINA 5
              */
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Guardar como");

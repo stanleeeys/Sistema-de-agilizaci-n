@@ -12,7 +12,7 @@
         <exec.mainClass>com.streamliningsystem.view.FrmMain</exec.mainClass>
     </properties>
     <dependencies>
-        
+         
         <!--MYSQL CONNECTOR-->
         <!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
         <dependency>
