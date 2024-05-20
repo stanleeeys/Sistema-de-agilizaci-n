@@ -21,7 +21,7 @@ public class FechaErDAO {
 
         conexion = conexionDb.getConnection();
 
-        String consulta = "INSERT INTO FechasER"
+        String consulta = "INSERT INTO fechasER"
                 + "(fecha_solicitud, fecha_cotizacion, fecha_orden, "
                 + "fecha_recepcion, fecha_plan_compras) "
                 + "VALUES (?, ?, ?, ?, ?)";

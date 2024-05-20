@@ -1,10 +1,24 @@
 package View;
-
-
 import Controllers.DetalleOrdenController;
 import Controllers.OrdenController;
 import ViewModel.DetalleOrdenVM;
 import ViewModel.TablaOrdenVM;
+import java.io.FileOutputStream;
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Locale;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import org.apache.poi.xwpf.usermodel.BreakType;
+import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
+import org.apache.poi.xwpf.usermodel.TableRowAlign;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableCell;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
@@ -14,13 +28,17 @@ import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.*;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import java.io.FileOutputStream;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTPageSz;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STBorder;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.STPageOrientation;
 
 public class ExportacionWord {
 
@@ -1252,8 +1270,7 @@ public class ExportacionWord {
             XWPFParagraph parrafoNuevo4030 = documento.createParagraph();
             parrafoNuevo4030.setAlignment(ParagraphAlignment.LEFT);
             parrafoNuevo4030.setSpacingAfter(200);
-            
-            
+
             // Primer run
             XWPFRun run1_40 = parrafoNuevo4030.createRun();
             run1_40.setFontFamily("Times New Roman");
@@ -1270,7 +1287,6 @@ public class ExportacionWord {
             run1_40.setText("FIRMA Y SELLO");
             run1_40.addBreak();
             run1_40.setText("NOMBRE");
-            
 
 // Segundo run
             XWPFRun run2_4030 = parrafoNuevo4030.createRun();
@@ -1293,6 +1309,23 @@ public class ExportacionWord {
             /**
              * *****************************************************************************************
              * PAGINA 5
+             */
+            CTSectPr sectPr = documento.getDocument().getBody().addNewSectPr();
+            XWPFParagraph parrafo5 = documento.createParagraph();
+            parrafo5.setAlignment(ParagraphAlignment.DISTRIBUTE);
+            parrafo5.setSpacingAfter(200);
+            XWPFRun parrafo5Run = parrafo5.createRun();
+            parrafo5Run.setFontFamily("Times New Roman");
+            parrafo5Run.setFontSize(10);
+            parrafo5Run.setText("Contenido de la página 5 en orientación horizontal...");
+
+            CTPageSz pageSize = sectPr.addNewPgSz();
+            pageSize.setOrient(STPageOrientation.LANDSCAPE);
+            pageSize.setW(BigInteger.valueOf(16840));
+            pageSize.setH(BigInteger.valueOf(11900));
+
+            /**
+             * ***************************************************
              */
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Guardar como");

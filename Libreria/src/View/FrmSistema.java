@@ -138,7 +138,6 @@ public class FrmSistema extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
-        btnExcel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -214,6 +213,11 @@ public class FrmSistema extends javax.swing.JFrame {
         });
 
         btnLimpiarTodo.setText("Limpiar");
+        btnLimpiarTodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarTodoActionPerformed(evt);
+            }
+        });
 
         btnEliminarDetalle.setText("Eliminar");
         btnEliminarDetalle.addActionListener(new java.awt.event.ActionListener() {
@@ -581,14 +585,6 @@ public class FrmSistema extends javax.swing.JFrame {
             }
         });
 
-        btnExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/excel.png"))); // NOI18N
-        btnExcel.setText("D");
-        btnExcel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExcelActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -598,8 +594,6 @@ public class FrmSistema extends javax.swing.JFrame {
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
@@ -608,8 +602,7 @@ public class FrmSistema extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -662,18 +655,6 @@ public class FrmSistema extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
-
-        ExportarExcel obj;
-
-        try {
-            obj = new ExportarExcel();
-            obj.exportarExcel(tblCotizacion);
-        } catch (IOException ex) {
-            System.out.println("Error: " + ex);
-        }
-    }//GEN-LAST:event_btnExcelActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
@@ -975,6 +956,11 @@ public class FrmSistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tblCotizacionMouseClicked
 
+    private void btnLimpiarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarTodoActionPerformed
+        // TODO add your handling code here:
+        Limpiar();
+    }//GEN-LAST:event_btnLimpiarTodoActionPerformed
+
 
 
     public static void main(String args[]) {
@@ -1015,7 +1001,6 @@ public class FrmSistema extends javax.swing.JFrame {
     private javax.swing.JButton btnActualizarDetalle;
     private javax.swing.JButton btnAgregarDetalle;
     private javax.swing.JButton btnEliminarDetalle;
-    private javax.swing.JButton btnExcel;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiarTodo;
     private javax.swing.JComboBox<String> cbxProveedor;

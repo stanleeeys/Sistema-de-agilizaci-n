@@ -1,20 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
+
 package libreria;
 
-/**
- *
- * @author veget
- */
+import View.FrmMain;
 public class Libreria {
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         // TODO code application logic here
+        FrmMain lg = new FrmMain();
+        lg.setVisible(true);
     }
     
 }

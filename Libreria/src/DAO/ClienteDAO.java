@@ -20,7 +20,7 @@ public class ClienteDAO {
 
         conexion = conexionDb.getConnection();
 
-        String consulta = "INSERT INTO Cliente"
+        String consulta = "INSERT INTO cliente"
                 + "(encargado_compra, nombre_institucion, municipio)"
                 + "VALUES (?, ?, ?)";
         try {
