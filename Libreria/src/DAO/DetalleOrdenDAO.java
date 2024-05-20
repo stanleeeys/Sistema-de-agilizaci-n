@@ -20,7 +20,7 @@ public class DetalleOrdenDAO {
     public boolean ingresarDetalleOrden(DetalleOrden detalleOrden) {
 
         conexion = conexionDb.getConnection();
-        String consulta = "INSERT INTO DetallesOrden "
+        String consulta = "INSERT INTO detallesorden "
                 + "(num_articulo, "
                 + "cantidad, "
                 + "unidad_medida, "

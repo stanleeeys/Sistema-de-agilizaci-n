@@ -22,7 +22,7 @@ public class OrdenDAO {
 
         conexion = conexionDb.getConnection();
 
-        String consulta = "INSERT INTO Orden (cod_orden, encargado_orden, totales, cliente_id, proveedor_id, fechas_er_id) VALUES (?, ?, ?, ?, ?, ?)";
+        String consulta = "INSERT INTO orden (cod_orden, encargado_orden, totales, cliente_id, proveedor_id, fechas_er_id) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
 

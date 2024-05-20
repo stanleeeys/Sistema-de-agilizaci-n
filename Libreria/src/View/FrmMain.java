@@ -1,6 +1,5 @@
 package View;
 
-
 import Controllers.ClienteController;
 import Controllers.DetalleOrdenController;
 import Controllers.FechaERController;
@@ -42,6 +41,8 @@ public class FrmMain extends javax.swing.JFrame {
     public FrmMain() {
         initComponents();
         poblarTablaOrden();
+        this.setLocationRelativeTo(null);
+        this.setTitle("Sistema Agilides");
     }
 
     public void poblarTablaOrden() {

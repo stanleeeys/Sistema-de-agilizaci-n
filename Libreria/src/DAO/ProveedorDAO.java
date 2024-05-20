@@ -20,7 +20,7 @@ public class ProveedorDAO {
     public ArrayList<Proveedor> listarProveedores() {
 
         ArrayList<Proveedor> proveedores = new ArrayList<Proveedor>();
-        String consulta = "SELECT * FROM Proveedor";
+        String consulta = "SELECT * FROM proveedor";
 
         try {
 
