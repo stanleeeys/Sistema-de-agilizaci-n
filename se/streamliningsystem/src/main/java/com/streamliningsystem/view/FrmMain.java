@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class FrmMain extends javax.swing.JFrame {
@@ -85,18 +86,11 @@ public class FrmMain extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblOrdenes = new javax.swing.JTable();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblDetalles = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
         txtTotales = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblFecha = new javax.swing.JLabel();
@@ -149,31 +143,19 @@ public class FrmMain extends javax.swing.JFrame {
             tblOrdenes.getColumnModel().getColumn(2).setPreferredWidth(40);
         }
 
-        jLabel3.setText("Buscar:");
-
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -266,71 +248,6 @@ public class FrmMain extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("PRINCIPAL", jPanel3);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1242, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 457, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Solicitud de Cotizacion", jPanel4);
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1242, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 457, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Cotizacion", jPanel5);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1242, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 457, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Orden de Compra d...", jPanel2);
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1242, Short.MAX_VALUE)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 457, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Acta de Recepcion de Bienes", jPanel6);
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1242, Short.MAX_VALUE)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 457, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Plan de Compras", jPanel7);
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -475,46 +392,6 @@ public class FrmMain extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnCrearNuevoActionPerformed
 
-    private void tblOrdenesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblOrdenesMouseClicked
-        // TODO add your handling code here:
-        int fila = tblOrdenes.getSelectedRow();
-        if (fila != -1) { // Verifica si hay una fila seleccionada
-            try {
-
-                double totales = 0;
-                Object objId = listaId.get(fila);
-                int idOrden = (Integer) objId;
-
-                ArrayList<DetalleOrdenVM> detalleOrdenesVM = detalleOrdenController.listarDetalleOrden(idOrden);
-                modeloTabla = (DefaultTableModel) tblDetalles.getModel();
-                modeloTabla.setRowCount(0); // Limpiar el modeloTabla de tabla antes de agregar nuevas filas
-                for (DetalleOrdenVM cl : detalleOrdenesVM) {
-
-                    Object[] ob = new Object[6]; // Crear el arreglo dentro del bucle
-                    ob[0] = cl.getNumArticulo();
-                    ob[1] = cl.getCantidad();
-                    ob[2] = cl.getUnidadMedida();
-                    ob[3] = cl.getDescripcionArticulo();
-                    ob[4] = cl.getPrecioUnitario();
-                    ob[5] = cl.getPrecioTotal();
-                    totales += cl.getPrecioTotal();
-
-                    modeloTabla.addRow(ob);
-
-                }
-
-                tblDetalles.setModel(modeloTabla); // Establecer el modeloTabla de tabla una vez que se han agregado todas las filas
-                txtTotales.setText(String.valueOf(totales));
-
-            } catch (NullPointerException ex) {
-                // Manejar la excepción en caso de que no se pueda obtener un valor de la fila seleccionada
-                JOptionPane.showMessageDialog(null, "Error al obtener los datos de la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila antes de editar los datos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_tblOrdenesMouseClicked
-
     /**
      * ************************************************************************************************************************************************************************************
      */
@@ -580,14 +457,16 @@ public class FrmMain extends javax.swing.JFrame {
                 TablaOrdenVM ordenVM = importarDatos(idOrden);
                 int clienteId = ordenVM.getClienteId();
                 int fechasErId = ordenVM.getFechasErId();
-                
+
                 detalleOrdenController.eliminarTotalDetalle(idOrden);
                 ordenController.eliminarOrden(idOrden);
                 clienteC.eliminarOrden(clienteId);
-                fechaERController.eliminarFecha(fechasErId);
+                fechaERController.eliminarFecha(fechasErId);                
+                eliminarFilasTblOrden(tblOrdenes);
+                eliminarTodasLasFilas(tblDetalles);
                 poblarTablaOrden();
                 JOptionPane.showMessageDialog(this, "Orden Eliminada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                
+
             } catch (NullPointerException ex) {
                 // Manejar la excepción en caso de que no se pueda obtener un valor de la fila seleccionada
                 JOptionPane.showMessageDialog(null, "Error al obtener los datos de la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -596,6 +475,46 @@ public class FrmMain extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila antes de eliminar los datos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void tblOrdenesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblOrdenesMouseClicked
+        // TODO add your handling code here:
+        int fila = tblOrdenes.getSelectedRow();
+        if (fila != -1) { // Verifica si hay una fila seleccionada
+            try {
+
+                double totales = 0;
+                Object objId = listaId.get(fila);
+                int idOrden = (Integer) objId;
+
+                ArrayList<DetalleOrdenVM> detalleOrdenesVM = detalleOrdenController.listarDetalleOrden(idOrden);
+                modeloTabla = (DefaultTableModel) tblDetalles.getModel();
+                modeloTabla.setRowCount(0); // Limpiar el modeloTabla de tabla antes de agregar nuevas filas
+                for (DetalleOrdenVM cl : detalleOrdenesVM) {
+
+                    Object[] ob = new Object[6]; // Crear el arreglo dentro del bucle
+                    ob[0] = cl.getNumArticulo();
+                    ob[1] = cl.getCantidad();
+                    ob[2] = cl.getUnidadMedida();
+                    ob[3] = cl.getDescripcionArticulo();
+                    ob[4] = cl.getPrecioUnitario();
+                    ob[5] = cl.getPrecioTotal();
+                    totales += cl.getPrecioTotal();
+
+                    modeloTabla.addRow(ob);
+
+                }
+
+                tblDetalles.setModel(modeloTabla); // Establecer el modeloTabla de tabla una vez que se han agregado todas las filas
+                txtTotales.setText(String.valueOf(totales));
+
+            } catch (NullPointerException ex) {
+                // Manejar la excepción en caso de que no se pueda obtener un valor de la fila seleccionada
+                JOptionPane.showMessageDialog(null, "Error al obtener los datos de la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila antes de editar los datos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_tblOrdenesMouseClicked
 
     /**
      * @param args the command line arguments
@@ -632,29 +551,53 @@ public class FrmMain extends javax.swing.JFrame {
         });
     }
 
+    public void eliminarTodasLasFilas(JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+    }
+    
+    public void eliminarFilasTblOrden(JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+    }
+    
+//    private void filtrar() {
+//        String filtro = txtFiltrar.getText().toLowerCase();
+//        DefaultTableModel model = (DefaultTableModel) tblOrdenes.getModel();
+//        
+//        // Limpiar la tabla
+//        model.setRowCount(0);
+//        
+//        // Recorrer las filas originales y agregar las que coincidan con el filtro
+//        for (int i = 0; i < tblOrdenes.getRowCount(); i++) {
+//            String descripcion = tblOrdenes.getValueAt(i, 1).toString().toLowerCase();
+//            if (descripcion.contains(filtro)) {
+//                model.addRow(new Object[]{
+//                        tblOrdenes.getValueAt(i, 0),
+//                        tblOrdenes.getValueAt(i, 1),
+//                        tblOrdenes.getValueAt(i, 2)
+//                });
+//            }
+//        }
+//    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnCrearDocumento;
     private javax.swing.JButton btnCrearNuevo;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblFecha;
     private javax.swing.JTable tblDetalles;
     private javax.swing.JTable tblOrdenes;
