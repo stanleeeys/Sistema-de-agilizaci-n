@@ -10,6 +10,8 @@ public class Cliente {
     
     private String municipio;
     
+    private String codigo;
+    
 
     public int getIdCliente() {
         return idCliente;
@@ -41,6 +43,14 @@ public class Cliente {
 
     public void setMunicipio(String municipio) {
         this.municipio = municipio;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
     
     
