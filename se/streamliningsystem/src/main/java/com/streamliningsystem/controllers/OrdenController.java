@@ -18,6 +18,15 @@ public class OrdenController {
         orden.setCodOrden(ordenVM.codOrden);
         orden.setEncargadoOrden(ordenVM.encargadoOrden);
         orden.setTotales(ordenVM.totales);
+        orden.setLimite_cotizacion(ordenVM.getLimite_cotizacion());
+        orden.setFecha_de_entrega(ordenVM.getFecha_de_entrega());
+        orden.setHora_entrega_desde(ordenVM.getHora_entrega_desde());
+        orden.setHora_entrega_hasta(ordenVM.getHora_entrega_hasta());
+        orden.setTiempo_entrega(ordenVM.getTiempo_entrega());
+        orden.setPlazo_entrega(ordenVM.getPlazo_entrega());
+        orden.setLugar_entrega(ordenVM.getLugar_entrega());
+        orden.setVigencia_de_la_cotizacion(ordenVM.getVigencia_de_la_cotizacion());
+        orden.setTiempo_de_garantia(ordenVM.getTiempo_de_garantia());
         orden.setClienteId(ordenVM.clienteId);
         orden.setProveedorId(ordenVM.proveedorId);
         orden.setFechasErId(ordenVM.fechasErId);
@@ -32,6 +41,15 @@ public class OrdenController {
         orden.setCodOrden(ordenVM.codOrden);
         orden.setEncargadoOrden(ordenVM.encargadoOrden);
         orden.setTotales(ordenVM.totales);
+        orden.setLimite_cotizacion(ordenVM.getLimite_cotizacion());
+        orden.setFecha_de_entrega(ordenVM.getFecha_de_entrega());
+        orden.setHora_entrega_desde(ordenVM.getHora_entrega_desde());
+        orden.setHora_entrega_hasta(ordenVM.getHora_entrega_hasta());
+        orden.setTiempo_entrega(ordenVM.getTiempo_entrega());
+        orden.setPlazo_entrega(ordenVM.getPlazo_entrega());
+        orden.setLugar_entrega(ordenVM.getLugar_entrega());
+        orden.setVigencia_de_la_cotizacion(ordenVM.getVigencia_de_la_cotizacion());
+        orden.setTiempo_de_garantia(ordenVM.getTiempo_de_garantia());
         orden.setClienteId(ordenVM.clienteId);
         orden.setProveedorId(ordenVM.proveedorId);
         orden.setFechasErId(ordenVM.fechasErId);
@@ -43,7 +61,7 @@ public class OrdenController {
 
         return ordenDAO.obtenerOrden();
     }
-    
+
     public ArrayList<TablaOrdenVM> listarOrden() {
 
         return ordenDAO.listarOrdenes();
@@ -53,10 +71,9 @@ public class OrdenController {
 
         return ordenDAO.obtenerOrdenId(id);
     }
-    
-    
-    public boolean eliminarOrden(int id){
-    
+
+    public boolean eliminarOrden(int id) {
+
         return ordenDAO.eliminarOrden(id);
     }
 
