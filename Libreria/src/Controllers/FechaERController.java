@@ -6,7 +6,6 @@ import ViewModel.FechaErVM;
 
 
 
-
 public class FechaERController {
 
     // Objetos Globales
@@ -35,7 +34,7 @@ public class FechaERController {
         fechasER.setFechaRecepcion(fechaErVM.fechaRecepcion);
         fechasER.setFechaPlanCompras(fechaErVM.fechaPlanCompras);
 
-        return fechaErDAO.ingresarFechas(fechasER);
+        return fechaErDAO.actualizarFechas(fechasER);
     }
     
     
@@ -43,5 +42,10 @@ public class FechaERController {
     public int obtenerFecha(){
     
         return fechaErDAO.obtenerFecha();
+    }
+    
+    public boolean eliminarFecha(int id){
+    
+        return fechaErDAO.eliminarFechas(id);
     }
 }

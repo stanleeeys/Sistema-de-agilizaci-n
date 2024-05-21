@@ -22,7 +22,7 @@ public class OrdenDAO {
 
         conexion = conexionDb.getConnection();
 
-        String consulta = "INSERT INTO orden (cod_orden, encargado_orden, totales, cliente_id, proveedor_id, fechas_er_id) VALUES (?, ?, ?, ?, ?, ?)";
+        String consulta = "INSERT INTO Orden (cod_orden, encargado_orden, totales, cliente_id, proveedor_id, fechas_er_id) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
 
@@ -203,5 +203,26 @@ public class OrdenDAO {
             System.err.println("error" + e);
             return null;
         }
+    }
+
+    public boolean eliminarOrden(int orden) {
+
+        conexion = conexionDb.getConnection();
+
+        String consulta = "DELETE FROM Orden WHERE id_orden = ?";
+
+        try {
+
+            pStatement = conexion.prepareStatement(consulta);
+            pStatement.setInt(1, orden);
+
+            int eliminadoExitoso = pStatement.executeUpdate();
+            return eliminadoExitoso > 0;
+
+        } catch (Exception e) {
+
+            return false;
+        }
+
     }
 }

@@ -1,8 +1,8 @@
 package DAO;
 
-
 import Models.Proveedor;
 import Provider.Conexion;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +20,7 @@ public class ProveedorDAO {
     public ArrayList<Proveedor> listarProveedores() {
 
         ArrayList<Proveedor> proveedores = new ArrayList<Proveedor>();
-        String consulta = "SELECT * FROM proveedor";
+        String consulta = "SELECT * FROM Proveedor";
 
         try {
 

@@ -38,8 +38,14 @@ public class DetalleOrdenController {
         ordenDetalle.setPrecioTotal(ordenDetalleVM.precioTotal);
         ordenDetalle.setOrdenId(ordenDetalleVM.ordenId);
 
-        return ordenDetalleDAO.ingresarDetalleOrden(ordenDetalle);
+        return ordenDetalleDAO.actualizarDetalleOrden(ordenDetalle);
     }
+    
+    public boolean eliminarDetalle(int id){
+    
+        return ordenDetalleDAO.eliminarDetalleOrden(id);   
+    }
+    
     
 
     public ArrayList<DetalleOrdenVM> listarDetalleOrden(int id) {
@@ -72,5 +78,10 @@ public class DetalleOrdenController {
 
             return null;
         }
+    }
+    
+    public boolean eliminarTotalDetalle(int id){
+    
+        return ordenDetalleDAO.eliminadoTotalDetalleOrden(id);
     }
 }

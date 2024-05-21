@@ -1,6 +1,5 @@
 package DAO;
 
-
 import Models.FechasER;
 import Provider.Conexion;
 import java.sql.Connection;
@@ -21,7 +20,7 @@ public class FechaErDAO {
 
         conexion = conexionDb.getConnection();
 
-        String consulta = "INSERT INTO fechasER"
+        String consulta = "INSERT INTO FechasER"
                 + "(fecha_solicitud, fecha_cotizacion, fecha_orden, "
                 + "fecha_recepcion, fecha_plan_compras) "
                 + "VALUES (?, ?, ?, ?, ?)";
@@ -100,6 +99,28 @@ public class FechaErDAO {
         } catch (Exception e) {
             System.err.println("Error: " + e);
             return -1; // También podría lanzar una excepción o manejar el error de otra forma
+        }
+    }
+
+    public boolean eliminarFechas(int id) {
+
+        conexion = conexionDb.getConnection();
+
+        String consulta = "DELETE FROM FechasER WHERE id_fechas_er = ?";
+
+        try {
+
+            pStatement = conexion.prepareStatement(consulta);
+            pStatement.setInt(1, id);
+
+            // Ejecutar la consulta de eliminación
+            int eliminadoExitoso = pStatement.executeUpdate();
+            conexion.close();
+            return eliminadoExitoso > 0;
+
+        } catch (Exception e) {
+
+            return false;
         }
     }
 }

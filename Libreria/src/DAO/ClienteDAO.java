@@ -20,7 +20,7 @@ public class ClienteDAO {
 
         conexion = conexionDb.getConnection();
 
-        String consulta = "INSERT INTO cliente"
+        String consulta = "INSERT INTO Cliente"
                 + "(encargado_compra, nombre_institucion, municipio)"
                 + "VALUES (?, ?, ?)";
         try {
@@ -96,6 +96,28 @@ public class ClienteDAO {
         } catch (Exception e) {
             System.err.println("Error: " + e);
             return -1; // También podría lanzar una excepción o manejar el error de otra forma
+        }
+    }
+
+    public boolean borrarCliente(int id) {
+
+        conexion = conexionDb.getConnection();
+
+        String consulta = "DELETE FROM Cliente WHERE id_cliente = ?";
+
+        try {
+
+            pStatement = conexion.prepareStatement(consulta);
+            pStatement.setInt(1, id);
+            int eliminadoExitoso = pStatement.executeUpdate();
+            conexion.close();
+           
+            return eliminadoExitoso > 0;
+
+        } catch (Exception e) {
+
+            System.err.println(e.toString());
+            return false;
         }
     }
 
