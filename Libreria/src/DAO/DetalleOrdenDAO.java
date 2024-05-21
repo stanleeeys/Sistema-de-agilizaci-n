@@ -20,7 +20,7 @@ public class DetalleOrdenDAO {
     public boolean ingresarDetalleOrden(DetalleOrden detalleOrden) {
 
         conexion = conexionDb.getConnection();
-        String consulta = "INSERT INTO detallesorden "
+        String consulta = "INSERT INTO DetallesOrden "
                 + "(num_articulo, "
                 + "cantidad, "
                 + "unidad_medida, "
@@ -109,6 +109,30 @@ public class DetalleOrdenDAO {
             return false;
         }
     }
+    
+    
+    public boolean eliminadoTotalDetalleOrden(int orden) {
+
+        conexion = conexionDb.getConnection();
+        String consulta = "DELETE FROM DetallesOrden WHERE "
+                + "orden_id = ?";
+
+        try {
+
+            pStatement = conexion.prepareStatement(consulta);
+            pStatement.setInt(1, orden);
+
+            int confirmacion = pStatement.executeUpdate();
+
+            return confirmacion > 0;
+
+        } catch (Exception e) {
+
+            return false;
+        }
+    }
+    
+    
 
     // METODO PARA VER LOS LISTAR DETALLES
     public ArrayList<DetalleOrden> listarDetalles(int ordenId) {

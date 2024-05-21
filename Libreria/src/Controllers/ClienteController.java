@@ -5,6 +5,7 @@ import Models.Cliente;
 import ViewModel.ClienteVM;
 
 
+
 public class ClienteController {
     
     // Objetos globales
@@ -38,7 +39,7 @@ public class ClienteController {
             cliente.setNombreInstitucion(clienteVm.nombreInstitucion);
             cliente.setMunicipio(clienteVm.municipio);
             
-            clienteDao.ingresarCliente(cliente);
+            clienteDao.actualizarCliente(cliente);
             return true;
             
         } catch (Exception e) {
@@ -52,5 +53,10 @@ public class ClienteController {
     public int obtenerCliente(){
     
         return clienteDao.obtenerCliente();
+    }
+    
+    public boolean eliminarOrden(int id){
+    
+        return clienteDao.borrarCliente(id);
     }
 }
