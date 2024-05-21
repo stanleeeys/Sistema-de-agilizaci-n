@@ -4,8 +4,6 @@ import com.streamliningsystem.controllers.DetalleOrdenController;
 import com.streamliningsystem.controllers.OrdenController;
 import com.streamliningsystem.models.ViewModels.DetalleOrdenVM;
 import com.streamliningsystem.models.ViewModels.TablaOrdenVM;
-import java.awt.Desktop;
-import java.io.File;
 import java.io.FileInputStream;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -24,9 +22,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTPageSz;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblPr;
@@ -59,6 +54,7 @@ public class ExportacionWord {
             String codOrden = ordenVM.getCodOrden();
             String encargadoOrden = ordenVM.getEncargadoOrden();
             double totales = ordenVM.getTotales();
+            String codigo = ordenVM.getCodigo_escuela();
             int clienteId = ordenVM.getClienteId();
             int proveedorId = ordenVM.getProveedorId();
             int fechasErId = ordenVM.getFechasErId();
@@ -66,13 +62,22 @@ public class ExportacionWord {
             String nombreInstitucion = ordenVM.getNombreInstitucion();
             String municipio = ordenVM.getMunicipio();
             String nombreProveedor = ordenVM.getNombreProveedor();
+            String desde = ordenVM.getHora_entrega_desde();
+            String hasta = ordenVM.getHora_entrega_hasta();
+            String tiempo_entrega = ordenVM.getTiempo_entrega();
+            String plazo_entrega = ordenVM.getPlazo_entrega();
+            String lugar_entrega = ordenVM.getLugar_entrega();
+            String vigencia_de_la_cotizacion = ordenVM.getLugar_entrega();
 
+            String tiempo_de_garantia  = ordenVM.getTiempo_de_garantia();
             SimpleDateFormat formatter = new SimpleDateFormat("d 'DE' MMMM 'DE' yyyy", new Locale("es", "ES"));
             String fechaSolicitudStr = formatter.format(ordenVM.getFechaSolicitud());
             String fechaCotizacionStr = formatter.format(ordenVM.getFechaCotizacion());
             String fechaOrdenStr = formatter.format(ordenVM.getFechaOrden());
             String fechaRecepcionStr = formatter.format(ordenVM.getFechaRecepcion());
             String fechaPlanComprasStr = formatter.format(ordenVM.getFechaPlanCompras());
+            String limite_cotizacion = formatter.format(ordenVM.getLimite_cotizacion());
+            String fecha_de_entrega = formatter.format(ordenVM.getFecha_de_entrega());
 
             XWPFDocument documento = new XWPFDocument();
 
@@ -140,7 +145,7 @@ public class ExportacionWord {
             nuevoParrafoRun2.setFontFamily("Times New Roman");
             nuevoParrafoRun2.setFontSize(10);
             nuevoParrafoRun2.setBold(true);
-            nuevoParrafoRun2.setText("ESCUELA DE EDUCACION PARVULARIA LA REINA");
+            nuevoParrafoRun2.setText(nombreInstitucion);
 
             XWPFRun nuevoParrafoRun3 = nuevoParrafo.createRun();
             nuevoParrafoRun3.setFontFamily("Times New Roman");
@@ -162,7 +167,7 @@ public class ExportacionWord {
             nuevoParrafoRun6.setFontFamily("Times New Roman");
             nuevoParrafoRun6.setFontSize(10);
             nuevoParrafoRun6.setBold(true);
-            nuevoParrafoRun6.setText("DIA DE MES DEL CORRIENTE AÑO");
+            nuevoParrafoRun6.setText(limite_cotizacion);
 
             XWPFRun nuevoParrafoRun7 = nuevoParrafo.createRun();
             nuevoParrafoRun7.setFontFamily("Times New Roman");
@@ -407,7 +412,7 @@ public class ExportacionWord {
             XWPFRun runNuevo3 = parrafoNuevo1.createRun();
             runNuevo3.setFontFamily("Times New Roman");
             runNuevo3.setFontSize(10);
-            runNuevo3.setText(",  suscrita por el CDE que administra el ");
+            runNuevo3.setText(",  suscrita por el CDE que administra el/la ");
 
 // Parte "LA REINA, Chalatenango" en negrita
             XWPFRun runNuevo4 = parrafoNuevo1.createRun();
@@ -613,13 +618,13 @@ public class ExportacionWord {
             nuevoRun10.setFontFamily("Times New Roman");
             nuevoRun10.setFontSize(10);
             nuevoRun10.addBreak();
-            nuevoRun10.setText("1.PLAZO DE ENTREGA: INMEDIATA");
+            nuevoRun10.setText("1.PLAZO DE ENTREGA: " + plazo_entrega);
             nuevoRun10.addBreak();
-            nuevoRun10.setText("2. LUGAR DE ENTREGA: CENTRO ESCOLAR.");
+            nuevoRun10.setText("2. LUGAR DE ENTREGA: " + lugar_entrega);
             nuevoRun10.addBreak();
-            nuevoRun10.setText("3. VIGENCIA DE LA COTIZACION: 15 DIAS.");
+            nuevoRun10.setText("3. VIGENCIA DE LA COTIZACION: " + vigencia_de_la_cotizacion);
             nuevoRun10.addBreak();
-            nuevoRun10.setText("4. TIEMPO DE GARANTIA DE LOS BIENES: 30 DIAS.");
+            nuevoRun10.setText("4. TIEMPO DE GARANTIA DE LOS BIENES: " + tiempo_de_garantia);
             nuevoRun10.addBreak();
 
             // Crear el párrafo
@@ -789,7 +794,7 @@ public class ExportacionWord {
             XWPFRun runNuevo307 = parrafoNuevo301.createRun();
             runNuevo307.setFontFamily("Times New Roman");
             runNuevo307.setFontSize(10);
-            runNuevo307.setText(" el día 00 de MES de ANIO, de las HORA horas a las HORA horas DE LA MAÑANA.");
+            runNuevo307.setText(" el día " + fecha_de_entrega + ", de las " + desde+  " horas a las HORA "+hasta+ " DE LA "+ tiempo_entrega);
             runNuevo307.addBreak();
 
 // Crear la tabla
@@ -1067,7 +1072,7 @@ public class ExportacionWord {
             XWPFRun runContenido = parrafoContenido.createRun();
             runContenido.setFontSize(10);
             runContenido.setFontFamily("Times New Roman");
-            runContenido.setText("EL ORGANISMO DE ADMINISTRACION ESCOLAR: CONSEJO DIRECTIVO ESCOLAR QUE ADMINISTRA " + nombreInstitucion + "MUNICIPIO: " + municipio + ", CODIGO: _______ DEPARTAMENTO DE CHALATENANGO.");
+            runContenido.setText("EL ORGANISMO DE ADMINISTRACION ESCOLAR: CONSEJO DIRECTIVO ESCOLAR QUE ADMINISTRA " + nombreInstitucion + "MUNICIPIO: " + municipio +" "+ codigo +", DEPARTAMENTO DE CHALATENANGO.");
 
             // Crear el párrafo del título
             XWPFParagraph separador = documento.createParagraph();
@@ -1351,21 +1356,21 @@ public class ExportacionWord {
             planrun.setBold(true);
             planrun.setText(" ");
             planrun.addBreak();
-            planrun.setText("ORGANISMO DE ADMINISTRACION ESCOLAR: C.D.E. ESCUELA DE EDUCACION PARVULARIA LA REINA, CODIGO: 10882");
+            planrun.setText("ORGANISMO DE ADMINISTRACION ESCOLAR: C.D.E. "+ nombreInstitucion+ ", CODIGO: " + codigo);
             planrun.addBreak();
 
             XWPFRun planrun2 = plan.createRun();
             planrun2.setFontFamily("Times New Roman");
             planrun2.setFontSize(10);
             planrun2.setBold(true);
-            planrun2.setText("MUNICIPIO LA REINA, DEPARTAMENTO: CHALATENANGO, FECHA: MAYO DE 2023");
+            planrun2.setText("MUNICPIO: " + municipio + ", DEPARTAMENTO: CHALATENANGO, FECHA: (MES DE ANIO)");
             planrun2.addBreak();
 
             XWPFRun planrun3 = plan.createRun();
             planrun3.setFontFamily("Times New Roman");
             planrun3.setFontSize(10);
             planrun3.setBold(true);
-            planrun3.setText("DIRECCION: BARRIO EL CENTRO, LA REINA, CHALATENANGO.");
+            planrun3.setText("DIRECCION: (INGRESE SU DIREECCION)");
             planrun3.addBreak();
             planrun3.setText("");
             planrun3.addBreak();
@@ -1654,7 +1659,6 @@ public class ExportacionWord {
             LocalDate currentDate = LocalDate.now();
 
             String dateString = currentDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-
 
             String relativePath = "src/main/resources/documentos/ejemplo.docx";
             String fullPath = Paths.get(relativePath).toString();

@@ -58,11 +58,10 @@ public class FrmSistema extends javax.swing.JFrame {
         if (!(_codId == 0)) {
 
             btnGuardar.setEnabled(false);
-            
 
         } else {
-            
-           btnActualizar.setEnabled(false);
+
+            btnActualizar.setEnabled(false);
         }
 
     }
@@ -78,10 +77,21 @@ public class FrmSistema extends javax.swing.JFrame {
             codOrden = ordenVM.getCodOrden();
             txtEncargadoOrden.setText(ordenVM.getEncargadoOrden());
             //txtTotales.setText(String.valueOf(ordenVM.getTotales()));
+            dtmLimite.setDate(ordenVM.getLimite_cotizacion());
+            dtmFechaEntrega.setDate(ordenVM.getFecha_de_entrega());
+            txtDesde.setText(ordenVM.getHora_entrega_desde());
+            txthasta.setText(ordenVM.getHora_entrega_hasta());
+            txtTiempo.setText(ordenVM.getTiempo_entrega());
+            txtPlazoEntrega.setText(ordenVM.plazo_entrega);
+            txtLugarEntrega.setText(ordenVM.lugar_entrega);
+            txtVigenciaCotizacion.setText(ordenVM.vigencia_de_la_cotizacion);
+            txtGarantia.setText(ordenVM.tiempo_de_garantia);
+           
             txtEncargadoCompra.setText(ordenVM.getEncargadoCompra());
             cbxProveedor.setSelectedIndex(ordenVM.getProveedorId() - 1);
             txtNombreInstitucion.setText(ordenVM.getNombreInstitucion());
             txtMunicipio.setText(ordenVM.getMunicipio());
+            txtCodigoEscuela.setText(ordenVM.getCodigo_escuela());
 
             dtmSolicitudCotizacion.setDate(ordenVM.getFechaSolicitud());
             dtmCotizacion.setDate(ordenVM.getFechaCotizacion());
@@ -196,7 +206,7 @@ public class FrmSistema extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         txtMunicipio = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtCodigoEscuela = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         txtPlazoEntrega = new javax.swing.JTextField();
@@ -209,13 +219,13 @@ public class FrmSistema extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         dtmLimite = new com.toedter.calendar.JDateChooser();
         jLabel7 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        dtmFechaEntrega = new com.toedter.calendar.JDateChooser();
         jLabel23 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtDesde = new javax.swing.JTextField();
         jLabel24 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txthasta = new javax.swing.JTextField();
         jLabel25 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtTiempo = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
@@ -550,7 +560,7 @@ public class FrmSistema extends javax.swing.JFrame {
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jTextField1)
+                                .addComponent(txtCodigoEscuela)
                                 .addGap(29, 29, 29)))
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel17)
@@ -575,7 +585,7 @@ public class FrmSistema extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCodigoEscuela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -608,7 +618,7 @@ public class FrmSistema extends javax.swing.JFrame {
 
         jLabel25.setText("DE LA:");
 
-        jTextField4.setText("MAÑANA");
+        txtTiempo.setText("MAÑANA");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -622,11 +632,11 @@ public class FrmSistema extends javax.swing.JFrame {
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addComponent(dtmLimite, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(38, 38, 38)
-                                .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(dtmFechaEntrega, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtDesde, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                                 .addComponent(txtVigenciaCotizacion)
@@ -649,9 +659,9 @@ public class FrmSistema extends javax.swing.JFrame {
                                             .addComponent(jLabel19))
                                         .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txthasta, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(txtTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addContainerGap())
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel22)
@@ -669,7 +679,7 @@ public class FrmSistema extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(dtmLimite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dtmFechaEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel23)
@@ -677,9 +687,9 @@ public class FrmSistema extends javax.swing.JFrame {
                     .addComponent(jLabel25))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txthasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
@@ -812,6 +822,7 @@ public class FrmSistema extends javax.swing.JFrame {
                 clienteVM.setEncargadoCompra(txtEncargadoCompra.getText().trim());
                 clienteVM.setNombreInstitucion(txtNombreInstitucion.getText().trim());
                 clienteVM.setMunicipio(txtMunicipio.getText().trim());
+                clienteVM.setCodigo(txtCodigoEscuela.getText().trim());
 
                 // Guardar cliente
                 boolean g1 = clienteC.actualizarCliente(clienteVM);
@@ -838,6 +849,15 @@ public class FrmSistema extends javax.swing.JFrame {
                 ordenVM.setCodOrden(codOrden);
                 ordenVM.setEncargadoOrden(txtEncargadoOrden.getText().trim());
                 ordenVM.setTotales(Double.parseDouble(txtTotales.getText().trim()));
+                ordenVM.setLimite_cotizacion(dtmLimite.getDate());
+                ordenVM.setFecha_de_entrega(dtmFechaEntrega.getDate());
+                ordenVM.setHora_entrega_desde(txtDesde.getText().trim());
+                ordenVM.setHora_entrega_hasta(txthasta.getText().trim());
+                ordenVM.setTiempo_entrega(txtTiempo.getText().trim());
+                ordenVM.setPlazo_entrega(txtPlazoEntrega.getText().trim());
+                ordenVM.setLugar_entrega(txtLugarEntrega.getText().trim());
+                ordenVM.setVigencia_de_la_cotizacion(txtVigenciaCotizacion.getText().trim());
+                ordenVM.setTiempo_de_garantia(txtGarantia.getText().trim());
                 ordenVM.setClienteId(cliente);
                 ordenVM.setProveedorId(cbxProveedor.getSelectedIndex() + 1);
                 ordenVM.setFechasErId(fechas);
@@ -899,6 +919,7 @@ public class FrmSistema extends javax.swing.JFrame {
                 clienteVM.setEncargadoCompra(txtEncargadoCompra.getText().trim());
                 clienteVM.setNombreInstitucion(txtNombreInstitucion.getText().trim());
                 clienteVM.setMunicipio(txtMunicipio.getText().trim());
+                clienteVM.setCodigo(txtCodigoEscuela.getText().trim());
 
                 // Guardar cliente
                 boolean g1 = clienteC.guardarCliente(clienteVM);
@@ -926,6 +947,15 @@ public class FrmSistema extends javax.swing.JFrame {
                 ordenVM.setCodOrden(generarCodigo());
                 ordenVM.setEncargadoOrden(txtEncargadoOrden.getText().trim());
                 ordenVM.setTotales(Double.parseDouble(txtTotales.getText().trim()));
+                ordenVM.setLimite_cotizacion(dtmLimite.getDate());
+                ordenVM.setFecha_de_entrega(dtmFechaEntrega.getDate());
+                ordenVM.setHora_entrega_desde(txtDesde.getText().trim());
+                ordenVM.setHora_entrega_hasta(txthasta.getText().trim());
+                ordenVM.setTiempo_entrega(txtTiempo.getText().trim());
+                ordenVM.setPlazo_entrega(txtPlazoEntrega.getText().trim());
+                ordenVM.setLugar_entrega(txtLugarEntrega.getText().trim());
+                ordenVM.setVigencia_de_la_cotizacion(txtVigenciaCotizacion.getText().trim());
+                ordenVM.setTiempo_de_garantia(txtGarantia.getText().trim());
                 ordenVM.setClienteId(clienteId);
                 ordenVM.setProveedorId(cbxProveedor.getSelectedIndex() + 1);
                 ordenVM.setFechasErId(fechaId);
@@ -1264,12 +1294,12 @@ public class FrmSistema extends javax.swing.JFrame {
     private javax.swing.JButton btnLimpiarTodo;
     private javax.swing.JComboBox<String> cbxProveedor;
     private com.toedter.calendar.JDateChooser dtmCotizacion;
+    private com.toedter.calendar.JDateChooser dtmFechaEntrega;
     private com.toedter.calendar.JDateChooser dtmLimite;
     private com.toedter.calendar.JDateChooser dtmOrdenCompra;
     private com.toedter.calendar.JDateChooser dtmPlanCompras;
     private com.toedter.calendar.JDateChooser dtmRecepcion;
     private com.toedter.calendar.JDateChooser dtmSolicitudCotizacion;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1303,13 +1333,11 @@ public class FrmSistema extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JTable tblCotizacion;
     private javax.swing.JTextField txtCantidad;
+    private javax.swing.JTextField txtCodigoEscuela;
     private javax.swing.JTextField txtDescripcion;
+    private javax.swing.JTextField txtDesde;
     private javax.swing.JTextField txtEncargadoCompra;
     private javax.swing.JTextField txtEncargadoOrden;
     private javax.swing.JTextField txtGarantia;
@@ -1318,9 +1346,11 @@ public class FrmSistema extends javax.swing.JFrame {
     private javax.swing.JTextField txtNombreInstitucion;
     private javax.swing.JTextField txtPlazoEntrega;
     private javax.swing.JTextField txtPrecioU;
+    private javax.swing.JTextField txtTiempo;
     private javax.swing.JTextField txtTotales;
     private javax.swing.JTextField txtUnidadM;
     private javax.swing.JTextField txtVigenciaCotizacion;
+    private javax.swing.JTextField txthasta;
     // End of variables declaration//GEN-END:variables
 
     private int actualizar() {
