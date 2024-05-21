@@ -29,6 +29,7 @@ com/streamliningsystem/view/FrmMain.class
 com/streamliningsystem/data/DAO/FechaErDAO.class
 com/streamliningsystem/view/FrmMain$4.class
 com/streamliningsystem/data/Models/FechasER.class
+com/streamliningsystem/view/FrmSistema$10.class
 com/streamliningsystem/view/FrmMains$1.class
 com/streamliningsystem/view/FrmMain$7.class
 com/streamliningsystem/view/FrmSistema$3.class
