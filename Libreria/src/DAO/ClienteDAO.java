@@ -20,9 +20,9 @@ public class ClienteDAO {
 
         conexion = conexionDb.getConnection();
 
-        String consulta = "INSERT INTO Cliente"
-                + "(encargado_compra, nombre_institucion, municipio)"
-                + "VALUES (?, ?, ?)";
+        String consulta = "INSERT INTO cliente"
+                + "( encargado_compra, nombre_institucion, municipio, codigo_escuela)"
+                + " VALUES (?, ?, ?, ?)";
         try {
 
             pStatement = conexion.prepareStatement(consulta);
@@ -30,6 +30,7 @@ public class ClienteDAO {
             pStatement.setString(1, cliente.getEncargadoCompra());
             pStatement.setString(2, cliente.getNombreInstitucion());
             pStatement.setString(3, cliente.getMunicipio());
+            pStatement.setString(4, cliente.getCodigo());
 
             pStatement.execute();
             conexion.close();
@@ -47,10 +48,11 @@ public class ClienteDAO {
 
         conexion = conexionDb.getConnection();
 
-        String consulta = "UPDATE Cliente SET "
+        String consulta = "UPDATE cliente SET "
                 + "encargado_compra = ?, "
                 + "nombre_institucion = ?, "
-                + "municipio = ? "
+                + "municipio = ?, "
+                + "codigo_escuela = ? "
                 + "WHERE id_cliente = ?";
         try {
 
@@ -59,7 +61,8 @@ public class ClienteDAO {
             pStatement.setString(1, cliente.getEncargadoCompra());
             pStatement.setString(2, cliente.getNombreInstitucion());
             pStatement.setString(3, cliente.getMunicipio());
-            pStatement.setInt(4, cliente.getIdCliente());
+            pStatement.setString(4, cliente.getCodigo());
+            pStatement.setInt(5, cliente.getIdCliente());
 
             int actualizadoExitoso = pStatement.executeUpdate();
 
@@ -77,7 +80,7 @@ public class ClienteDAO {
 
         conexion = conexionDb.getConnection();
 
-        String consulta = "SELECT id_cliente FROM Cliente ORDER BY id_cliente DESC LIMIT 1";
+        String consulta = "SELECT id_cliente FROM cliente ORDER BY id_cliente DESC LIMIT 1";
         int idCliente = -1; // Valor por defecto si no se encuentra ningún cliente
 
         try {
@@ -103,7 +106,7 @@ public class ClienteDAO {
 
         conexion = conexionDb.getConnection();
 
-        String consulta = "DELETE FROM Cliente WHERE id_cliente = ?";
+        String consulta = "DELETE FROM cliente WHERE id_cliente = ?";
 
         try {
 

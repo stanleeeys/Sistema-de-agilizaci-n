@@ -1,6 +1,5 @@
 package DAO;
 
-
 import Models.DetalleOrden;
 import Provider.Conexion;
 import java.sql.Connection;
@@ -20,7 +19,7 @@ public class DetalleOrdenDAO {
     public boolean ingresarDetalleOrden(DetalleOrden detalleOrden) {
 
         conexion = conexionDb.getConnection();
-        String consulta = "INSERT INTO DetallesOrden "
+        String consulta = "INSERT INTO detallesorden "
                 + "(num_articulo, "
                 + "cantidad, "
                 + "unidad_medida, "
@@ -56,7 +55,7 @@ public class DetalleOrdenDAO {
     public boolean actualizarDetalleOrden(DetalleOrden detalleOrden) {
 
         conexion = conexionDb.getConnection();
-        String consulta = "UPDATE DetallesOrden SET "
+        String consulta = "UPDATE detallesorden SET "
                 + "num_articulo = ?, "
                 + "cantidad = ?, "
                 + "unidad_medida = ?, "
@@ -92,7 +91,7 @@ public class DetalleOrdenDAO {
     public boolean eliminarDetalleOrden(int idDetalle) {
 
         conexion = conexionDb.getConnection();
-        String consulta = "DELETE FROM DetallesOrden WHERE "
+        String consulta = "DELETE FROM detallesorden WHERE "
                 + "id_detalle_orden = ?";
 
         try {
@@ -114,7 +113,7 @@ public class DetalleOrdenDAO {
     public boolean eliminadoTotalDetalleOrden(int orden) {
 
         conexion = conexionDb.getConnection();
-        String consulta = "DELETE FROM DetallesOrden WHERE "
+        String consulta = "DELETE FROM detallesorden WHERE "
                 + "orden_id = ?";
 
         try {
@@ -139,7 +138,7 @@ public class DetalleOrdenDAO {
         conexion = conexionDb.getConnection();
 
         ArrayList<DetalleOrden> detalles = new ArrayList<DetalleOrden>();
-        String consulta = "SELECT * FROM DetallesOrden WHERE orden_id = ?";
+        String consulta = "SELECT * FROM detallesorden WHERE orden_id = ?";
 
         try {
             pStatement = conexion.prepareStatement(consulta);

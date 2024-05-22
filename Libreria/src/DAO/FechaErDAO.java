@@ -1,5 +1,6 @@
 package DAO;
 
+
 import Models.FechasER;
 import Provider.Conexion;
 import java.sql.Connection;
@@ -20,7 +21,7 @@ public class FechaErDAO {
 
         conexion = conexionDb.getConnection();
 
-        String consulta = "INSERT INTO FechasER"
+        String consulta = "INSERT INTO fechaser"
                 + "(fecha_solicitud, fecha_cotizacion, fecha_orden, "
                 + "fecha_recepcion, fecha_plan_compras) "
                 + "VALUES (?, ?, ?, ?, ?)";
@@ -49,7 +50,7 @@ public class FechaErDAO {
 
         conexion = conexionDb.getConnection();
 
-        String consulta = "UPDATE FechasER SET "
+        String consulta = "UPDATE fechaser SET "
                 + "fecha_solicitud = ?, "
                 + "fecha_cotizacion = ?, "
                 + "fecha_orden = ?, "
@@ -82,7 +83,7 @@ public class FechaErDAO {
     public int obtenerFecha() {
 
         conexion = conexionDb.getConnection();
-        String consulta = "SELECT id_fechas FROM FechasER ORDER BY id_fechas DESC LIMIT 1";
+        String consulta = "SELECT id_fechas FROM fechaser ORDER BY id_fechas DESC LIMIT 1";
         int idCliente = -1; // Valor por defecto si no se encuentra ningún fechas
 
         try {
@@ -106,7 +107,7 @@ public class FechaErDAO {
 
         conexion = conexionDb.getConnection();
 
-        String consulta = "DELETE FROM FechasER WHERE id_fechas_er = ?";
+        String consulta = "DELETE FROM fechaser WHERE id_fechas_er = ?";
 
         try {
 
