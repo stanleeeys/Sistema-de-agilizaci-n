@@ -1,6 +1,5 @@
 package DAO;
 
-
 import Models.Orden;
 import Provider.Conexion;
 import ViewModel.TablaOrdenVM;
@@ -22,7 +21,23 @@ public class OrdenDAO {
 
         conexion = conexionDb.getConnection();
 
-        String consulta = "INSERT INTO Orden (cod_orden, encargado_orden, totales, cliente_id, proveedor_id, fechas_er_id) VALUES (?, ?, ?, ?, ?, ?)";
+        String consulta = "INSERT INTO orden ("
+                + "    cod_orden, "
+                + "    encargado_orden, "
+                + "    totales, "
+                + "    limite_cotizacion, "
+                + "    fecha_de_entrega, "
+                + "    hora_entrega_desde, "
+                + "    hora_entrega_hasta, "
+                + "    tiempo_entrega, "
+                + "    plazo_entrega, "
+                + "    lugar_entrega, "
+                + "    vigencia_de_la_cotizacion, "
+                + "    tiempo_de_garantia, "
+                + "    cliente_id, "
+                + "    proveedor_id, "
+                + "    fechas_er_id"
+                + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
 
@@ -31,9 +46,18 @@ public class OrdenDAO {
             pStatement.setString(1, orden.getCodOrden());
             pStatement.setString(2, orden.getEncargadoOrden());
             pStatement.setDouble(3, orden.getTotales());
-            pStatement.setInt(4, orden.getClienteId());
-            pStatement.setInt(5, orden.getProveedorId());
-            pStatement.setInt(6, orden.getFechasErId());
+            pStatement.setDate(4, new java.sql.Date(orden.getLimite_cotizacion().getTime()));
+            pStatement.setDate(5, new java.sql.Date(orden.getFecha_de_entrega().getTime()));
+            pStatement.setString(6, orden.getHora_entrega_desde());
+            pStatement.setString(7, orden.getHora_entrega_hasta());
+            pStatement.setString(8, orden.getTiempo_entrega());
+            pStatement.setString(9, orden.getPlazo_entrega());
+            pStatement.setString(10, orden.getLugar_entrega());
+            pStatement.setString(11, orden.getVigencia_de_la_cotizacion());
+            pStatement.setString(12, orden.getTiempo_de_garantia());
+            pStatement.setInt(13, orden.getClienteId());
+            pStatement.setInt(14, orden.getProveedorId());
+            pStatement.setInt(15, orden.getFechasErId());
             pStatement.execute();
 
             conexion.close();
@@ -51,10 +75,19 @@ public class OrdenDAO {
 
         conexion = conexionDb.getConnection();
 
-        String consulta = "UPDATE Orden SET "
+        String consulta = "UPDATE orden SET "
                 + "cod_orden = ?, "
                 + "encargado_orden = ?, "
                 + "totales = ?, "
+                + "limite_cotizacion = ?, "
+                + "fecha_de_entrega = ?, "
+                + "hora_entrega_desde = ?, "
+                + "hora_entrega_hasta = ?, "
+                + "tiempo_entrega = ?, "
+                + "plazo_entrega = ?, "
+                + "lugar_entrega = ?, "
+                + "vigencia_de_la_cotizacion = ?, "
+                + "tiempo_de_garantia = ?, "
                 + "cliente_id = ?, "
                 + "proveedor_id = ?, "
                 + "fechas_er_id = ? "
@@ -67,10 +100,19 @@ public class OrdenDAO {
             pStatement.setString(1, orden.getCodOrden());
             pStatement.setString(2, orden.getEncargadoOrden());
             pStatement.setDouble(3, orden.getTotales());
-            pStatement.setInt(4, orden.getClienteId());
-            pStatement.setInt(5, orden.getProveedorId());
-            pStatement.setInt(6, orden.getFechasErId());
-            pStatement.setInt(7, orden.getIdOrden()); // Asumiendo que Orden tiene un método getIdOrden()
+            pStatement.setDate(4, new java.sql.Date(orden.getLimite_cotizacion().getTime()));
+            pStatement.setDate(5, new java.sql.Date(orden.getFecha_de_entrega().getTime()));
+            pStatement.setString(6, orden.getHora_entrega_desde());
+            pStatement.setString(7, orden.getHora_entrega_hasta());
+            pStatement.setString(8, orden.getTiempo_entrega());
+            pStatement.setString(9, orden.getPlazo_entrega());
+            pStatement.setString(10, orden.getLugar_entrega());
+            pStatement.setString(11, orden.getVigencia_de_la_cotizacion());
+            pStatement.setString(12, orden.getTiempo_de_garantia());
+            pStatement.setInt(13, orden.getClienteId());
+            pStatement.setInt(14, orden.getProveedorId());
+            pStatement.setInt(15, orden.getFechasErId());
+            pStatement.setInt(16, orden.getIdOrden());
 
             int confirmacion = pStatement.executeUpdate();
 
@@ -86,7 +128,7 @@ public class OrdenDAO {
     public int obtenerOrden() {
 
         conexion = conexionDb.getConnection();
-        String consulta = "SELECT id_orden FROM Orden ORDER BY id_orden DESC LIMIT 1";
+        String consulta = "SELECT id_orden FROM orden ORDER BY id_orden DESC LIMIT 1";
         int idCliente = -1; // Valor por defecto si no se encuentra ningún cliente
 
         try {
@@ -112,13 +154,7 @@ public class OrdenDAO {
         conexion = conexionDb.getConnection();
 
         ArrayList<TablaOrdenVM> ordenes = new ArrayList<TablaOrdenVM>();
-        String consulta = "SELECT Orden.id_orden, Orden.cod_orden, Orden.encargado_orden, Orden.totales, Orden.cliente_id, Orden.proveedor_id, Orden.fechas_er_id,"
-                + " Cliente.encargado_compra, Cliente.nombre_institucion,"
-                + " FechasER.fecha_orden, FechasER.fecha_recepcion"
-                + " from Orden"
-                + " INNER JOIN Cliente on Orden.cliente_id  = Cliente.id_cliente"
-                + " INNER JOIN FechasER on Orden.fechas_er_id = FechasER.id_fechas"
-                + " ORDER BY Orden.id_orden DESC";
+        String consulta = "select orden.id_orden, orden.cod_orden, orden.encargado_orden, orden.totales, orden.cliente_id, orden.proveedor_id, orden.fechas_er_id, cliente.encargado_compra, cliente.nombre_institucion, fechaser.fecha_orden, fechaser.fecha_recepcion from orden inner join cliente on orden.cliente_id = cliente.id_cliente inner join fechaser on orden.fechas_er_id = fechaser.id_fechas order by orden.id_orden desc";
 
         try {
 
@@ -159,15 +195,38 @@ public class OrdenDAO {
 
         TablaOrdenVM ordenes = new TablaOrdenVM();
 
-        String consulta = "SELECT Orden.id_orden, Orden.cod_orden, Orden.encargado_orden, Orden.totales, Orden.cliente_id, Orden.proveedor_id, Orden.fechas_er_id, "
-                + "Cliente.encargado_compra, Cliente.nombre_institucion, Cliente.municipio,"
-                + " Proveedor.nombre_proveedor,"
-                + " FechasER.fecha_solicitud , FechasER.fecha_cotizacion, FechasER.fecha_orden, FechasER.fecha_recepcion, FechasER.fecha_plan_compras"
-                + " from Orden"
-                + " INNER JOIN Cliente on Orden.cliente_id  = Cliente.id_cliente"
-                + " INNER JOIN Proveedor on Orden.proveedor_id = Proveedor.id_proveedor"
-                + " INNER JOIN FechasER on Orden.fechas_er_id = FechasER.id_fechas"
-                + " WHERE Orden.id_orden = ?";
+        String consulta = "SELECT "
+                + "orden.id_orden, "
+                + "orden.cod_orden, "
+                + "orden.encargado_orden, "
+                + "orden.totales, "
+                + "orden.limite_cotizacion, "
+                + "orden.fecha_de_entrega, "
+                + "orden.hora_entrega_desde, "
+                + "orden.hora_entrega_hasta, "
+                + "orden.tiempo_entrega, "
+                + "orden.plazo_entrega, "
+                + "orden.lugar_entrega, "
+                + "orden.vigencia_de_la_cotizacion, "
+                + "orden.tiempo_de_garantia, "
+                + "orden.cliente_id, "
+                + "orden.proveedor_id, "
+                + "orden.fechas_er_id, "
+                + "cliente.encargado_compra, "
+                + "cliente.nombre_institucion, "
+                + "cliente.municipio, "
+                + "cliente.codigo_escuela, "
+                + "proveedor.nombre_proveedor, "
+                + "fechaser.fecha_solicitud, "
+                + "fechaser.fecha_cotizacion, "
+                + "fechaser.fecha_orden, "
+                + "fechaser.fecha_recepcion, "
+                + "fechaser.fecha_plan_compras "
+                + "FROM orden "
+                + "INNER JOIN cliente ON orden.cliente_id = cliente.id_cliente "
+                + "INNER JOIN proveedor ON orden.proveedor_id = proveedor.id_proveedor "
+                + "INNER JOIN fechaser ON orden.fechas_er_id = fechaser.id_fechas "
+                + "WHERE orden.id_orden = ?";
 
         try {
 
@@ -181,12 +240,22 @@ public class OrdenDAO {
                 ordenes.setCodOrden(rSet.getString("cod_orden"));
                 ordenes.setEncargadoOrden(rSet.getString("encargado_orden"));
                 ordenes.setTotales(rSet.getDouble("totales"));
+                ordenes.setLimite_cotizacion(rSet.getDate("limite_cotizacion"));
+                ordenes.setFecha_de_entrega(rSet.getDate("fecha_de_entrega"));
+                ordenes.setHora_entrega_desde(rSet.getString("hora_entrega_desde"));
+                ordenes.setHora_entrega_hasta(rSet.getString("hora_entrega_hasta"));
+                ordenes.setTiempo_entrega(rSet.getString("tiempo_entrega"));
+                ordenes.setPlazo_entrega(rSet.getString("plazo_entrega"));
+                ordenes.setLugar_entrega(rSet.getString("lugar_entrega"));
+                ordenes.setVigencia_de_la_cotizacion(rSet.getString("vigencia_de_la_cotizacion"));
+                ordenes.setTiempo_de_garantia(rSet.getString("tiempo_de_garantia"));
                 ordenes.setClienteId(rSet.getInt("cliente_id"));
                 ordenes.setProveedorId(rSet.getInt("proveedor_id"));
                 ordenes.setFechasErId(rSet.getInt("fechas_er_id"));
                 ordenes.setEncargadoCompra(rSet.getString("encargado_compra"));
                 ordenes.setNombreInstitucion(rSet.getString("nombre_institucion"));
                 ordenes.setMunicipio(rSet.getString("municipio"));
+                ordenes.setCodigo_escuela(rSet.getString("codigo_escuela"));
                 ordenes.setNombreProveedor(rSet.getString("nombre_proveedor"));
                 ordenes.setFechaSolicitud(rSet.getDate("fecha_solicitud"));
                 ordenes.setFechaCotizacion(rSet.getDate("fecha_cotizacion"));
@@ -209,7 +278,7 @@ public class OrdenDAO {
 
         conexion = conexionDb.getConnection();
 
-        String consulta = "DELETE FROM Orden WHERE id_orden = ?";
+        String consulta = "DELETE FROM orden WHERE id_orden = ?";
 
         try {
 

@@ -5,7 +5,6 @@ import Models.Cliente;
 import ViewModel.ClienteVM;
 
 
-
 public class ClienteController {
     
     // Objetos globales
@@ -20,6 +19,7 @@ public class ClienteController {
             cliente.setEncargadoCompra(clienteVm.encargadoCompra);
             cliente.setNombreInstitucion(clienteVm.nombreInstitucion);
             cliente.setMunicipio(clienteVm.municipio);
+            cliente.setCodigo(clienteVm.codigo);
             
             clienteDao.ingresarCliente(cliente);
             return true;
@@ -38,6 +38,7 @@ public class ClienteController {
             cliente.setEncargadoCompra(clienteVm.encargadoCompra);
             cliente.setNombreInstitucion(clienteVm.nombreInstitucion);
             cliente.setMunicipio(clienteVm.municipio);
+            cliente.setCodigo(clienteVm.codigo);
             
             clienteDao.actualizarCliente(cliente);
             return true;
