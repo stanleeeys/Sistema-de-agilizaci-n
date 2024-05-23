@@ -46,8 +46,8 @@ public class FrmMain extends javax.swing.JFrame {
     public FrmMain() {
         initComponents();
         poblarTablaOrden();
-        tblOrdenes.setRowSelectionInterval(0, 0);
-        tblOrdenes.requestFocus();
+//        tblOrdenes.setRowSelectionInterval(0, 0);
+//        tblOrdenes.requestFocus();
 
 // Formatear la fecha
         Calendar calendar = Calendar.getInstance();
@@ -58,6 +58,7 @@ public class FrmMain extends javax.swing.JFrame {
 
     public void poblarTablaOrden() {
 
+        listaId.clear();
         ArrayList<TablaOrdenVM> ordenesVM = ordenController.listarOrden();
         modeloTabla = (DefaultTableModel) tblOrdenes.getModel();
         modeloTabla.setRowCount(0); // Limpiar el modeloTabla de tabla antes de agregar nuevas filas
@@ -446,7 +447,7 @@ public class FrmMain extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:       
-
+        eliminar();
 
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -576,8 +577,8 @@ public class FrmMain extends javax.swing.JFrame {
                 eliminarTodasLasFilas(tblDetalles);
                 poblarTablaOrden();
                 JOptionPane.showMessageDialog(this, "Orden Eliminada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                tblOrdenes.setRowSelectionInterval(0, 0);
-                tblOrdenes.requestFocus();
+//                tblOrdenes.setRowSelectionInterval(0, 0);
+//                tblOrdenes.requestFocus();
 
             } catch (NullPointerException ex) {
                 // Manejar la excepción en caso de que no se pueda obtener un valor de la fila seleccionada

@@ -107,7 +107,7 @@ public class FrmSistema extends javax.swing.JFrame {
             dtmCotizacion.setDate(ordenVM.getFechaCotizacion());
             dtmOrdenCompra.setDate(ordenVM.getFechaOrden());
             dtmRecepcion.setDate(ordenVM.getFechaRecepcion());
-            dtmPlanCompras.setDate(ordenVM.getFechaPlanCompras());
+            
 
             //importarDetalles(ordenId
             double totales = 0;
@@ -206,8 +206,6 @@ public class FrmSistema extends javax.swing.JFrame {
         dtmOrdenCompra = new com.toedter.calendar.JDateChooser();
         jLabel11 = new javax.swing.JLabel();
         dtmRecepcion = new com.toedter.calendar.JDateChooser();
-        jLabel12 = new javax.swing.JLabel();
-        dtmPlanCompras = new com.toedter.calendar.JDateChooser();
         jPanel5 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         txtEncargadoCompra = new javax.swing.JTextField();
@@ -545,14 +543,6 @@ public class FrmSistema extends javax.swing.JFrame {
             }
         });
 
-        jLabel12.setText("Fecha de plan de compras:");
-
-        dtmPlanCompras.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                dtmPlanComprasKeyPressed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -577,12 +567,6 @@ public class FrmSistema extends javax.swing.JFrame {
                         .addGap(23, 23, 23))
                     .addComponent(dtmRecepcion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(146, 146, 146)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(dtmPlanCompras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(158, 158, 158))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -603,11 +587,7 @@ public class FrmSistema extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(dtmOrdenCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(dtmRecepcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
-                .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(dtmPlanCompras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
@@ -1003,7 +983,7 @@ public class FrmSistema extends javax.swing.JFrame {
                 fechaErVM.setFechaCotizacion(dtmCotizacion.getDate());
                 fechaErVM.setFechaOrden(dtmOrdenCompra.getDate());
                 fechaErVM.setFechaRecepcion(dtmRecepcion.getDate());
-                fechaErVM.setFechaPlanCompras(dtmPlanCompras.getDate());
+                
 
                 // Guardar fechas
                 boolean g2 = fechaERController.actualizarFechas(fechaErVM);
@@ -1099,7 +1079,7 @@ public class FrmSistema extends javax.swing.JFrame {
                 fechaErVM.setFechaCotizacion(dtmCotizacion.getDate());
                 fechaErVM.setFechaOrden(dtmOrdenCompra.getDate());
                 fechaErVM.setFechaRecepcion(dtmRecepcion.getDate());
-                fechaErVM.setFechaPlanCompras(dtmPlanCompras.getDate());
+                
 
                 // Guardar fechas
                 boolean g2 = fechaERController.guardarFechas(fechaErVM);
@@ -1500,36 +1480,14 @@ public class FrmSistema extends javax.swing.JFrame {
 
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
 
-            dtmPlanCompras.requestFocus();
         }
     }//GEN-LAST:event_dtmRecepcionKeyPressed
-
-    private void dtmPlanComprasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtmPlanComprasKeyPressed
-        // TODO add your handling code here:
-
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            txtDescripcion.requestFocus();
-        }
-    }//GEN-LAST:event_dtmPlanComprasKeyPressed
 
     private void txtDescripcionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
 
             txtCantidad.requestFocus();
-        }
-
-        if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
-
-            boolean active = btnGuardar.isEnabled();
-            if (active) {
-
-                btnGuardar.requestFocus();
-            } else {
-
-                btnActualizar.requestFocus();
-            }
         }
     }//GEN-LAST:event_txtDescripcionKeyPressed
 
@@ -1762,7 +1720,7 @@ public class FrmSistema extends javax.swing.JFrame {
                     fechaErVM.setFechaCotizacion(dtmCotizacion.getDate());
                     fechaErVM.setFechaOrden(dtmOrdenCompra.getDate());
                     fechaErVM.setFechaRecepcion(dtmRecepcion.getDate());
-                    fechaErVM.setFechaPlanCompras(dtmPlanCompras.getDate());
+                    
 
                     // Guardar fechas
                     boolean g2 = fechaERController.guardarFechas(fechaErVM);
@@ -1864,7 +1822,7 @@ public class FrmSistema extends javax.swing.JFrame {
                     fechaErVM.setFechaCotizacion(dtmCotizacion.getDate());
                     fechaErVM.setFechaOrden(dtmOrdenCompra.getDate());
                     fechaErVM.setFechaRecepcion(dtmRecepcion.getDate());
-                    fechaErVM.setFechaPlanCompras(dtmPlanCompras.getDate());
+                    
 
                     // Guardar fechas
                     boolean g2 = fechaERController.actualizarFechas(fechaErVM);
@@ -2068,13 +2026,11 @@ public class FrmSistema extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser dtmFechaEntrega;
     private com.toedter.calendar.JDateChooser dtmLimite;
     private com.toedter.calendar.JDateChooser dtmOrdenCompra;
-    private com.toedter.calendar.JDateChooser dtmPlanCompras;
     private com.toedter.calendar.JDateChooser dtmRecepcion;
     private com.toedter.calendar.JDateChooser dtmSolicitudCotizacion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -2220,7 +2176,6 @@ public class FrmSistema extends javax.swing.JFrame {
                 && (dtmCotizacion.getDate() != null)
                 && (dtmOrdenCompra.getDate() != null)
                 && (dtmRecepcion.getDate() != null)
-                && (dtmPlanCompras.getDate() != null)
                 && (num != 0);
     }
 
