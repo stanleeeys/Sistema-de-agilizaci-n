@@ -11,16 +11,12 @@ import ViewModel.FechaErVM;
 import ViewModel.OrdenVM;
 import ViewModel.ProveedorVM;
 import ViewModel.TablaOrdenVM;
-import java.awt.FlowLayout;
-import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -50,6 +46,8 @@ public class FrmMain extends javax.swing.JFrame {
     public FrmMain() {
         initComponents();
         poblarTablaOrden();
+        tblOrdenes.setRowSelectionInterval(0, 0);
+        tblOrdenes.requestFocus();
 
 // Formatear la fecha
         Calendar calendar = Calendar.getInstance();
@@ -146,6 +144,11 @@ public class FrmMain extends javax.swing.JFrame {
         tblOrdenes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblOrdenesMouseClicked(evt);
+            }
+        });
+        tblOrdenes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tblOrdenesKeyPressed(evt);
             }
         });
         jScrollPane1.setViewportView(tblOrdenes);
@@ -277,6 +280,11 @@ public class FrmMain extends javax.swing.JFrame {
                 btnCrearNuevoActionPerformed(evt);
             }
         });
+        btnCrearNuevo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnCrearNuevoKeyPressed(evt);
+            }
+        });
 
         btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/1486564394-edit_81508.png"))); // NOI18N
         btnActualizar.setText("Editar");
@@ -289,6 +297,11 @@ public class FrmMain extends javax.swing.JFrame {
                 btnActualizarActionPerformed(evt);
             }
         });
+        btnActualizar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnActualizarKeyPressed(evt);
+            }
+        });
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
@@ -299,6 +312,11 @@ public class FrmMain extends javax.swing.JFrame {
                 btnEliminarActionPerformed(evt);
             }
         });
+        btnEliminar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnEliminarKeyPressed(evt);
+            }
+        });
 
         btnCrearDocumento.setFont(new java.awt.Font("Liberation Sans", 1, 14)); // NOI18N
         btnCrearDocumento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Word_Mac_23563.png"))); // NOI18N
@@ -307,6 +325,11 @@ public class FrmMain extends javax.swing.JFrame {
         btnCrearDocumento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearDocumentoActionPerformed(evt);
+            }
+        });
+        btnCrearDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnCrearDocumentoKeyPressed(evt);
             }
         });
 
@@ -413,123 +436,78 @@ public class FrmMain extends javax.swing.JFrame {
     private void btnCrearDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearDocumentoActionPerformed
         // TODO add your handling code here:
 
-        int fila = tblOrdenes.getSelectedRow();
-        if (fila != -1) { // Verifica si hay una fila seleccionada
-            try {
-
-                Object objId = listaId.get(fila);
-                int idOrden = (Integer) objId;
-
-                ExportacionWord exportador = new ExportacionWord();
-                exportador.exportarTabla(idOrden);
-
-            } catch (NullPointerException ex) {
-                // Manejar la excepción en caso de que no se pueda obtener un valor de la fila seleccionada
-                JOptionPane.showMessageDialog(null, "Error al obtener los datos de la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila antes de crear El documento.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        }
+        crearDocumento();
     }//GEN-LAST:event_btnCrearDocumentoActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        // TODO add your handling code here:
-
-        int fila = tblOrdenes.getSelectedRow();
-        if (fila != -1) { // Verifica si hay una fila seleccionada
-            try {
-
-                Object objId = listaId.get(fila);
-                int idOrden = (Integer) objId;
-
-                int numeroParaPasar = idOrden; // Ejemplo de número que deseas pasar
-
-                FrmSistema frmSistema = new FrmSistema(numeroParaPasar);
-
-                frmSistema.setVisible(true);
-
-                this.setVisible(false);
-
-            } catch (NullPointerException ex) {
-                JOptionPane.showMessageDialog(null, "Error al obtener los datos de la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila antes de crear El documento.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        }
+        // TODO add your handling code here:        
+        actualizar();
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:       
 
-        int fila = tblOrdenes.getSelectedRow();
-        if (fila != -1) { // Verifica si hay una fila seleccionada
-            try {
 
-                double totales = 0;
-                Object objId = listaId.get(fila);
-                int idOrden = (Integer) objId;
-
-                TablaOrdenVM ordenVM = importarDatos(idOrden);
-                int clienteId = ordenVM.getClienteId();
-                int fechasErId = ordenVM.getFechasErId();
-
-                detalleOrdenController.eliminarTotalDetalle(idOrden);
-                ordenController.eliminarOrden(idOrden);
-                clienteC.eliminarOrden(clienteId);
-                fechaERController.eliminarFecha(fechasErId);
-                eliminarFilasTblOrden(tblOrdenes);
-                eliminarTodasLasFilas(tblDetalles);
-                poblarTablaOrden();
-                JOptionPane.showMessageDialog(this, "Orden Eliminada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
-            } catch (NullPointerException ex) {
-                // Manejar la excepción en caso de que no se pueda obtener un valor de la fila seleccionada
-                JOptionPane.showMessageDialog(null, "Error al obtener los datos de la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila antes de eliminar los datos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void tblOrdenesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblOrdenesMouseClicked
         // TODO add your handling code here:
-        int fila = tblOrdenes.getSelectedRow();
-        if (fila != -1) { // Verifica si hay una fila seleccionada
-            try {
-
-                double totales = 0;
-                Object objId = listaId.get(fila);
-                int idOrden = (Integer) objId;
-
-                ArrayList<DetalleOrdenVM> detalleOrdenesVM = detalleOrdenController.listarDetalleOrden(idOrden);
-                modeloTabla = (DefaultTableModel) tblDetalles.getModel();
-                modeloTabla.setRowCount(0); // Limpiar el modeloTabla de tabla antes de agregar nuevas filas
-                for (DetalleOrdenVM cl : detalleOrdenesVM) {
-
-                    Object[] ob = new Object[6]; // Crear el arreglo dentro del bucle
-                    ob[0] = cl.getNumArticulo();
-                    ob[1] = cl.getCantidad();
-                    ob[2] = cl.getUnidadMedida();
-                    ob[3] = cl.getDescripcionArticulo();
-                    ob[4] = cl.getPrecioUnitario();
-                    ob[5] = cl.getPrecioTotal();
-                    totales += cl.getPrecioTotal();
-
-                    modeloTabla.addRow(ob);
-
-                }
-
-                tblDetalles.setModel(modeloTabla); // Establecer el modeloTabla de tabla una vez que se han agregado todas las filas
-                txtTotales.setText(String.valueOf(totales));
-
-            } catch (NullPointerException ex) {
-                // Manejar la excepción en caso de que no se pueda obtener un valor de la fila seleccionada
-                JOptionPane.showMessageDialog(null, "Error al obtener los datos de la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila antes de editar los datos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        }
+        llenarDetalles();
     }//GEN-LAST:event_tblOrdenesMouseClicked
+
+    private void tblOrdenesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblOrdenesKeyPressed
+        // TODO add your handling code here:
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            llenarDetalles();
+        }
+        
+        if(evt.getKeyCode() == KeyEvent.VK_SPACE){
+            
+            btnCrearNuevo.requestFocus();
+        }
+    }//GEN-LAST:event_tblOrdenesKeyPressed
+
+    private void btnCrearDocumentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnCrearDocumentoKeyPressed
+        // TODO add your handling code here:
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            crearDocumento();
+        }
+
+    }//GEN-LAST:event_btnCrearDocumentoKeyPressed
+
+    private void btnCrearNuevoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnCrearNuevoKeyPressed
+        // TODO add your handling code here:
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            FrmSistema FrmSistema = new FrmSistema(0);
+
+            FrmSistema.setVisible(true);
+
+            this.setVisible(false);
+        }
+
+    }//GEN-LAST:event_btnCrearNuevoKeyPressed
+
+    private void btnActualizarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnActualizarKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            actualizar();
+
+        }
+    }//GEN-LAST:event_btnActualizarKeyPressed
+
+    private void btnEliminarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnEliminarKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            
+            eliminar();
+        }
+    }//GEN-LAST:event_btnEliminarKeyPressed
 
     /**
      * @param args the command line arguments
@@ -577,25 +555,128 @@ public class FrmMain extends javax.swing.JFrame {
         model.setRowCount(0);
     }
 
-//    private void filtrar() {
-//        String filtro = txtFiltrar.getText().toLowerCase();
-//        DefaultTableModel model = (DefaultTableModel) tblOrdenes.getModel();
-//        
-//        // Limpiar la tabla
-//        model.setRowCount(0);
-//        
-//        // Recorrer las filas originales y agregar las que coincidan con el filtro
-//        for (int i = 0; i < tblOrdenes.getRowCount(); i++) {
-//            String descripcion = tblOrdenes.getValueAt(i, 1).toString().toLowerCase();
-//            if (descripcion.contains(filtro)) {
-//                model.addRow(new Object[]{
-//                        tblOrdenes.getValueAt(i, 0),
-//                        tblOrdenes.getValueAt(i, 1),
-//                        tblOrdenes.getValueAt(i, 2)
-//                });
-//            }
-//        }
-//    }
+    private void eliminar() {
+
+        int fila = tblOrdenes.getSelectedRow();
+        if (fila != -1) { // Verifica si hay una fila seleccionada
+            try {
+
+                Object objId = listaId.get(fila);
+                int idOrden = (Integer) objId;
+
+                TablaOrdenVM ordenVM = importarDatos(idOrden);
+                int clienteId = ordenVM.getClienteId();
+                int fechasErId = ordenVM.getFechasErId();
+
+                detalleOrdenController.eliminarTotalDetalle(idOrden);
+                ordenController.eliminarOrden(idOrden);
+                clienteC.eliminarOrden(clienteId);
+                fechaERController.eliminarFecha(fechasErId);
+                eliminarFilasTblOrden(tblOrdenes);
+                eliminarTodasLasFilas(tblDetalles);
+                poblarTablaOrden();
+                JOptionPane.showMessageDialog(this, "Orden Eliminada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                tblOrdenes.setRowSelectionInterval(0, 0);
+                tblOrdenes.requestFocus();
+
+            } catch (NullPointerException ex) {
+                // Manejar la excepción en caso de que no se pueda obtener un valor de la fila seleccionada
+                JOptionPane.showMessageDialog(null, "Error al obtener los datos de la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila antes de eliminar los datos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void actualizar() {
+
+        int fila = tblOrdenes.getSelectedRow();
+        if (fila != -1) { // Verifica si hay una fila seleccionada
+            try {
+
+                Object objId = listaId.get(fila);
+                int idOrden = (Integer) objId;
+
+                int numeroParaPasar = idOrden; // Ejemplo de número que deseas pasar
+
+                FrmSistema frmSistema = new FrmSistema(numeroParaPasar);
+
+                frmSistema.setVisible(true);
+
+                this.setVisible(false);
+
+            } catch (NullPointerException ex) {
+                JOptionPane.showMessageDialog(null, "Error al obtener los datos de la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila antes de crear El documento.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void llenarDetalles() {
+
+        int fila = tblOrdenes.getSelectedRow();
+        if (fila != -1) { // Verifica si hay una fila seleccionada
+            try {
+
+                double totales = 0;
+                Object objId = listaId.get(fila);
+                int idOrden = (Integer) objId;
+
+                ArrayList<DetalleOrdenVM> detalleOrdenesVM = detalleOrdenController.listarDetalleOrden(idOrden);
+                modeloTabla = (DefaultTableModel) tblDetalles.getModel();
+                modeloTabla.setRowCount(0); // Limpiar el modeloTabla de tabla antes de agregar nuevas filas
+                for (DetalleOrdenVM cl : detalleOrdenesVM) {
+
+                    Object[] ob = new Object[6]; // Crear el arreglo dentro del bucle
+                    ob[0] = cl.getNumArticulo();
+                    ob[1] = cl.getCantidad();
+                    ob[2] = cl.getUnidadMedida();
+                    ob[3] = cl.getDescripcionArticulo();
+                    ob[4] = cl.getPrecioUnitario();
+                    ob[5] = cl.getPrecioTotal();
+                    totales += cl.getPrecioTotal();
+
+                    modeloTabla.addRow(ob);
+
+                }
+
+                tblDetalles.setModel(modeloTabla); // Establecer el modeloTabla de tabla una vez que se han agregado todas las filas
+                txtTotales.setText(String.valueOf(totales));
+                btnCrearDocumento.requestFocus();
+
+            } catch (NullPointerException ex) {
+                // Manejar la excepción en caso de que no se pueda obtener un valor de la fila seleccionada
+                JOptionPane.showMessageDialog(null, "Error al obtener los datos de la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Error Interno Comunquese con soporte", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+
+    }
+
+    private void crearDocumento() {
+
+        int fila = tblOrdenes.getSelectedRow();
+        if (fila != -1) { // Verifica si hay una fila seleccionada
+            try {
+
+                Object objId = listaId.get(fila);
+                int idOrden = (Integer) objId;
+
+                ExportacionWord exportador = new ExportacionWord();
+                exportador.exportarTabla(idOrden);
+                tblOrdenes.setRowSelectionInterval(0, 0);
+                tblOrdenes.requestFocus();
+
+            } catch (NullPointerException ex) {
+                // Manejar la excepción en caso de que no se pueda obtener un valor de la fila seleccionada
+                JOptionPane.showMessageDialog(null, "Error al obtener los datos de la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila antes de crear El documento.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;

@@ -1209,7 +1209,7 @@ public class ExportacionWord {
 // Crear el párrafo
             XWPFParagraph parrafoNuevo4030 = documento.createParagraph();
             parrafoNuevo4030.setAlignment(ParagraphAlignment.LEFT);
-            parrafoNuevo4030.setSpacingAfter(200);
+            //parrafoNuevo4030.setSpacingAfter(200);
 
             // Primer run
             XWPFRun run1_40 = parrafoNuevo4030.createRun();
@@ -1251,6 +1251,7 @@ public class ExportacionWord {
             pageSize.setOrient(STPageOrientation.PORTRAIT);
             pageSize.setW(BigInteger.valueOf(11900));
             pageSize.setH(BigInteger.valueOf(16840));
+            
             /**
              * *****************************************************************************************
              * PAGINA 5
