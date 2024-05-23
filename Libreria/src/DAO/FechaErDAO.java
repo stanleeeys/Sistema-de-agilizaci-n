@@ -34,7 +34,7 @@ public class FechaErDAO {
             pStatement.setDate(2, new java.sql.Date(fechasER.getFechaCotizacion().getTime()));
             pStatement.setDate(3, new java.sql.Date(fechasER.getFechaOrden().getTime()));
             pStatement.setDate(4, new java.sql.Date(fechasER.getFechaRecepcion().getTime()));
-            pStatement.setDate(5, new java.sql.Date(fechasER.getFechaPlanCompras().getTime()));
+            pStatement.setDate(5, new java.sql.Date(fechasER.getFechaRecepcion().getTime()));
 
             pStatement.execute();
             conexion.close();
@@ -66,7 +66,7 @@ public class FechaErDAO {
             pStatement.setDate(2, new java.sql.Date(fechasER.getFechaCotizacion().getTime()));
             pStatement.setDate(3, new java.sql.Date(fechasER.getFechaOrden().getTime()));
             pStatement.setDate(4, new java.sql.Date(fechasER.getFechaRecepcion().getTime()));
-            pStatement.setDate(5, new java.sql.Date(fechasER.getFechaPlanCompras().getTime()));
+            pStatement.setDate(5, new java.sql.Date(fechasER.getFechaRecepcion().getTime()));
             pStatement.setInt(6, fechasER.getIdFechas());
 
             int confirmacion = pStatement.executeUpdate();

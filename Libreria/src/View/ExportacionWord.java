@@ -1286,7 +1286,7 @@ public class ExportacionWord {
             planrun2.setFontFamily("Times New Roman");
             planrun2.setFontSize(10);
             planrun2.setBold(true);
-            planrun2.setText("MUNICPIO: " + municipio + ", DEPARTAMENTO: CHALATENANGO, FECHA: " + fechaPlanComprasStr);
+            planrun2.setText("MUNICPIO: " + municipio + ", DEPARTAMENTO: CHALATENANGO, FECHA: " + "________________");
             planrun2.addBreak();
 
             XWPFRun planrun3 = plan.createRun();
