@@ -12,6 +12,7 @@ import ViewModel.OrdenVM;
 import ViewModel.ProveedorVM;
 import ViewModel.TablaOrdenVM;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class FrmSistema extends javax.swing.JFrame {
         botonesDesabilitado();
         datosActualizar(idOrden);
         this.setLocationRelativeTo(null);
-        this.setTitle("Sistema Agilides");
+        this.setTitle("Creadora de DOC");
         //txtId.setVisible(false);
 
     }
@@ -107,7 +108,6 @@ public class FrmSistema extends javax.swing.JFrame {
             dtmCotizacion.setDate(ordenVM.getFechaCotizacion());
             dtmOrdenCompra.setDate(ordenVM.getFechaOrden());
             dtmRecepcion.setDate(ordenVM.getFechaRecepcion());
-            
 
             //importarDetalles(ordenId
             double totales = 0;
@@ -208,13 +208,13 @@ public class FrmSistema extends javax.swing.JFrame {
         dtmRecepcion = new com.toedter.calendar.JDateChooser();
         jPanel5 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
-        txtEncargadoCompra = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         txtNombreInstitucion = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         txtMunicipio = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         txtCodigoEscuela = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jPanel6 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         txtPlazoEntrega = new javax.swing.JTextField();
@@ -256,7 +256,7 @@ public class FrmSistema extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -595,13 +595,6 @@ public class FrmSistema extends javax.swing.JFrame {
 
         jLabel15.setText("A nombre de:");
 
-        txtEncargadoCompra.setText("CDE");
-        txtEncargadoCompra.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtEncargadoCompraKeyPressed(evt);
-            }
-        });
-
         jLabel16.setText("Nombre de la  Escuela o Institucion:");
 
         txtNombreInstitucion.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -626,6 +619,8 @@ public class FrmSistema extends javax.swing.JFrame {
             }
         });
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -634,10 +629,12 @@ public class FrmSistema extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtEncargadoCompra))
-                        .addGap(18, 18, 18)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel15)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, Short.MAX_VALUE)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(jLabel16)
@@ -649,7 +646,7 @@ public class FrmSistema extends javax.swing.JFrame {
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(txtCodigoEscuela)
+                                .addComponent(txtCodigoEscuela, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
                                 .addGap(29, 29, 29)))
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel17)
@@ -665,8 +662,8 @@ public class FrmSistema extends javax.swing.JFrame {
                     .addComponent(jLabel16))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtEncargadoCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNombreInstitucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNombreInstitucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
@@ -983,7 +980,6 @@ public class FrmSistema extends javax.swing.JFrame {
                 fechaErVM.setFechaCotizacion(dtmCotizacion.getDate());
                 fechaErVM.setFechaOrden(dtmOrdenCompra.getDate());
                 fechaErVM.setFechaRecepcion(dtmRecepcion.getDate());
-                
 
                 // Guardar fechas
                 boolean g2 = fechaERController.actualizarFechas(fechaErVM);
@@ -1079,7 +1075,6 @@ public class FrmSistema extends javax.swing.JFrame {
                 fechaErVM.setFechaCotizacion(dtmCotizacion.getDate());
                 fechaErVM.setFechaOrden(dtmOrdenCompra.getDate());
                 fechaErVM.setFechaRecepcion(dtmRecepcion.getDate());
-                
 
                 // Guardar fechas
                 boolean g2 = fechaERController.guardarFechas(fechaErVM);
@@ -1269,13 +1264,16 @@ public class FrmSistema extends javax.swing.JFrame {
             }
 
             // Recalcular el total de todos los precios después de eliminar la fila
-            double totales = 0;
+            double totales = 0.00;
             int numFilas = modeloTabla.getRowCount();
             for (int fila = 0; fila < numFilas; fila++) {
                 double precioTotal = (Double) modeloTabla.getValueAt(fila, modeloTabla.getColumnCount() - 1);
                 totales += precioTotal;
             }
-            txtTotales.setText(String.valueOf(totales));
+            DecimalFormat df = new DecimalFormat("0.00");
+
+            String formattedTotal = df.format(totales);
+            txtTotales.setText(formattedTotal);
 
             JOptionPane.showMessageDialog(this, "Detalle eliminado correctamente.", "Información", JOptionPane.INFORMATION_MESSAGE);
         } else {
@@ -1332,14 +1330,6 @@ public class FrmSistema extends javax.swing.JFrame {
         Limpiar();
         txtDescripcion.requestFocus();
     }//GEN-LAST:event_btnLimpiarTodoActionPerformed
-
-    private void txtEncargadoCompraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEncargadoCompraKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            txtNombreInstitucion.requestFocus();
-        }
-    }//GEN-LAST:event_txtEncargadoCompraKeyPressed
 
     private void txtNombreInstitucionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreInstitucionKeyPressed
         // TODO add your handling code here:
@@ -1720,7 +1710,6 @@ public class FrmSistema extends javax.swing.JFrame {
                     fechaErVM.setFechaCotizacion(dtmCotizacion.getDate());
                     fechaErVM.setFechaOrden(dtmOrdenCompra.getDate());
                     fechaErVM.setFechaRecepcion(dtmRecepcion.getDate());
-                    
 
                     // Guardar fechas
                     boolean g2 = fechaERController.guardarFechas(fechaErVM);
@@ -1822,7 +1811,6 @@ public class FrmSistema extends javax.swing.JFrame {
                     fechaErVM.setFechaCotizacion(dtmCotizacion.getDate());
                     fechaErVM.setFechaOrden(dtmOrdenCompra.getDate());
                     fechaErVM.setFechaRecepcion(dtmRecepcion.getDate());
-                    
 
                     // Guardar fechas
                     boolean g2 = fechaERController.actualizarFechas(fechaErVM);
@@ -1986,23 +1974,29 @@ public class FrmSistema extends javax.swing.JFrame {
 
             // Cálculo de precio total
             double precioTotal = cantidad * precioUnitario;
+            DecimalFormat formato = new DecimalFormat("0.00");
+            String PrecioUnitariostr = formato.format(precioUnitario);
+            String PrecioTotaltr = formato.format(precioTotal);
+            
 
             // Agregar fila a la tabla
             int numeroItem = tblCotizacion.getRowCount() + 1;
             modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
-            Object[] filaAgregar = {numeroItem, cantidad, unidadMedida, descripcion, precioUnitario, precioTotal};
+            Object[] filaAgregar = {numeroItem, cantidad, unidadMedida, descripcion, PrecioUnitariostr, PrecioTotaltr};
             modeloTabla.addRow(filaAgregar);
             numNuevosDetalles++;
 
             // Calcular totales
             double totales = 0;
             int numFilas = modeloTabla.getRowCount();
-            for (int fila = 0; fila < numFilas; fila++) {
-                double pTotal = (Double) modeloTabla.getValueAt(fila, modeloTabla.getColumnCount() - 1);
+            for (int fila = 0; fila < numFilas; fila++) { 
+                String totalP = String.valueOf(modeloTabla.getValueAt(fila, modeloTabla.getColumnCount() - 1));
+                double pTotal = Double.parseDouble(totalP);
                 totales += pTotal;
             }
+            String Totalestr = String.valueOf(formato.format(totales));
 
-            txtTotales.setText(String.valueOf(totales));
+            txtTotales.setText(String.valueOf(Totalestr));
             txtDescripcion.setText("");
             txtCantidad.setText("");
             txtPrecioU.setText("");
@@ -2028,6 +2022,7 @@ public class FrmSistema extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser dtmOrdenCompra;
     private com.toedter.calendar.JDateChooser dtmRecepcion;
     private com.toedter.calendar.JDateChooser dtmSolicitudCotizacion;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2065,7 +2060,6 @@ public class FrmSistema extends javax.swing.JFrame {
     private javax.swing.JTextField txtCodigoEscuela;
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtDesde;
-    private javax.swing.JTextField txtEncargadoCompra;
     private javax.swing.JTextField txtEncargadoOrden;
     private javax.swing.JTextField txtGarantia;
     private javax.swing.JTextField txtLugarEntrega;

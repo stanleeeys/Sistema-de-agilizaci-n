@@ -46,6 +46,8 @@ public class FrmMain extends javax.swing.JFrame {
     public FrmMain() {
         initComponents();
         poblarTablaOrden();
+        this.setLocationRelativeTo(null);
+        this.setTitle("Creadora de DOC");
 //        tblOrdenes.setRowSelectionInterval(0, 0);
 //        tblOrdenes.requestFocus();
 
