@@ -71,7 +71,7 @@ public class ExportacionWord {
             String tiempo_entrega = ordenVM.getTiempo_entrega().toUpperCase();
             String plazo_entrega = ordenVM.getPlazo_entrega().toUpperCase();
             String lugar_entrega = ordenVM.getLugar_entrega().toUpperCase();
-            String vigencia_de_la_cotizacion = ordenVM.getLugar_entrega().toUpperCase();
+            String vigencia_de_la_cotizacion = ordenVM.getVigencia_de_la_cotizacion().toUpperCase();
             String tiempo_de_garantia = ordenVM.getTiempo_de_garantia().toUpperCase();
             SimpleDateFormat formatter = new SimpleDateFormat("d 'DE' MMMM 'DE' yyyy", new Locale("es", "ES"));
             String fechaSolicitudStr = formatter.format(ordenVM.getFechaSolicitud()).toUpperCase();
@@ -701,7 +701,7 @@ public class ExportacionWord {
             runEncabezado302.setFontFamily("Times New Roman");
             runEncabezado302.setFontSize(10);
             runEncabezado302.setBold(true); // Texto en negrita
-            runEncabezado302.setText(municipio + ", " + fechaCotizacionStr);
+            runEncabezado302.setText(municipio + ", " + fechaOrdenStr);
             runEncabezado302.addBreak();
 
 // Saltos de línea
@@ -792,7 +792,7 @@ public class ExportacionWord {
             tblPr3020.getTblBorders().addNewInsideV().setVal(STBorder.SINGLE);
 
 // Crear el encabezado de la tabla
-            String[] encabezadoTabla3020 = {"No.", "Cantidad", "Unidad de medida", "Descripción/especificación técnica", "Precio Unitario", "Precio Total"};
+            String[] encabezadoTabla3020 = {"NO.", "CANTIDAD", "UNIDAD DE MEDIDA", "DESCRIPCION/ESPECIFICACION", "PRECIO UNITARIO", "PRECIO TOTAL"};
             XWPFTableRow filaEncabezado3020 = tabla3020.getRow(0);
 
 // Color celeste pálido
@@ -1046,7 +1046,7 @@ public class ExportacionWord {
             XWPFRun runContenidoNuevo = parrafoContenidoNuevo.createRun();
             runContenidoNuevo.setFontSize(10);
             runContenidoNuevo.setFontFamily("Times New Roman");
-            runContenidoNuevo.setText("EN FECHA " + fechaRecepcionStr + ", EL PRESIDENTE DEL CENTRO ESCOLAR Y EL SUSCRITO HACEN CONSTAR QUE HA RECIBIDO DE ACUERDO A LO CONVENIDO CON EL/LA SEÑOR/A: " + encargadoOrden + ", LOS BIENES QUE A CONTINUACIÓN SE DETALLAN:");
+            runContenidoNuevo.setText("QUE EN FECHA " + fechaRecepcionStr + ", EL PRESIDENTE DEL ORGANISMO DE ADMINISTRACION ESCOLAR: CONSEJO DIRECTIVO ESCOLAR QUE ADMINISTRA EL/LA DEL CENTRO ESCOLAR Y EL SUSCRITO HACEN CONSTAR QUE HA RECIBIDO DE ACUERDO A LO CONVENIDO CON EL/LA SEÑOR/A: " + encargadoOrden + ", LOS BIENES QUE A CONTINUACIÓN SE DETALLAN:");
 
             // Crear el párrafo del título
             XWPFParagraph separador2 = documento.createParagraph();
@@ -1074,7 +1074,7 @@ public class ExportacionWord {
             tblPr40.getTblBorders().addNewInsideV().setVal(STBorder.SINGLE);
 
 // Crear el encabezado de la tabla
-            String[] encabezadoTabla40 = {"No.", "Cantidad", "Unidad de medida", "Descripción/especificación técnica", "Precio Unitario", "Precio Total"};
+            String[] encabezadoTabla40 = {"NO.", "CANTIDAD", "UNIDAD DE MEDIDA", "DESCRIPCION/ESPECIFICACION", "PRECIO UNITARIO", "PRECIO TOTAL"};
             XWPFTableRow filaEncabezado40 = tabla40.getRow(0);
 
 // Color celeste pálido
@@ -1238,7 +1238,7 @@ public class ExportacionWord {
             run2_4030.addBreak();
             run2_4030.setText(" ");
             run2_4030.addBreak();
-            run2_4030.setText("___________________________________");
+            run2_4030.setText(encargadoOrden);
             run2_4030.addTab();
             run2_4030.setText("PROVEEDORA");
             run2_4030.addTab();
@@ -1293,7 +1293,7 @@ public class ExportacionWord {
             planrun3.setFontFamily("Times New Roman");
             planrun3.setFontSize(10);
             planrun3.setBold(true);
-            planrun3.setText("DIRECCION: (INGRESE SU DIREECCION)");
+            planrun3.setText("DIRECCION:_____________________");
             planrun3.addBreak();
             planrun3.setText("");
             planrun3.addBreak();
@@ -1313,7 +1313,7 @@ public class ExportacionWord {
             tblPrPlan12.getTblBorders().addNewInsideV().setVal(STBorder.SINGLE);
 
 // Crear el encabezado de la tabla
-            String[] encabezadoTablaPlan12 = {"AREA DE INVERSION Y RUBROS ESPECIFICOS", "No.", "Cantidad", "Unidad de medida", "Descripción/especificación técnica", "Precio Unitario", "Precio Total", "FECHA DE COMPRA"};
+            String[] encabezadoTablaPlan12 = {"AREA DE INVERSION Y RUBROS ESPECIFICOS", "NO.", "CANTIDAD", "UNIDAD DE MEDIDA", "DESCRIPCION/ESPECIFICACION", "PRECIO UNITARIO", "PRECIO TOTAL", "FECHA DE COMPRA"};
             XWPFTableRow filaEncabezadoPlan12 = tablaPlan12.getRow(0);
 
 // Color celeste pálido
