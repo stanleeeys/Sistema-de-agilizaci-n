@@ -12,6 +12,7 @@ import ViewModel.OrdenVM;
 import ViewModel.ProveedorVM;
 import ViewModel.TablaOrdenVM;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,6 +40,7 @@ public class FrmMain extends javax.swing.JFrame {
 
     //array y objetos gloables
     ArrayList<Object> listaId = new ArrayList<>();
+    DecimalFormat formato = new DecimalFormat("0.00");
 
     //
     DefaultTableModel modeloTabla = new DefaultTableModel();
@@ -190,7 +192,7 @@ public class FrmMain extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -465,9 +467,9 @@ public class FrmMain extends javax.swing.JFrame {
 
             llenarDetalles();
         }
-        
-        if(evt.getKeyCode() == KeyEvent.VK_SPACE){
-            
+
+        if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
+
             btnCrearNuevo.requestFocus();
         }
     }//GEN-LAST:event_tblOrdenesKeyPressed
@@ -507,7 +509,7 @@ public class FrmMain extends javax.swing.JFrame {
     private void btnEliminarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnEliminarKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            
+
             eliminar();
         }
     }//GEN-LAST:event_btnEliminarKeyPressed
@@ -578,6 +580,7 @@ public class FrmMain extends javax.swing.JFrame {
                 eliminarFilasTblOrden(tblOrdenes);
                 eliminarTodasLasFilas(tblDetalles);
                 poblarTablaOrden();
+                txtTotales.setText(" ");
                 JOptionPane.showMessageDialog(this, "Orden Eliminada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 //                tblOrdenes.setRowSelectionInterval(0, 0);
 //                tblOrdenes.requestFocus();
@@ -632,12 +635,14 @@ public class FrmMain extends javax.swing.JFrame {
                 for (DetalleOrdenVM cl : detalleOrdenesVM) {
 
                     Object[] ob = new Object[6]; // Crear el arreglo dentro del bucle
+                    String PrecioUnitariostr = formato.format(cl.getPrecioUnitario());
+                    String PrecioTotaltr = formato.format(cl.getPrecioTotal());
                     ob[0] = cl.getNumArticulo();
                     ob[1] = cl.getCantidad();
                     ob[2] = cl.getUnidadMedida();
                     ob[3] = cl.getDescripcionArticulo();
-                    ob[4] = cl.getPrecioUnitario();
-                    ob[5] = cl.getPrecioTotal();
+                    ob[4] = PrecioUnitariostr;
+                    ob[5] = PrecioTotaltr;
                     totales += cl.getPrecioTotal();
 
                     modeloTabla.addRow(ob);
@@ -645,7 +650,8 @@ public class FrmMain extends javax.swing.JFrame {
                 }
 
                 tblDetalles.setModel(modeloTabla); // Establecer el modeloTabla de tabla una vez que se han agregado todas las filas
-                txtTotales.setText(String.valueOf(totales));
+                String Totalestr = String.valueOf(formato.format(totales));
+                txtTotales.setText(Totalestr);
                 btnCrearDocumento.requestFocus();
 
             } catch (NullPointerException ex) {

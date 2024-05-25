@@ -18,7 +18,9 @@ import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.UUID;
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 
 public class FrmSistema extends javax.swing.JFrame {
 
@@ -33,6 +35,7 @@ public class FrmSistema extends javax.swing.JFrame {
     private int numNuevosDetalles;
     ArrayList<Object> idDetallesArray = new ArrayList<>();
     ArrayList<Object> idEliminacionDetallesArray = new ArrayList<>();
+    DecimalFormat formato = new DecimalFormat("0.00");
 
     //CONTROLADORES
     ClienteController clienteC = new ClienteController();
@@ -53,8 +56,9 @@ public class FrmSistema extends javax.swing.JFrame {
     public FrmSistema(int idOrden) {
 
         initComponents();
-        txtEncargadoCompra.requestFocus();
+        cbxANombreDe.requestFocus();
         this._codId = idOrden;
+        llenarComboBoxEncargadoCompra();
         cargarCombobox();
         botonesDesabilitado();
         datosActualizar(idOrden);
@@ -62,6 +66,13 @@ public class FrmSistema extends javax.swing.JFrame {
         this.setTitle("Creadora de DOC");
         //txtId.setVisible(false);
 
+    }
+
+    private void llenarComboBoxEncargadoCompra() {
+
+        cbxANombreDe.removeAllItems();
+        cbxANombreDe.addItem("CDE");
+        cbxANombreDe.addItem("C.E.C.E");
     }
 
     private void botonesDesabilitado() {
@@ -98,7 +109,7 @@ public class FrmSistema extends javax.swing.JFrame {
             txtVigenciaCotizacion.setText(ordenVM.vigencia_de_la_cotizacion);
             txtGarantia.setText(ordenVM.tiempo_de_garantia);
 
-            txtEncargadoCompra.setText(ordenVM.getEncargadoCompra());
+            seleccionarValorEnComboBox(cbxANombreDe, ordenVM.getEncargadoCompra());
             cbxProveedor.setSelectedIndex(ordenVM.getProveedorId() - 1);
             txtNombreInstitucion.setText(ordenVM.getNombreInstitucion());
             txtMunicipio.setText(ordenVM.getMunicipio());
@@ -120,12 +131,15 @@ public class FrmSistema extends javax.swing.JFrame {
 
                 // Agregar fila a la tabla
                 int numeroItem = tblCotizacion.getRowCount() + 1;
+                String PrecioUnitariostr = formato.format(cl.getPrecioUnitario());
+                String PrecioTotaltr = formato.format(cl.getPrecioTotal());
+
                 ob[0] = numeroItem;
                 ob[1] = cl.getCantidad();
                 ob[2] = cl.getUnidadMedida();
                 ob[3] = cl.getDescripcionArticulo();
-                ob[4] = cl.getPrecioUnitario();
-                ob[5] = cl.getPrecioTotal();
+                ob[4] = PrecioUnitariostr;
+                ob[5] = PrecioTotaltr;
                 totales += cl.getPrecioTotal();
 
                 int idO = cl.getIdDetalleOrden();
@@ -138,7 +152,8 @@ public class FrmSistema extends javax.swing.JFrame {
             numFilas = modeloTabla.getRowCount();
             numIdDetallesIniciales = idDetallesArray.size();
             tblCotizacion.setModel(modeloTabla);
-            txtTotales.setText(String.valueOf(totales));
+            String Totalestr = String.valueOf(formato.format(totales));
+            txtTotales.setText(Totalestr);
         }
     }
 
@@ -167,6 +182,27 @@ public class FrmSistema extends javax.swing.JFrame {
             contador++;
         }
         cbxProveedor.setModel(comboBoxModel);
+    }
+
+    private static void seleccionarValorEnComboBox(JComboBox<String> comboBox, String valor) {
+        // Obtener el modelo del comboBox
+        ComboBoxModel<String> model = comboBox.getModel();
+
+        // Buscar el índice del valor
+        int index = -1;
+        for (int i = 0; i < model.getSize(); i++) {
+            if (model.getElementAt(i).equals(valor)) {
+                index = i;
+                break;
+            }
+        }
+
+        // Seleccionar el valor si se encontró
+        if (index != -1) {
+            comboBox.setSelectedIndex(index);
+        } else {
+            JOptionPane.showMessageDialog(null, "El valor no existe en el ComboBox.");
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -198,14 +234,16 @@ public class FrmSistema extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         txtEncargadoOrden = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        dtmSolicitudCotizacion = new com.toedter.calendar.JDateChooser();
-        jLabel8 = new javax.swing.JLabel();
-        dtmCotizacion = new com.toedter.calendar.JDateChooser();
         jLabel10 = new javax.swing.JLabel();
         dtmOrdenCompra = new com.toedter.calendar.JDateChooser();
-        jLabel11 = new javax.swing.JLabel();
-        dtmRecepcion = new com.toedter.calendar.JDateChooser();
+        dtmFechaEntrega = new com.toedter.calendar.JDateChooser();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        txtDesde = new javax.swing.JTextField();
+        jLabel24 = new javax.swing.JLabel();
+        txthasta = new javax.swing.JTextField();
+        jLabel25 = new javax.swing.JLabel();
+        txtTiempo = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -214,7 +252,7 @@ public class FrmSistema extends javax.swing.JFrame {
         txtMunicipio = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         txtCodigoEscuela = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbxANombreDe = new javax.swing.JComboBox<>();
         jPanel6 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         txtPlazoEntrega = new javax.swing.JTextField();
@@ -224,23 +262,24 @@ public class FrmSistema extends javax.swing.JFrame {
         txtVigenciaCotizacion = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
         txtGarantia = new javax.swing.JTextField();
-        jLabel22 = new javax.swing.JLabel();
-        dtmLimite = new com.toedter.calendar.JDateChooser();
-        jLabel7 = new javax.swing.JLabel();
-        dtmFechaEntrega = new com.toedter.calendar.JDateChooser();
-        jLabel23 = new javax.swing.JLabel();
-        txtDesde = new javax.swing.JTextField();
-        jLabel24 = new javax.swing.JLabel();
-        txthasta = new javax.swing.JTextField();
-        jLabel25 = new javax.swing.JLabel();
-        txtTiempo = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        dtmCotizacion = new com.toedter.calendar.JDateChooser();
         jPanel7 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        dtmSolicitudCotizacion = new com.toedter.calendar.JDateChooser();
+        jLabel22 = new javax.swing.JLabel();
+        dtmLimite = new com.toedter.calendar.JDateChooser();
+        jPanel9 = new javax.swing.JPanel();
+        dtmRecepcion = new com.toedter.calendar.JDateChooser();
+        jLabel11 = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1366, 720));
+        setPreferredSize(new java.awt.Dimension(1350, 765));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -317,11 +356,6 @@ public class FrmSistema extends javax.swing.JFrame {
         jLabel1.setText("TOTALES");
 
         txtTotales.setEditable(false);
-        txtTotales.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTotalesActionPerformed(evt);
-            }
-        });
 
         jLabel4.setBackground(new java.awt.Color(51, 51, 51));
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -393,66 +427,71 @@ public class FrmSistema extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtDescripcion))
+                        .addGap(34, 34, 34)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(36, 36, 36)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPrecioU, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(45, 45, 45))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+                                .addComponent(txtUnidadM, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnAgregarDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnEliminarDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnActualizarDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnLimpiarTodo, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 78, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(txtTotales, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPrecioU, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnAgregarDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEliminarDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnActualizarDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnLimpiarTodo, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
-                        .addComponent(txtUnidadM, javax.swing.GroupLayout.Alignment.LEADING)))
+                        .addComponent(txtTotales, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel6)))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtPrecioU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtPrecioU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtUnidadM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnActualizarDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLimpiarTodo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminarDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAgregarDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAgregarDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminarDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnActualizarDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLimpiarTodo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTotales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addContainerGap())
@@ -487,11 +526,13 @@ public class FrmSistema extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel13)
-                    .addComponent(cbxProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbxProveedor, 0, 241, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtEncargadoOrden, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtEncargadoOrden)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 14, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -509,23 +550,7 @@ public class FrmSistema extends javax.swing.JFrame {
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Fechas de Emicion Y Recepcion", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
-
-        jLabel2.setText("Fecha de solicitud de cotizacion:");
-
-        dtmSolicitudCotizacion.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                dtmSolicitudCotizacionKeyPressed(evt);
-            }
-        });
-
-        jLabel8.setText("Fecha de Emicion de cotizacion:");
-
-        dtmCotizacion.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                dtmCotizacionKeyPressed(evt);
-            }
-        });
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Orden de Compra", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         jLabel10.setText("Fecha de orden de compra:");
 
@@ -535,11 +560,36 @@ public class FrmSistema extends javax.swing.JFrame {
             }
         });
 
-        jLabel11.setText("Fecha de recepcion de bienes:");
-
-        dtmRecepcion.addKeyListener(new java.awt.event.KeyAdapter() {
+        dtmFechaEntrega.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                dtmRecepcionKeyPressed(evt);
+                dtmFechaEntregaKeyPressed(evt);
+            }
+        });
+
+        jLabel7.setText("Fecha de entrega en Escuela");
+
+        jLabel23.setText("Hora de entrega: DESDE");
+
+        txtDesde.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtDesdeKeyPressed(evt);
+            }
+        });
+
+        jLabel24.setText("HASTA");
+
+        txthasta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txthastaKeyPressed(evt);
+            }
+        });
+
+        jLabel25.setText("DE LA:");
+
+        txtTiempo.setText("MAÑANA");
+        txtTiempo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtTiempoKeyPressed(evt);
             }
         });
 
@@ -549,45 +599,54 @@ public class FrmSistema extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dtmOrdenCompra, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
-                    .addComponent(dtmSolicitudCotizacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(32, 32, 32)))
-                .addGap(58, 58, 58)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dtmCotizacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel23)
+                            .addComponent(txtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(60, 60, 60)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txthasta, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel24))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel25)
+                                    .addComponent(txtTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap())
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
-                        .addGap(11, 11, 11))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(23, 23, 23))
-                    .addComponent(dtmRecepcion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addComponent(dtmOrdenCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54)
+                        .addComponent(dtmFechaEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(dtmSolicitudCotizacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dtmCotizacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel11))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dtmOrdenCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dtmRecepcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(68, Short.MAX_VALUE))
+                    .addComponent(dtmFechaEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dtmOrdenCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel23)
+                    .addComponent(jLabel24)
+                    .addComponent(jLabel25))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txthasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(67, 67, 67))
         );
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
@@ -619,7 +678,12 @@ public class FrmSistema extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxANombreDe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxANombreDe.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cbxANombreDeKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -627,56 +691,42 @@ public class FrmSistema extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel15)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, Short.MAX_VALUE)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel16)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtNombreInstitucion)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(txtCodigoEscuela, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
-                                .addGap(29, 29, 29)))
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel17)
-                            .addComponent(txtMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtCodigoEscuela)
+                    .addComponent(cbxANombreDe, 0, 180, Short.MAX_VALUE)
+                    .addComponent(jLabel15)
+                    .addComponent(jLabel9))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel17)
+                    .addComponent(txtNombreInstitucion, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                    .addComponent(jLabel16)
+                    .addComponent(txtMunicipio))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
                     .addComponent(jLabel16))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombreInstitucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbxANombreDe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel17)
-                    .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel17))
+                .addGap(1, 1, 1)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCodigoEscuela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCodigoEscuela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Cotizacion", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Liberation Sans", 1, 13))); // NOI18N
 
         jLabel18.setText("Plazo de entrega:");
 
@@ -714,44 +764,11 @@ public class FrmSistema extends javax.swing.JFrame {
             }
         });
 
-        jLabel22.setText("Fecha limite cotizacion");
+        jLabel8.setText("Fecha de Emicion de cotizacion:");
 
-        dtmLimite.addKeyListener(new java.awt.event.KeyAdapter() {
+        dtmCotizacion.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                dtmLimiteKeyPressed(evt);
-            }
-        });
-
-        jLabel7.setText("Fecha de entrega en Escuela");
-
-        dtmFechaEntrega.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                dtmFechaEntregaKeyPressed(evt);
-            }
-        });
-
-        jLabel23.setText("Hora de entrega: DESDE");
-
-        txtDesde.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtDesdeKeyPressed(evt);
-            }
-        });
-
-        jLabel24.setText("HASTA");
-
-        txthasta.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txthastaKeyPressed(evt);
-            }
-        });
-
-        jLabel25.setText("DE LA:");
-
-        txtTiempo.setText("MAÑANA");
-        txtTiempo.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtTiempoKeyPressed(evt);
+                dtmCotizacionKeyPressed(evt);
             }
         });
 
@@ -763,83 +780,54 @@ public class FrmSistema extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(dtmLimite, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
-                        .addComponent(dtmFechaEntrega, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPlazoEntrega, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                            .addComponent(txtVigenciaCotizacion, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(42, 42, 42)
+                                .addComponent(txtGarantia))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(40, 40, 40)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtLugarEntrega)
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel21)
+                                            .addComponent(jLabel19))
+                                        .addGap(0, 0, Short.MAX_VALUE))))))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtDesde, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(txtVigenciaCotizacion)
-                                        .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtPlazoEntrega, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE))
-                                    .addComponent(jLabel20)))
-                            .addComponent(jLabel23))
-                        .addGap(37, 37, 37)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtLugarEntrega)
-                            .addComponent(txtGarantia)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(jLabel24)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel25)
-                                .addGap(88, 88, 88))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel21)
-                                    .addComponent(jLabel19))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(txthasta, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel22)
-                        .addGap(126, 126, 126)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dtmCotizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel20))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel7))
+                .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dtmLimite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dtmFechaEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel23)
-                    .addComponent(jLabel24)
-                    .addComponent(jLabel25))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txthasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(dtmCotizacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
                     .addComponent(jLabel19))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtLugarEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPlazoEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(txtPlazoEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtLugarEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel21)
-                    .addComponent(jLabel20))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel20)
+                    .addComponent(jLabel21))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtVigenciaCotizacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtGarantia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
@@ -908,37 +896,140 @@ public class FrmSistema extends javax.swing.JFrame {
             .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Solicitud de Cotizacion", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Liberation Sans", 1, 13))); // NOI18N
+
+        jLabel2.setText("Fecha de solicitud de cotizacion:");
+
+        dtmSolicitudCotizacion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                dtmSolicitudCotizacionKeyPressed(evt);
+            }
+        });
+
+        jLabel22.setText("Fecha limite cotizacion");
+
+        dtmLimite.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                dtmLimiteKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dtmSolicitudCotizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dtmLimite, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel22))
+                .addContainerGap())
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dtmSolicitudCotizacion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dtmLimite, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Acta de Recepcion", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Liberation Sans", 1, 13))); // NOI18N
+
+        dtmRecepcion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                dtmRecepcionKeyPressed(evt);
+            }
+        });
+
+        jLabel11.setText("Fecha de recepcion de bienes:");
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dtmRecepcion, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dtmRecepcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel10.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 20, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -958,12 +1049,461 @@ public class FrmSistema extends javax.swing.JFrame {
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
 
+        actualizar();
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    /*ESTE EVENTO SIRVE PARA GUARDAR LOS DATOS DEL FORMULARIO EN LA BD*/
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+
+        guardar();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnActualizarDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarDetalleActionPerformed
+
+        aDetalle();
+    }//GEN-LAST:event_btnActualizarDetalleActionPerformed
+
+    private void btnEliminarDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarDetalleActionPerformed
+
+        eDetalle();
+    }//GEN-LAST:event_btnEliminarDetalleActionPerformed
+
+    // EVENTO PARA AGREGAR DATOS A LA TABLA
+    private void btnAgregarDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarDetalleActionPerformed
+
+        agregarDetalle();
+    }//GEN-LAST:event_btnAgregarDetalleActionPerformed
+
+    private void tblCotizacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCotizacionMouseClicked
+        // TODO add your handling code here:
+
+        int fila = tblCotizacion.getSelectedRow();
+        if (fila != -1) { // Verifica si hay una fila seleccionada
+            try {
+                //txtId.setText(tblCotizacion.getValueAt(fila, 0).toString());
+                txtCantidad.setText(tblCotizacion.getValueAt(fila, 1).toString());
+                txtUnidadM.setText(tblCotizacion.getValueAt(fila, 2).toString());
+                txtDescripcion.setText(tblCotizacion.getValueAt(fila, 3).toString());
+                txtPrecioU.setText(tblCotizacion.getValueAt(fila, 4).toString());
+                // Corregir el índice para el precio total
+                //txtTotales.setText(tblCotizacion.getValueAt(fila, 5).toString());
+                btnActualizarDetalle.requestFocus();
+            } catch (NullPointerException | ArrayIndexOutOfBoundsException ex) {
+                // Manejar la excepción en caso de que no se pueda obtener un valor de la fila seleccionada
+                JOptionPane.showMessageDialog(null, "Error al obtener los datos de la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila antes de editar los datos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_tblCotizacionMouseClicked
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+
+        FrmMain frmMain = new FrmMain();
+
+        frmMain.setVisible(true);
+
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnLimpiarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarTodoActionPerformed
+        // TODO add your handling code here:
+        Limpiar();
+        txtDescripcion.requestFocus();
+    }//GEN-LAST:event_btnLimpiarTodoActionPerformed
+
+    private void txtNombreInstitucionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreInstitucionKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            txtCodigoEscuela.requestFocus();
+        }
+    }//GEN-LAST:event_txtNombreInstitucionKeyPressed
+
+    private void txtCodigoEscuelaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoEscuelaKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            txtMunicipio.requestFocus();
+        }
+    }//GEN-LAST:event_txtCodigoEscuelaKeyPressed
+
+    private void txtMunicipioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMunicipioKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            cbxProveedor.requestFocus();
+        }
+    }//GEN-LAST:event_txtMunicipioKeyPressed
+
+    private void dtmLimiteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtmLimiteKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            dtmCotizacion.requestFocus();
+        }
+    }//GEN-LAST:event_dtmLimiteKeyPressed
+
+    private void dtmFechaEntregaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtmFechaEntregaKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            txtDesde.requestFocus();
+        }
+    }//GEN-LAST:event_dtmFechaEntregaKeyPressed
+
+    private void txtDesdeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDesdeKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            txthasta.requestFocus();
+        }
+    }//GEN-LAST:event_txtDesdeKeyPressed
+
+    private void txthastaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txthastaKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            txtTiempo.requestFocus();
+        }
+    }//GEN-LAST:event_txthastaKeyPressed
+
+    private void txtTiempoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTiempoKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            dtmRecepcion.requestFocus();
+        }
+    }//GEN-LAST:event_txtTiempoKeyPressed
+
+    private void txtPlazoEntregaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPlazoEntregaKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            txtLugarEntrega.requestFocus();
+        }
+    }//GEN-LAST:event_txtPlazoEntregaKeyPressed
+
+    private void txtLugarEntregaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLugarEntregaKeyPressed
+        // TODO add your handling code here:
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            txtVigenciaCotizacion.requestFocus();
+        }
+    }//GEN-LAST:event_txtLugarEntregaKeyPressed
+
+    private void txtVigenciaCotizacionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtVigenciaCotizacionKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            txtGarantia.requestFocus();
+        }
+    }//GEN-LAST:event_txtVigenciaCotizacionKeyPressed
+
+    private void txtGarantiaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtGarantiaKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            dtmOrdenCompra.requestFocus();
+        }
+    }//GEN-LAST:event_txtGarantiaKeyPressed
+
+    private void cbxProveedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbxProveedorKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            txtEncargadoOrden.requestFocus();
+        }
+    }//GEN-LAST:event_cbxProveedorKeyPressed
+
+    private void txtEncargadoOrdenKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEncargadoOrdenKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            dtmSolicitudCotizacion.requestFocus();
+        }
+    }//GEN-LAST:event_txtEncargadoOrdenKeyPressed
+
+    private void dtmSolicitudCotizacionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtmSolicitudCotizacionKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            dtmLimite.requestFocus();
+        }
+    }//GEN-LAST:event_dtmSolicitudCotizacionKeyPressed
+
+    private void dtmCotizacionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtmCotizacionKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            txtPlazoEntrega.requestFocus();
+        }
+    }//GEN-LAST:event_dtmCotizacionKeyPressed
+
+    private void dtmOrdenCompraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtmOrdenCompraKeyPressed
+        // TODO add your handling code here:
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            dtmFechaEntrega.requestFocus();
+        }
+    }//GEN-LAST:event_dtmOrdenCompraKeyPressed
+
+    private void dtmRecepcionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtmRecepcionKeyPressed
+        // TODO add your handling code here:
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+        }
+    }//GEN-LAST:event_dtmRecepcionKeyPressed
+
+    private void txtDescripcionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            txtCantidad.requestFocus();
+        }
+    }//GEN-LAST:event_txtDescripcionKeyPressed
+
+    private void txtCantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            txtPrecioU.requestFocus();
+        }
+    }//GEN-LAST:event_txtCantidadKeyPressed
+
+    private void txtPrecioUKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioUKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            txtUnidadM.requestFocus();
+        }
+    }//GEN-LAST:event_txtPrecioUKeyPressed
+
+    private void txtUnidadMKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUnidadMKeyPressed
+        // TODO add your handling code here:
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            btnAgregarDetalle.requestFocus();
+        }
+    }//GEN-LAST:event_txtUnidadMKeyPressed
+
+    private void btnAgregarDetalleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnAgregarDetalleKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            agregarDetalle();
+            txtDescripcion.requestFocus();
+        }
+    }//GEN-LAST:event_btnAgregarDetalleKeyPressed
+
+    private void btnEliminarDetalleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnEliminarDetalleKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            eDetalle();
+        }
+    }//GEN-LAST:event_btnEliminarDetalleKeyPressed
+
+    private void btnActualizarDetalleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnActualizarDetalleKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            aDetalle();
+        }
+    }//GEN-LAST:event_btnActualizarDetalleKeyPressed
+
+    private void btnLimpiarTodoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnLimpiarTodoKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            Limpiar();
+            txtDescripcion.requestFocus();
+        }
+    }//GEN-LAST:event_btnLimpiarTodoKeyPressed
+
+    private void tblCotizacionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblCotizacionKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+        }
+    }//GEN-LAST:event_tblCotizacionKeyPressed
+
+    private void btnGuardarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnGuardarKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            guardar();
+        }
+    }//GEN-LAST:event_btnGuardarKeyPressed
+
+    private void btnActualizarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnActualizarKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            actualizar();
+        }
+    }//GEN-LAST:event_btnActualizarKeyPressed
+
+    private void btnCancelarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnCancelarKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            FrmMain frmMain = new FrmMain();
+
+            frmMain.setVisible(true);
+
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnCancelarKeyPressed
+
+    private void cbxANombreDeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbxANombreDeKeyPressed
+        // TODO add your handling code here:
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txtNombreInstitucion.requestFocus();
+        }
+    }//GEN-LAST:event_cbxANombreDeKeyPressed
+
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(FrmSistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(FrmSistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(FrmSistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(FrmSistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new FrmSistema(0).setVisible(true);
+//            }
+//        });
+//    }
+    private void guardar() {
+
+        try {
+            if (verificacionCamposVacios()) {
+                // Inicializar los objetos de las entidades
+                ClienteVM clienteVM = new ClienteVM();
+                clienteVM.setEncargadoCompra((String) cbxANombreDe.getSelectedItem());
+                clienteVM.setNombreInstitucion(txtNombreInstitucion.getText().trim());
+                clienteVM.setMunicipio(txtMunicipio.getText().trim());
+                clienteVM.setCodigo(txtCodigoEscuela.getText().trim());
+
+                // Guardar cliente
+                boolean g1 = clienteC.guardarCliente(clienteVM);
+                if (!g1) {
+                    throw new Exception("Error al guardar el cliente");
+                }
+
+                FechaErVM fechaErVM = new FechaErVM();
+                fechaErVM.setFechaSolicitud(dtmSolicitudCotizacion.getDate());
+                fechaErVM.setFechaCotizacion(dtmCotizacion.getDate());
+                fechaErVM.setFechaOrden(dtmOrdenCompra.getDate());
+                fechaErVM.setFechaRecepcion(dtmRecepcion.getDate());
+
+                // Guardar fechas
+                boolean g2 = fechaERController.guardarFechas(fechaErVM);
+                if (!g2) {
+                    throw new Exception("Error al guardar las fechas");
+                }
+
+                int clienteId = clienteC.obtenerCliente();
+                int fechaId = fechaERController.obtenerFecha();
+
+                OrdenVM ordenVM = new OrdenVM();
+                ordenVM.setCodOrden(generarCodigo());
+                ordenVM.setEncargadoOrden(txtEncargadoOrden.getText().trim());
+                ordenVM.setTotales(Double.parseDouble(txtTotales.getText().trim()));
+                ordenVM.setLimite_cotizacion(dtmLimite.getDate());
+                ordenVM.setFecha_de_entrega(dtmFechaEntrega.getDate());
+                ordenVM.setHora_entrega_desde(txtDesde.getText().trim());
+                ordenVM.setHora_entrega_hasta(txthasta.getText().trim());
+                ordenVM.setTiempo_entrega(txtTiempo.getText().trim());
+                ordenVM.setPlazo_entrega(txtPlazoEntrega.getText().trim());
+                ordenVM.setLugar_entrega(txtLugarEntrega.getText().trim());
+                ordenVM.setVigencia_de_la_cotizacion(txtVigenciaCotizacion.getText().trim());
+                ordenVM.setTiempo_de_garantia(txtGarantia.getText().trim());
+                ordenVM.setClienteId(clienteId);
+                ordenVM.setProveedorId(cbxProveedor.getSelectedIndex() + 1);
+                ordenVM.setFechasErId(fechaId);
+
+                // Guardar orden
+                boolean g3 = ordenController.guardarOrden(ordenVM);
+                if (!g3) {
+                    throw new Exception("Error al guardar la orden");
+                }
+
+                int ordenId = ordenController.obtenerOrden();
+
+                DefaultTableModel modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
+                int g4 = 0;
+
+                for (int fila = 0; fila < modeloTabla.getRowCount(); fila++) {
+                    DetalleOrdenVM detalleOrdenVM = new DetalleOrdenVM();
+                    detalleOrdenVM.setNumArticulo((Integer) modeloTabla.getValueAt(fila, 0));
+                    detalleOrdenVM.setCantidad((Integer) modeloTabla.getValueAt(fila, 1));
+                    detalleOrdenVM.setUnidadMedida((String) modeloTabla.getValueAt(fila, 2));
+                    detalleOrdenVM.setDescripcionArticulo((String) modeloTabla.getValueAt(fila, 3));
+                    detalleOrdenVM.setPrecioUnitario(Double.parseDouble((String) modeloTabla.getValueAt(fila, 4)));
+                    detalleOrdenVM.setPrecioTotal(Double.parseDouble((String) modeloTabla.getValueAt(fila, 5)));
+                    detalleOrdenVM.setOrdenId(ordenId);
+
+                    boolean guardado = detalleOrdenController.guardarDetalleOrden(detalleOrdenVM);
+                    if (!guardado) {
+                        throw new Exception("Error al guardar el detalle de la orden");
+                    }
+                    g4++;
+                }
+
+                if (g1 && g2 && g3 && g4 == modeloTabla.getRowCount()) {
+                    JOptionPane.showMessageDialog(this, "Orden registrada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+                    // Limpiar los campos y actualizarDetalle la tabla
+                    Limpiar();
+                    FrmMain frmMain = new FrmMain();
+                    frmMain.setVisible(true);
+                    this.setVisible(false);
+                } else {
+                    throw new Exception("Error interno detectado");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al registrar la orden: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
+    private void actualizar() {
+
         try {
             if (verificacionCamposVacios()) {
                 // Inicializar los objetos de las entidades
                 ClienteVM clienteVM = new ClienteVM();
                 clienteVM.setIdCliente(cliente);
-                clienteVM.setEncargadoCompra(txtEncargadoCompra.getText().trim());
+                clienteVM.setEncargadoCompra((String) cbxANombreDe.getSelectedItem());
                 clienteVM.setNombreInstitucion(txtNombreInstitucion.getText().trim());
                 clienteVM.setMunicipio(txtMunicipio.getText().trim());
                 clienteVM.setCodigo(txtCodigoEscuela.getText().trim());
@@ -1031,7 +1571,7 @@ public class FrmSistema extends javax.swing.JFrame {
                     }
                 }
 
-                g4 = actualizar();
+                g4 = actualizarDetalle();
 
                 //int ordenId = ordenController.obtenerOrden();
                 if (g1 && g2 && g3 && !(g4 == 0)) {
@@ -1050,107 +1590,90 @@ public class FrmSistema extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al registrar la orden: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_btnActualizarActionPerformed
+    }
 
-    /*ESTE EVENTO SIRVE PARA GUARDAR LOS DATOS DEL FORMULARIO EN LA BD*/
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+    private void agregarDetalle() {
 
         try {
-            if (verificacionCamposVacios()) {
-                // Inicializar los objetos de las entidades
-                ClienteVM clienteVM = new ClienteVM();
-                clienteVM.setEncargadoCompra(txtEncargadoCompra.getText().trim());
-                clienteVM.setNombreInstitucion(txtNombreInstitucion.getText().trim());
-                clienteVM.setMunicipio(txtMunicipio.getText().trim());
-                clienteVM.setCodigo(txtCodigoEscuela.getText().trim());
-
-                // Guardar cliente
-                boolean g1 = clienteC.guardarCliente(clienteVM);
-                if (!g1) {
-                    throw new Exception("Error al guardar el cliente");
-                }
-
-                FechaErVM fechaErVM = new FechaErVM();
-                fechaErVM.setFechaSolicitud(dtmSolicitudCotizacion.getDate());
-                fechaErVM.setFechaCotizacion(dtmCotizacion.getDate());
-                fechaErVM.setFechaOrden(dtmOrdenCompra.getDate());
-                fechaErVM.setFechaRecepcion(dtmRecepcion.getDate());
-
-                // Guardar fechas
-                boolean g2 = fechaERController.guardarFechas(fechaErVM);
-                if (!g2) {
-                    throw new Exception("Error al guardar las fechas");
-                }
-
-                int clienteId = clienteC.obtenerCliente();
-                int fechaId = fechaERController.obtenerFecha();
-
-                OrdenVM ordenVM = new OrdenVM();
-                ordenVM.setCodOrden(generarCodigo());
-                ordenVM.setEncargadoOrden(txtEncargadoOrden.getText().trim());
-                ordenVM.setTotales(Double.parseDouble(txtTotales.getText().trim()));
-                ordenVM.setLimite_cotizacion(dtmLimite.getDate());
-                ordenVM.setFecha_de_entrega(dtmFechaEntrega.getDate());
-                ordenVM.setHora_entrega_desde(txtDesde.getText().trim());
-                ordenVM.setHora_entrega_hasta(txthasta.getText().trim());
-                ordenVM.setTiempo_entrega(txtTiempo.getText().trim());
-                ordenVM.setPlazo_entrega(txtPlazoEntrega.getText().trim());
-                ordenVM.setLugar_entrega(txtLugarEntrega.getText().trim());
-                ordenVM.setVigencia_de_la_cotizacion(txtVigenciaCotizacion.getText().trim());
-                ordenVM.setTiempo_de_garantia(txtGarantia.getText().trim());
-                ordenVM.setClienteId(clienteId);
-                ordenVM.setProveedorId(cbxProveedor.getSelectedIndex() + 1);
-                ordenVM.setFechasErId(fechaId);
-
-                // Guardar orden
-                boolean g3 = ordenController.guardarOrden(ordenVM);
-                if (!g3) {
-                    throw new Exception("Error al guardar la orden");
-                }
-
-                int ordenId = ordenController.obtenerOrden();
-
-                DefaultTableModel modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
-                int g4 = 0;
-
-                for (int fila = 0; fila < modeloTabla.getRowCount(); fila++) {
-                    DetalleOrdenVM detalleOrdenVM = new DetalleOrdenVM();
-                    detalleOrdenVM.setNumArticulo((Integer) modeloTabla.getValueAt(fila, 0));
-                    detalleOrdenVM.setCantidad((Integer) modeloTabla.getValueAt(fila, 1));
-                    detalleOrdenVM.setUnidadMedida((String) modeloTabla.getValueAt(fila, 2));
-                    detalleOrdenVM.setDescripcionArticulo((String) modeloTabla.getValueAt(fila, 3));
-                    detalleOrdenVM.setPrecioUnitario((Double) modeloTabla.getValueAt(fila, 4));
-                    detalleOrdenVM.setPrecioTotal((Double) modeloTabla.getValueAt(fila, 5));
-                    detalleOrdenVM.setOrdenId(ordenId);
-
-                    boolean guardado = detalleOrdenController.guardarDetalleOrden(detalleOrdenVM);
-                    if (!guardado) {
-                        throw new Exception("Error al guardar el detalle de la orden");
-                    }
-                    g4++;
-                }
-
-                if (g1 && g2 && g3 && g4 == modeloTabla.getRowCount()) {
-                    JOptionPane.showMessageDialog(this, "Orden registrada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
-                    // Limpiar los campos y actualizar la tabla
-                    Limpiar();
-                    FrmMain frmMain = new FrmMain();
-                    frmMain.setVisible(true);
-                    this.setVisible(false);
-                } else {
-                    throw new Exception("Error interno detectado");
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            // Validación de campos vacíos
+            String descripcion = txtDescripcion.getText();
+            if (descripcion.isEmpty()) {
+                throw new IllegalArgumentException("La descripción no puede estar vacía.");
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al registrar la orden: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void btnActualizarDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarDetalleActionPerformed
-        // TODO add your handling code here:
+            String strCantidad = txtCantidad.getText();
+            if (strCantidad.isEmpty()) {
+                throw new IllegalArgumentException("La cantidad no puede estar vacía.");
+            }
+
+            String strPrecioUnitario = txtPrecioU.getText();
+            if (strPrecioUnitario.isEmpty()) {
+                throw new IllegalArgumentException("El precio unitario no puede estar vacío.");
+            }
+
+            String unidadMedida = txtUnidadM.getText();
+            if (unidadMedida.isEmpty()) {
+                throw new IllegalArgumentException("La unidad de medida no puede estar vacía.");
+            }
+
+            // Validación de números
+            int cantidad;
+            try {
+                cantidad = Integer.parseInt(strCantidad);
+                if (cantidad <= 0) {
+                    throw new IllegalArgumentException("La cantidad debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("La cantidad debe ser un número válido.");
+            }
+
+            double precioUnitario;
+            try {
+                precioUnitario = Double.parseDouble(strPrecioUnitario);
+                if (precioUnitario <= 0) {
+                    throw new IllegalArgumentException("El precio unitario debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("El precio unitario debe ser un número válido.");
+            }
+
+            // Cálculo de precio total
+            double precioTotal = cantidad * precioUnitario;
+
+            String PrecioUnitariostr = formato.format(precioUnitario);
+            String PrecioTotaltr = formato.format(precioTotal);
+
+            // Agregar fila a la tabla
+            int numeroItem = tblCotizacion.getRowCount() + 1;
+            modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
+            Object[] filaAgregar = {numeroItem, cantidad, unidadMedida, descripcion, PrecioUnitariostr, PrecioTotaltr};
+            modeloTabla.addRow(filaAgregar);
+            numNuevosDetalles++;
+
+            // Calcular totales
+            double totales = 0;
+            int numFilas = modeloTabla.getRowCount();
+            for (int fila = 0; fila < numFilas; fila++) {
+                String totalP = String.valueOf(modeloTabla.getValueAt(fila, modeloTabla.getColumnCount() - 1));
+                double pTotal = Double.parseDouble(totalP);
+                totales += pTotal;
+            }
+            String Totalestr = String.valueOf(formato.format(totales));
+
+            txtTotales.setText(String.valueOf(Totalestr));
+            txtDescripcion.setText("");
+            txtCantidad.setText("");
+            txtPrecioU.setText("");
+            txtDescripcion.requestFocus();
+
+        } catch (IllegalArgumentException e) {
+            // Manejo de excepciones y mostrar mensaje de error
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error de validación", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void aDetalle() {
+
         DefaultTableModel modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
 
         // Obtener el índice de la fila seleccionada
@@ -1201,25 +1724,31 @@ public class FrmSistema extends javax.swing.JFrame {
                 // Calcular el precio total
                 double precioTotal = cantidad * precioUnitario;
 
+                String PrecioUnitariostr = formato.format(precioUnitario);
+                String PrecioTotaltr = formato.format(precioTotal);
+
                 // Actualizar la fila en la tabla
                 modeloTabla.setValueAt(cantidad, filaSeleccionada, 1);
                 modeloTabla.setValueAt(unidadMedida, filaSeleccionada, 2);
                 modeloTabla.setValueAt(descripcion, filaSeleccionada, 3);
-                modeloTabla.setValueAt(precioUnitario, filaSeleccionada, 4);
-                modeloTabla.setValueAt(precioTotal, filaSeleccionada, 5);
+                modeloTabla.setValueAt(PrecioUnitariostr, filaSeleccionada, 4);
+                modeloTabla.setValueAt(PrecioTotaltr, filaSeleccionada, 5);
 
                 txtDescripcion.setText("");
                 txtCantidad.setText("");
                 txtPrecioU.setText("");
 
-                // Recalcular el total de todos los precios después de actualizar la fila
                 double totales = 0;
                 int numFilas = modeloTabla.getRowCount();
                 for (int fila = 0; fila < numFilas; fila++) {
-                    double pTotal = (Double) modeloTabla.getValueAt(fila, modeloTabla.getColumnCount() - 1);
+                    String totalP = String.valueOf(modeloTabla.getValueAt(fila, modeloTabla.getColumnCount() - 1));
+                    double pTotal = Double.parseDouble(totalP);
                     totales += pTotal;
                 }
-                txtTotales.setText(String.valueOf(totales));
+                String Totalestr = String.valueOf(formato.format(totales));
+
+                txtTotales.setText(String.valueOf(Totalestr));
+                txtDescripcion.requestFocus();
 
                 JOptionPane.showMessageDialog(this, "Detalle actualizado correctamente.", "Información", JOptionPane.INFORMATION_MESSAGE);
 
@@ -1231,10 +1760,11 @@ public class FrmSistema extends javax.swing.JFrame {
             // Mostrar mensaje de advertencia si no hay ninguna fila seleccionada
             JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para actualizar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_btnActualizarDetalleActionPerformed
 
-    private void btnEliminarDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarDetalleActionPerformed
-        // TODO add your handling code here:
+    }
+
+    private void eDetalle() {
+
         DefaultTableModel modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
 
         // Obtener el índice de la fila seleccionada
@@ -1263,733 +1793,10 @@ public class FrmSistema extends javax.swing.JFrame {
                 modeloTabla.setValueAt(fila + 1, fila, 0);
             }
 
-            // Recalcular el total de todos los precios después de eliminar la fila
-            double totales = 0.00;
-            int numFilas = modeloTabla.getRowCount();
-            for (int fila = 0; fila < numFilas; fila++) {
-                double precioTotal = (Double) modeloTabla.getValueAt(fila, modeloTabla.getColumnCount() - 1);
-                totales += precioTotal;
-            }
-            DecimalFormat df = new DecimalFormat("0.00");
-
-            String formattedTotal = df.format(totales);
-            txtTotales.setText(formattedTotal);
-
-            JOptionPane.showMessageDialog(this, "Detalle eliminado correctamente.", "Información", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            // Mostrar mensaje de advertencia si no hay ninguna fila seleccionada
-            JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_btnEliminarDetalleActionPerformed
-
-    // EVENTO PARA AGREGAR DATOS A LA TABLA
-    private void btnAgregarDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarDetalleActionPerformed
-
-        agregarDetalle();
-    }//GEN-LAST:event_btnAgregarDetalleActionPerformed
-
-    private void txtTotalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTotalesActionPerformed
-
-    private void tblCotizacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCotizacionMouseClicked
-        // TODO add your handling code here:
-
-        int fila = tblCotizacion.getSelectedRow();
-        if (fila != -1) { // Verifica si hay una fila seleccionada
-            try {
-                //txtId.setText(tblCotizacion.getValueAt(fila, 0).toString());
-                txtCantidad.setText(tblCotizacion.getValueAt(fila, 1).toString());
-                txtUnidadM.setText(tblCotizacion.getValueAt(fila, 2).toString());
-                txtDescripcion.setText(tblCotizacion.getValueAt(fila, 3).toString());
-                txtPrecioU.setText(tblCotizacion.getValueAt(fila, 4).toString());
-                // Corregir el índice para el precio total
-                //txtTotales.setText(tblCotizacion.getValueAt(fila, 5).toString());
-                btnActualizarDetalle.requestFocus();
-            } catch (NullPointerException | ArrayIndexOutOfBoundsException ex) {
-                // Manejar la excepción en caso de que no se pueda obtener un valor de la fila seleccionada
-                JOptionPane.showMessageDialog(null, "Error al obtener los datos de la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila antes de editar los datos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_tblCotizacionMouseClicked
-
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
-
-        FrmMain frmMain = new FrmMain();
-
-        frmMain.setVisible(true);
-
-        this.dispose();
-    }//GEN-LAST:event_btnCancelarActionPerformed
-
-    private void btnLimpiarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarTodoActionPerformed
-        // TODO add your handling code here:
-        Limpiar();
-        txtDescripcion.requestFocus();
-    }//GEN-LAST:event_btnLimpiarTodoActionPerformed
-
-    private void txtNombreInstitucionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreInstitucionKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            txtCodigoEscuela.requestFocus();
-        }
-    }//GEN-LAST:event_txtNombreInstitucionKeyPressed
-
-    private void txtCodigoEscuelaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoEscuelaKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            txtMunicipio.requestFocus();
-        }
-    }//GEN-LAST:event_txtCodigoEscuelaKeyPressed
-
-    private void txtMunicipioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMunicipioKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            dtmLimite.requestFocus();
-        }
-    }//GEN-LAST:event_txtMunicipioKeyPressed
-
-    private void dtmLimiteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtmLimiteKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            dtmFechaEntrega.requestFocus();
-        }
-    }//GEN-LAST:event_dtmLimiteKeyPressed
-
-    private void dtmFechaEntregaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtmFechaEntregaKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            txtDesde.requestFocus();
-        }
-    }//GEN-LAST:event_dtmFechaEntregaKeyPressed
-
-    private void txtDesdeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDesdeKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            txthasta.requestFocus();
-        }
-    }//GEN-LAST:event_txtDesdeKeyPressed
-
-    private void txthastaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txthastaKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            txtTiempo.requestFocus();
-        }
-    }//GEN-LAST:event_txthastaKeyPressed
-
-    private void txtTiempoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTiempoKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            txtPlazoEntrega.requestFocus();
-        }
-    }//GEN-LAST:event_txtTiempoKeyPressed
-
-    private void txtPlazoEntregaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPlazoEntregaKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            txtLugarEntrega.requestFocus();
-        }
-    }//GEN-LAST:event_txtPlazoEntregaKeyPressed
-
-    private void txtLugarEntregaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLugarEntregaKeyPressed
-        // TODO add your handling code here:
-
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            txtVigenciaCotizacion.requestFocus();
-        }
-    }//GEN-LAST:event_txtLugarEntregaKeyPressed
-
-    private void txtVigenciaCotizacionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtVigenciaCotizacionKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtVigenciaCotizacionKeyPressed
-
-    private void txtGarantiaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtGarantiaKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            cbxProveedor.requestFocus();
-        }
-    }//GEN-LAST:event_txtGarantiaKeyPressed
-
-    private void cbxProveedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbxProveedorKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            txtEncargadoOrden.requestFocus();
-        }
-    }//GEN-LAST:event_cbxProveedorKeyPressed
-
-    private void txtEncargadoOrdenKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEncargadoOrdenKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            dtmSolicitudCotizacion.requestFocus();
-        }
-    }//GEN-LAST:event_txtEncargadoOrdenKeyPressed
-
-    private void dtmSolicitudCotizacionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtmSolicitudCotizacionKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            dtmCotizacion.requestFocus();
-        }
-    }//GEN-LAST:event_dtmSolicitudCotizacionKeyPressed
-
-    private void dtmCotizacionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtmCotizacionKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            dtmOrdenCompra.requestFocus();
-        }
-    }//GEN-LAST:event_dtmCotizacionKeyPressed
-
-    private void dtmOrdenCompraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtmOrdenCompraKeyPressed
-        // TODO add your handling code here:
-
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            dtmRecepcion.requestFocus();
-        }
-    }//GEN-LAST:event_dtmOrdenCompraKeyPressed
-
-    private void dtmRecepcionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtmRecepcionKeyPressed
-        // TODO add your handling code here:
-
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-        }
-    }//GEN-LAST:event_dtmRecepcionKeyPressed
-
-    private void txtDescripcionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            txtCantidad.requestFocus();
-        }
-    }//GEN-LAST:event_txtDescripcionKeyPressed
-
-    private void txtCantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            txtPrecioU.requestFocus();
-        }
-    }//GEN-LAST:event_txtCantidadKeyPressed
-
-    private void txtPrecioUKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioUKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            txtUnidadM.requestFocus();
-        }
-    }//GEN-LAST:event_txtPrecioUKeyPressed
-
-    private void txtUnidadMKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUnidadMKeyPressed
-        // TODO add your handling code here:
-
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            btnAgregarDetalle.requestFocus();
-        }
-    }//GEN-LAST:event_txtUnidadMKeyPressed
-
-    private void btnAgregarDetalleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnAgregarDetalleKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            agregarDetalle();
-            txtDescripcion.requestFocus();
-        }
-    }//GEN-LAST:event_btnAgregarDetalleKeyPressed
-
-    private void btnEliminarDetalleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnEliminarDetalleKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            DefaultTableModel modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
-
-            // Obtener el índice de la fila seleccionada
-            int filaSeleccionada = tblCotizacion.getSelectedRow();
-
-            // Verificar si hay una fila seleccionada
-            if (filaSeleccionada != -1) {
-
-                // Eliminar la fila del modelo de la tabla
-                modeloTabla.removeRow(filaSeleccionada);
-
-                if (_codId != 0) {
-
-                    Object idremove = idDetallesArray.get(filaSeleccionada);
-                    int idOrden = (Integer) idremove;
-                    idEliminacionDetallesArray.add(idOrden);
-                    idDetallesArray.remove(filaSeleccionada);
-                }
-
-                txtDescripcion.setText("");
-                txtCantidad.setText("");
-                txtPrecioU.setText("");
-
-                for (int fila = 0; fila < modeloTabla.getRowCount(); fila++) {
-
-                    modeloTabla.setValueAt(fila + 1, fila, 0);
-                }
-
-                // Recalcular el total de todos los precios después de eliminar la fila
-                double totales = 0;
-                int numFilas = modeloTabla.getRowCount();
-                for (int fila = 0; fila < numFilas; fila++) {
-                    double precioTotal = (Double) modeloTabla.getValueAt(fila, modeloTabla.getColumnCount() - 1);
-                    totales += precioTotal;
-                }
-                txtTotales.setText(String.valueOf(totales));
-
-                JOptionPane.showMessageDialog(this, "Detalle eliminado correctamente.", "Información", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                // Mostrar mensaje de advertencia si no hay ninguna fila seleccionada
-                JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            }
-
-        }
-    }//GEN-LAST:event_btnEliminarDetalleKeyPressed
-
-    private void btnActualizarDetalleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnActualizarDetalleKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            DefaultTableModel modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
-
-            // Obtener el índice de la fila seleccionada
-            int filaSeleccionada = tblCotizacion.getSelectedRow();
-
-            // Verificar si hay una fila seleccionada
-            if (filaSeleccionada != -1) {
-                try {
-                    // Obtener y validar los valores de los campos de entrada
-                    String descripcion = txtDescripcion.getText();
-                    if (descripcion.isEmpty()) {
-                        JOptionPane.showMessageDialog(this, "Por favor llene la descripción.", "Error", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-
-                    String cantidadStr = txtCantidad.getText();
-                    int cantidad;
-                    try {
-                        cantidad = Integer.parseInt(cantidadStr);
-                        if (cantidad <= 0) {
-                            JOptionPane.showMessageDialog(this, "La cantidad debe ser un número positivo.", "Error", JOptionPane.ERROR_MESSAGE);
-                            return;
-                        }
-                    } catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(this, "La cantidad debe ser un número.", "Error", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-
-                    String precioUnitarioStr = txtPrecioU.getText();
-                    double precioUnitario;
-                    try {
-                        precioUnitario = Double.parseDouble(precioUnitarioStr);
-                        if (precioUnitario < 0) {
-                            JOptionPane.showMessageDialog(this, "El precio unitario no puede ser negativo.", "Error", JOptionPane.ERROR_MESSAGE);
-                            return;
-                        }
-                    } catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(this, "El precio unitario debe ser un número.", "Error de validación", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-
-                    String unidadMedida = txtUnidadM.getText();
-                    if (unidadMedida.isEmpty()) {
-                        JOptionPane.showMessageDialog(this, "La unidad de medida no puede estar vacía.", "Error de validación", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-
-                    // Calcular el precio total
-                    double precioTotal = cantidad * precioUnitario;
-
-                    // Actualizar la fila en la tabla
-                    modeloTabla.setValueAt(cantidad, filaSeleccionada, 1);
-                    modeloTabla.setValueAt(unidadMedida, filaSeleccionada, 2);
-                    modeloTabla.setValueAt(descripcion, filaSeleccionada, 3);
-                    modeloTabla.setValueAt(precioUnitario, filaSeleccionada, 4);
-                    modeloTabla.setValueAt(precioTotal, filaSeleccionada, 5);
-
-                    txtDescripcion.setText("");
-                    txtCantidad.setText("");
-                    txtPrecioU.setText("");
-
-                    // Recalcular el total de todos los precios después de actualizar la fila
-                    double totales = 0;
-                    int numFilas = modeloTabla.getRowCount();
-                    for (int fila = 0; fila < numFilas; fila++) {
-                        double pTotal = (Double) modeloTabla.getValueAt(fila, modeloTabla.getColumnCount() - 1);
-                        totales += pTotal;
-                    }
-                    txtTotales.setText(String.valueOf(totales));
-
-                    JOptionPane.showMessageDialog(this, "Detalle actualizado correctamente.", "Información", JOptionPane.INFORMATION_MESSAGE);
-
-                    Limpiar();
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(this, "Error al actualizar el detalle: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                // Mostrar mensaje de advertencia si no hay ninguna fila seleccionada
-                JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para actualizar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            }
-        }
-    }//GEN-LAST:event_btnActualizarDetalleKeyPressed
-
-    private void btnLimpiarTodoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnLimpiarTodoKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            Limpiar();
-            txtDescripcion.requestFocus();
-        }
-    }//GEN-LAST:event_btnLimpiarTodoKeyPressed
-
-    private void tblCotizacionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblCotizacionKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            int fila = tblCotizacion.getSelectedRow();
-            if (fila != -1) { // Verifica si hay una fila seleccionada
-                try {
-                    //txtId.setText(tblCotizacion.getValueAt(fila, 0).toString());
-                    txtCantidad.setText(tblCotizacion.getValueAt(fila, 1).toString());
-                    txtUnidadM.setText(tblCotizacion.getValueAt(fila, 2).toString());
-                    txtDescripcion.setText(tblCotizacion.getValueAt(fila, 3).toString());
-                    txtPrecioU.setText(tblCotizacion.getValueAt(fila, 4).toString());
-                    // Corregir el índice para el precio total
-                    //txtTotales.setText(tblCotizacion.getValueAt(fila, 5).toString());
-                    btnActualizarDetalle.requestFocus();
-                } catch (NullPointerException | ArrayIndexOutOfBoundsException ex) {
-                    // Manejar la excepción en caso de que no se pueda obtener un valor de la fila seleccionada
-                    JOptionPane.showMessageDialog(null, "Error al obtener los datos de la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila antes de editar los datos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            }
-
-        }
-    }//GEN-LAST:event_tblCotizacionKeyPressed
-
-    private void btnGuardarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnGuardarKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            try {
-                if (verificacionCamposVacios()) {
-                    // Inicializar los objetos de las entidades
-                    ClienteVM clienteVM = new ClienteVM();
-                    clienteVM.setEncargadoCompra(txtEncargadoCompra.getText().trim());
-                    clienteVM.setNombreInstitucion(txtNombreInstitucion.getText().trim());
-                    clienteVM.setMunicipio(txtMunicipio.getText().trim());
-                    clienteVM.setCodigo(txtCodigoEscuela.getText().trim());
-
-                    // Guardar cliente
-                    boolean g1 = clienteC.guardarCliente(clienteVM);
-                    if (!g1) {
-                        throw new Exception("Error al guardar el cliente");
-                    }
-
-                    FechaErVM fechaErVM = new FechaErVM();
-                    fechaErVM.setFechaSolicitud(dtmSolicitudCotizacion.getDate());
-                    fechaErVM.setFechaCotizacion(dtmCotizacion.getDate());
-                    fechaErVM.setFechaOrden(dtmOrdenCompra.getDate());
-                    fechaErVM.setFechaRecepcion(dtmRecepcion.getDate());
-
-                    // Guardar fechas
-                    boolean g2 = fechaERController.guardarFechas(fechaErVM);
-                    if (!g2) {
-                        throw new Exception("Error al guardar las fechas");
-                    }
-
-                    int clienteId = clienteC.obtenerCliente();
-                    int fechaId = fechaERController.obtenerFecha();
-
-                    OrdenVM ordenVM = new OrdenVM();
-                    ordenVM.setCodOrden(generarCodigo());
-                    ordenVM.setEncargadoOrden(txtEncargadoOrden.getText().trim());
-                    ordenVM.setTotales(Double.parseDouble(txtTotales.getText().trim()));
-                    ordenVM.setLimite_cotizacion(dtmLimite.getDate());
-                    ordenVM.setFecha_de_entrega(dtmFechaEntrega.getDate());
-                    ordenVM.setHora_entrega_desde(txtDesde.getText().trim());
-                    ordenVM.setHora_entrega_hasta(txthasta.getText().trim());
-                    ordenVM.setTiempo_entrega(txtTiempo.getText().trim());
-                    ordenVM.setPlazo_entrega(txtPlazoEntrega.getText().trim());
-                    ordenVM.setLugar_entrega(txtLugarEntrega.getText().trim());
-                    ordenVM.setVigencia_de_la_cotizacion(txtVigenciaCotizacion.getText().trim());
-                    ordenVM.setTiempo_de_garantia(txtGarantia.getText().trim());
-                    ordenVM.setClienteId(clienteId);
-                    ordenVM.setProveedorId(cbxProveedor.getSelectedIndex() + 1);
-                    ordenVM.setFechasErId(fechaId);
-
-                    // Guardar orden
-                    boolean g3 = ordenController.guardarOrden(ordenVM);
-                    if (!g3) {
-                        throw new Exception("Error al guardar la orden");
-                    }
-
-                    int ordenId = ordenController.obtenerOrden();
-
-                    DefaultTableModel modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
-                    int g4 = 0;
-
-                    for (int fila = 0; fila < modeloTabla.getRowCount(); fila++) {
-                        DetalleOrdenVM detalleOrdenVM = new DetalleOrdenVM();
-                        detalleOrdenVM.setNumArticulo((Integer) modeloTabla.getValueAt(fila, 0));
-                        detalleOrdenVM.setCantidad((Integer) modeloTabla.getValueAt(fila, 1));
-                        detalleOrdenVM.setUnidadMedida((String) modeloTabla.getValueAt(fila, 2));
-                        detalleOrdenVM.setDescripcionArticulo((String) modeloTabla.getValueAt(fila, 3));
-                        detalleOrdenVM.setPrecioUnitario((Double) modeloTabla.getValueAt(fila, 4));
-                        detalleOrdenVM.setPrecioTotal((Double) modeloTabla.getValueAt(fila, 5));
-                        detalleOrdenVM.setOrdenId(ordenId);
-
-                        boolean guardado = detalleOrdenController.guardarDetalleOrden(detalleOrdenVM);
-                        if (!guardado) {
-                            throw new Exception("Error al guardar el detalle de la orden");
-                        }
-                        g4++;
-                    }
-
-                    if (g1 && g2 && g3 && g4 == modeloTabla.getRowCount()) {
-                        JOptionPane.showMessageDialog(this, "Orden registrada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
-                        // Limpiar los campos y actualizar la tabla
-                        Limpiar();
-                        FrmMain frmMain = new FrmMain();
-                        frmMain.setVisible(true);
-                        this.setVisible(false);
-                    } else {
-                        throw new Exception("Error interno detectado");
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error al registrar la orden: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-
-        }
-    }//GEN-LAST:event_btnGuardarKeyPressed
-
-    private void btnActualizarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnActualizarKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            try {
-                if (verificacionCamposVacios()) {
-                    // Inicializar los objetos de las entidades
-                    ClienteVM clienteVM = new ClienteVM();
-                    clienteVM.setIdCliente(cliente);
-                    clienteVM.setEncargadoCompra(txtEncargadoCompra.getText().trim());
-                    clienteVM.setNombreInstitucion(txtNombreInstitucion.getText().trim());
-                    clienteVM.setMunicipio(txtMunicipio.getText().trim());
-                    clienteVM.setCodigo(txtCodigoEscuela.getText().trim());
-
-                    // Guardar cliente
-                    boolean g1 = clienteC.actualizarCliente(clienteVM);
-                    if (!g1) {
-                        throw new Exception("Error al guardar el cliente");
-                    }
-
-                    FechaErVM fechaErVM = new FechaErVM();
-                    fechaErVM.setIdFechas(fechas);
-                    fechaErVM.setFechaSolicitud(dtmSolicitudCotizacion.getDate());
-                    fechaErVM.setFechaCotizacion(dtmCotizacion.getDate());
-                    fechaErVM.setFechaOrden(dtmOrdenCompra.getDate());
-                    fechaErVM.setFechaRecepcion(dtmRecepcion.getDate());
-
-                    // Guardar fechas
-                    boolean g2 = fechaERController.actualizarFechas(fechaErVM);
-                    if (!g2) {
-                        throw new Exception("Error al guardar las fechas");
-                    }
-
-                    OrdenVM ordenVM = new OrdenVM();
-                    ordenVM.setIdOrden(_codId);
-                    ordenVM.setCodOrden(codOrden);
-                    ordenVM.setEncargadoOrden(txtEncargadoOrden.getText().trim());
-                    ordenVM.setTotales(Double.parseDouble(txtTotales.getText().trim()));
-                    ordenVM.setLimite_cotizacion(dtmLimite.getDate());
-                    ordenVM.setFecha_de_entrega(dtmFechaEntrega.getDate());
-                    ordenVM.setHora_entrega_desde(txtDesde.getText().trim());
-                    ordenVM.setHora_entrega_hasta(txthasta.getText().trim());
-                    ordenVM.setTiempo_entrega(txtTiempo.getText().trim());
-                    ordenVM.setPlazo_entrega(txtPlazoEntrega.getText().trim());
-                    ordenVM.setLugar_entrega(txtLugarEntrega.getText().trim());
-                    ordenVM.setVigencia_de_la_cotizacion(txtVigenciaCotizacion.getText().trim());
-                    ordenVM.setTiempo_de_garantia(txtGarantia.getText().trim());
-                    ordenVM.setClienteId(cliente);
-                    ordenVM.setProveedorId(cbxProveedor.getSelectedIndex() + 1);
-                    ordenVM.setFechasErId(fechas);
-
-                    // Guardar orden
-                    boolean g3 = ordenController.actualizarOrden(ordenVM);
-                    if (!g3) {
-                        throw new Exception("Error al guardar la orden");
-                    }
-
-                    int g4 = 0;
-                    modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
-                    int filasActualizadas = modeloTabla.getRowCount();
-                    if (filasActualizadas != numFilas) {
-
-                        if (!(idEliminacionDetallesArray.isEmpty()) && numIdDetallesIniciales != idDetallesArray.size() && 0 != numNuevosDetalles) {
-
-                            eliminarDetalle();
-                            guardarDetalle();
-
-                        } else if (idEliminacionDetallesArray.isEmpty() && numIdDetallesIniciales == idDetallesArray.size() && 0 != numNuevosDetalles) {
-
-                            guardarDetalle();
-
-                        } else {
-
-                            eliminarDetalle();
-                        }
-                    }
-
-                    g4 = actualizar();
-
-                    //int ordenId = ordenController.obtenerOrden();
-                    if (g1 && g2 && g3 && !(g4 == 0)) {
-                        JOptionPane.showMessageDialog(this, "Orden Actualizada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
-                        Limpiar();
-                        FrmMain frmMain = new FrmMain();
-                        frmMain.setVisible(true);
-                        this.setVisible(false);
-                    } else {
-                        throw new Exception("Error interno detectado");
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error al registrar la orden: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }//GEN-LAST:event_btnActualizarKeyPressed
-
-    private void btnCancelarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnCancelarKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            FrmMain frmMain = new FrmMain();
-
-            frmMain.setVisible(true);
-
-            this.dispose();
-        }
-    }//GEN-LAST:event_btnCancelarKeyPressed
-
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(FrmSistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(FrmSistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(FrmSistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(FrmSistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new FrmSistema(0).setVisible(true);
-//            }
-//        });
-//    }
-    private void agregarDetalle() {
-
-        try {
-            // Validación de campos vacíos
-            String descripcion = txtDescripcion.getText();
-            if (descripcion.isEmpty()) {
-                throw new IllegalArgumentException("La descripción no puede estar vacía.");
-            }
-
-            String strCantidad = txtCantidad.getText();
-            if (strCantidad.isEmpty()) {
-                throw new IllegalArgumentException("La cantidad no puede estar vacía.");
-            }
-
-            String strPrecioUnitario = txtPrecioU.getText();
-            if (strPrecioUnitario.isEmpty()) {
-                throw new IllegalArgumentException("El precio unitario no puede estar vacío.");
-            }
-
-            String unidadMedida = txtUnidadM.getText();
-            if (unidadMedida.isEmpty()) {
-                throw new IllegalArgumentException("La unidad de medida no puede estar vacía.");
-            }
-
-            // Validación de números
-            int cantidad;
-            try {
-                cantidad = Integer.parseInt(strCantidad);
-                if (cantidad <= 0) {
-                    throw new IllegalArgumentException("La cantidad debe ser un número positivo.");
-                }
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("La cantidad debe ser un número válido.");
-            }
-
-            double precioUnitario;
-            try {
-                precioUnitario = Double.parseDouble(strPrecioUnitario);
-                if (precioUnitario <= 0) {
-                    throw new IllegalArgumentException("El precio unitario debe ser un número positivo.");
-                }
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("El precio unitario debe ser un número válido.");
-            }
-
-            // Cálculo de precio total
-            double precioTotal = cantidad * precioUnitario;
-            DecimalFormat formato = new DecimalFormat("0.00");
-            String PrecioUnitariostr = formato.format(precioUnitario);
-            String PrecioTotaltr = formato.format(precioTotal);
-            
-
-            // Agregar fila a la tabla
-            int numeroItem = tblCotizacion.getRowCount() + 1;
-            modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
-            Object[] filaAgregar = {numeroItem, cantidad, unidadMedida, descripcion, PrecioUnitariostr, PrecioTotaltr};
-            modeloTabla.addRow(filaAgregar);
-            numNuevosDetalles++;
-
             // Calcular totales
             double totales = 0;
             int numFilas = modeloTabla.getRowCount();
-            for (int fila = 0; fila < numFilas; fila++) { 
+            for (int fila = 0; fila < numFilas; fila++) {
                 String totalP = String.valueOf(modeloTabla.getValueAt(fila, modeloTabla.getColumnCount() - 1));
                 double pTotal = Double.parseDouble(totalP);
                 totales += pTotal;
@@ -1997,13 +1804,12 @@ public class FrmSistema extends javax.swing.JFrame {
             String Totalestr = String.valueOf(formato.format(totales));
 
             txtTotales.setText(String.valueOf(Totalestr));
-            txtDescripcion.setText("");
-            txtCantidad.setText("");
-            txtPrecioU.setText("");
+            txtDescripcion.requestFocus();
 
-        } catch (IllegalArgumentException e) {
-            // Manejo de excepciones y mostrar mensaje de error
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error de validación", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Detalle eliminado correctamente.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            // Mostrar mensaje de advertencia si no hay ninguna fila seleccionada
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -2015,6 +1821,7 @@ public class FrmSistema extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminarDetalle;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiarTodo;
+    private javax.swing.JComboBox<String> cbxANombreDe;
     private javax.swing.JComboBox<String> cbxProveedor;
     private com.toedter.calendar.JDateChooser dtmCotizacion;
     private com.toedter.calendar.JDateChooser dtmFechaEntrega;
@@ -2022,7 +1829,6 @@ public class FrmSistema extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser dtmOrdenCompra;
     private com.toedter.calendar.JDateChooser dtmRecepcion;
     private com.toedter.calendar.JDateChooser dtmSolicitudCotizacion;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2048,12 +1854,15 @@ public class FrmSistema extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblCotizacion;
     private javax.swing.JTextField txtCantidad;
@@ -2074,7 +1883,7 @@ public class FrmSistema extends javax.swing.JFrame {
     private javax.swing.JTextField txthasta;
     // End of variables declaration//GEN-END:variables
 
-    private int actualizar() {
+    private int actualizarDetalle() {
 
         DefaultTableModel modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
         int g4 = 0;
@@ -2093,8 +1902,8 @@ public class FrmSistema extends javax.swing.JFrame {
             detalleOrdenVM.setCantidad((Integer) modeloTabla.getValueAt(i, 1));
             detalleOrdenVM.setUnidadMedida((String) modeloTabla.getValueAt(i, 2));
             detalleOrdenVM.setDescripcionArticulo((String) modeloTabla.getValueAt(i, 3));
-            detalleOrdenVM.setPrecioUnitario((Double) modeloTabla.getValueAt(i, 4));
-            detalleOrdenVM.setPrecioTotal((Double) modeloTabla.getValueAt(i, 5));
+            detalleOrdenVM.setPrecioUnitario(Double.parseDouble((String) modeloTabla.getValueAt(i, 4)));
+            detalleOrdenVM.setPrecioTotal(Double.parseDouble((String) modeloTabla.getValueAt(i, 5)));
             detalleOrdenVM.setOrdenId(_codId);
 
             boolean guardado = detalleOrdenController.actualizarDetalleOrden(detalleOrdenVM);
@@ -2119,8 +1928,8 @@ public class FrmSistema extends javax.swing.JFrame {
             detalleOrdenVM.setCantidad((Integer) modeloTabla.getValueAt(fila, 1));
             detalleOrdenVM.setUnidadMedida((String) modeloTabla.getValueAt(fila, 2));
             detalleOrdenVM.setDescripcionArticulo((String) modeloTabla.getValueAt(fila, 3));
-            detalleOrdenVM.setPrecioUnitario((Double) modeloTabla.getValueAt(fila, 4));
-            detalleOrdenVM.setPrecioTotal((Double) modeloTabla.getValueAt(fila, 5));
+            detalleOrdenVM.setPrecioUnitario(Double.parseDouble((String) modeloTabla.getValueAt(fila, 4)));
+            detalleOrdenVM.setPrecioTotal(Double.parseDouble((String) modeloTabla.getValueAt(fila, 5)));
             detalleOrdenVM.setOrdenId(_codId);
 
             boolean guardado = detalleOrdenController.guardarDetalleOrden(detalleOrdenVM);
@@ -2147,15 +1956,9 @@ public class FrmSistema extends javax.swing.JFrame {
         String fechaActualS = formatoFecha.format(fechaActual);
         String fechaSinBarras = fechaActualS.replaceAll("/", "");*/
         UUID uuid = UUID.randomUUID();
+        String encargado = (String) cbxANombreDe.getSelectedItem();
 
-        return txtEncargadoCompra.getText() + uuid;
-    }
-
-    private boolean camposProductoCompletos() {
-
-        return !txtEncargadoCompra.getText().isEmpty()
-                && !txtNombreInstitucion.getText().isEmpty()
-                && !txtMunicipio.getText().isEmpty();
+        return encargado + uuid;
     }
 
     private boolean verificacionCamposVacios() {
@@ -2163,8 +1966,7 @@ public class FrmSistema extends javax.swing.JFrame {
         DefaultTableModel modeloTabla = (DefaultTableModel) tblCotizacion.getModel();
         int num = modeloTabla.getRowCount();
 
-        return !txtEncargadoCompra.getText().isEmpty()
-                && !txtNombreInstitucion.getText().isEmpty()
+        return !txtNombreInstitucion.getText().isEmpty()
                 && !txtMunicipio.getText().isEmpty()
                 && (dtmSolicitudCotizacion.getDate() != null)
                 && (dtmCotizacion.getDate() != null)
@@ -2178,8 +1980,5 @@ public class FrmSistema extends javax.swing.JFrame {
         txtCantidad.setText("");
         txtDescripcion.setText("");
         txtPrecioU.setText("");
-        //txtUnidadM.setText("");
-
     }
-
 }

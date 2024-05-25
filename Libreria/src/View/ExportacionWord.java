@@ -4,7 +4,6 @@ import Controllers.DetalleOrdenController;
 import Controllers.OrdenController;
 import ViewModel.DetalleOrdenVM;
 import ViewModel.TablaOrdenVM;
-import java.io.FileInputStream;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
@@ -14,9 +13,8 @@ import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.*;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.math.BigInteger;
-import java.nio.file.Paths;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -33,9 +31,9 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.STPageOrientation;
 
 public class ExportacionWord {
 
-    //objetos globales
     DetalleOrdenController detalleOrdenController = new DetalleOrdenController();
     OrdenController ordenController = new OrdenController();
+    DecimalFormat formato = new DecimalFormat("0.00");
 
     private ArrayList<DetalleOrdenVM> importarDetalles(int id) {
 
@@ -54,12 +52,9 @@ public class ExportacionWord {
 
             TablaOrdenVM ordenVM = importarDatos(ordenId);
 
-            int idOrden = ordenVM.getIdOrden();
-            double totales = ordenVM.getTotales();
-            int clienteId = ordenVM.getClienteId();
-            int proveedorId = ordenVM.getProveedorId();
-            int fechasErId = ordenVM.getFechasErId();
-            String codOrden = ordenVM.getCodOrden().toUpperCase();
+            double totalesD = ordenVM.getTotales();
+            String totalesStr = String.valueOf(formato.format(totalesD));
+            
             String encargadoOrden = ordenVM.getEncargadoOrden().toUpperCase();
             String codigo = ordenVM.getCodigo_escuela().toUpperCase();
             String encargadoCompra = ordenVM.getEncargadoCompra().toUpperCase();
@@ -78,7 +73,6 @@ public class ExportacionWord {
             String fechaCotizacionStr = formatter.format(ordenVM.getFechaCotizacion()).toUpperCase();
             String fechaOrdenStr = formatter.format(ordenVM.getFechaOrden()).toUpperCase();
             String fechaRecepcionStr = formatter.format(ordenVM.getFechaRecepcion()).toUpperCase();
-            String fechaPlanComprasStr = formatter.format(ordenVM.getFechaPlanCompras()).toUpperCase();
             String limite_cotizacion = formatter.format(ordenVM.getLimite_cotizacion()).toUpperCase();
             String fecha_de_entrega = formatter.format(ordenVM.getFecha_de_entrega()).toUpperCase();
 
@@ -164,7 +158,10 @@ public class ExportacionWord {
             XWPFRun nuevoParrafoRun5 = nuevoParrafo.createRun();
             nuevoParrafoRun5.setFontFamily("Times New Roman");
             nuevoParrafoRun5.setFontSize(10);
-            nuevoParrafoRun5.setText(", por este medio solicito cotización y especificación técnica por escrito del material o servicio abajo detallados, la cual deberá ser enviada a nuestro centro educativo a más tardar el ");
+            nuevoParrafoRun5.setText(", por este medio solicito cotización y "
+                    + "especificación técnica por escrito del material o "
+                    + "servicio abajo detallados, la cual deberá ser enviada "
+                    + "a nuestro centro educativo a más tardar el ");
 
             XWPFRun nuevoParrafoRun6 = nuevoParrafo.createRun();
             nuevoParrafoRun6.setFontFamily("Times New Roman");
@@ -175,7 +172,12 @@ public class ExportacionWord {
             XWPFRun nuevoParrafoRun7 = nuevoParrafo.createRun();
             nuevoParrafoRun7.setFontFamily("Times New Roman");
             nuevoParrafoRun7.setFontSize(10);
-            nuevoParrafoRun7.setText("; las cotizaciones que se reciban posterior a esta fecha no serán consideradas para decidir la compra. Deberá presentarse las ofertas en original a nombre de CDE del Centro Educativo, indicándose a vigencia de la cotización, así como especificar las siguientes condiciones de compra:");
+            nuevoParrafoRun7.setText("; las cotizaciones que se reciban "
+                    + "posterior a esta fecha no serán consideradas para "
+                    + "decidir la compra. Deberá presentarse las ofertas en "
+                    + "original a nombre de "+ encargadoCompra +" del Centro Educativo, "
+                    + "indicándose a vigencia de la cotización, así "
+                    + "como especificar las siguientes condiciones de compra:");
 
             /**
              * ****************************************************************
@@ -211,7 +213,7 @@ public class ExportacionWord {
             tblPr.getTblBorders().addNewInsideH().setVal(STBorder.SINGLE);
             tblPr.getTblBorders().addNewInsideV().setVal(STBorder.SINGLE);
 
-            String[] encabezadoTabla = {"No.", "Cantidad", "Unidad de medida", "Descripción/especificación técnica"};
+            String[] encabezadoTabla = {"NO.", "CANTIDAD", "UNIDAD DE MEDIDA", "DESCRIPCION/ESPECIFICACION TECNICA"};
             XWPFTableRow filaEncabezado = tabla.getRow(0);
 
             int[] anchurasColumnas = {1440, 2880, 2880, 8640};
@@ -309,7 +311,6 @@ public class ExportacionWord {
             run3.addTab();
             run3.addTab();
             run3.addTab();
-            run3.addTab();
             run3.setText(encargadoOrden);
 
             XWPFRun run4 = parrafoNuevo.createRun();
@@ -317,7 +318,6 @@ public class ExportacionWord {
             run4.setFontFamily("Times New Roman");
             run4.setFontSize(10);
             run4.setText("SELLO");
-            run4.addTab();
             run4.addTab();
             run4.addTab();
             run4.addTab();
@@ -366,7 +366,7 @@ public class ExportacionWord {
             runEncabezado3.setFontFamily("Times New Roman");
             runEncabezado3.setFontSize(10);
             runEncabezado3.addBreak();
-            runEncabezado3.setText("SEÑORES MIEMBROS DEL CDE.");
+            runEncabezado3.setText("SEÑORES MIEMBROS DEL " + encargadoCompra + ".");
             runEncabezado3.addBreak();
 
 // Parte "ESCUELA DE EDUCACIÓN PARVULARIA LUGAR" en negrita
@@ -405,7 +405,7 @@ public class ExportacionWord {
             XWPFRun runNuevo3 = parrafoNuevo1.createRun();
             runNuevo3.setFontFamily("Times New Roman");
             runNuevo3.setFontSize(10);
-            runNuevo3.setText(",  suscrita por el CDE que administra la/el ");
+            runNuevo3.setText(",  suscrita por el " + encargadoCompra + " que administra la/el ");
 
 // Parte "LA REINA, Chalatenango" en negrita
             XWPFRun runNuevo4 = parrafoNuevo1.createRun();
@@ -450,7 +450,7 @@ public class ExportacionWord {
             tblPr20.getTblBorders().addNewInsideV().setVal(STBorder.SINGLE);
 
 // Crear el encabezado de la tabla
-            String[] encabezadoTabla20 = {"No.", "Cantidad", "Unidad de medida", "Descripción/especificación técnica", "Precio Unitario", "Precio Total"};
+            String[] encabezadoTabla20 = {"NO.", "CANTIDAD", "UNIDAD DE MEDIDA", "DESCRIPCION/ESPECIFICACION", "PRECIO UNITARIO", "PRECIO TOTAL"};
             XWPFTableRow filaEncabezado20 = tabla20.getRow(0);
 
 // Color celeste pálido
@@ -514,11 +514,13 @@ public class ExportacionWord {
                         case 3: // Descripción/especificación técnica
                             r20.setText(detalle20.descripcionArticulo);
                             break;
-                        case 4: // Precio Unitario
-                            r20.setText(String.valueOf("$" + detalle20.precioUnitario));
+                        case 4: // Precio Unitario                          
+                            String unitarioStr = String.valueOf(formato.format(detalle20.precioUnitario));
+                            r20.setText(String.valueOf("$" + unitarioStr));
                             break;
                         case 5: // Precio Total
-                            r20.setText(String.valueOf("$" + detalle20.precioTotal));
+                            String totalStr = String.valueOf(formato.format(detalle20.precioTotal));
+                            r20.setText(String.valueOf("$" + totalStr));
                             break;
                         default:
                             break;
@@ -546,9 +548,9 @@ public class ExportacionWord {
                 rPie.setFontFamily("Times New Roman");
                 rPie.setBold(true);
                 if (i == 2) {
-                    rPie.setText("Totales"); // Tercera columna
+                    rPie.setText("TOTALES"); // Tercera columna
                 } else if (i == encabezadoTabla20.length - 1) {
-                    rPie.setText("$" + String.valueOf(totales)); // Última columna
+                    rPie.setText("$" + totalesStr); // Última columna
                 } else {
                     rPie.setText(""); // Otras columnas, dejar en blanco
                 }
@@ -611,7 +613,7 @@ public class ExportacionWord {
             // Crear el párrafo
             XWPFParagraph parrafoNuevo20 = documento.createParagraph();
             parrafoNuevo20.setAlignment(ParagraphAlignment.LEFT);
-            parrafoNuevo20.setSpacingAfter(200);
+            parrafoNuevo20.setSpacingAfter(100);
 
 // Primer run
             XWPFRun run1_20 = parrafoNuevo20.createRun();
@@ -650,7 +652,6 @@ public class ExportacionWord {
             run3_20.addTab();
             run3_20.addTab();
             run3_20.addTab();
-            run3_20.addTab();
             run3_20.setText("Nombre del Encargado de Compras");
 
 // Cuarto run
@@ -659,7 +660,6 @@ public class ExportacionWord {
             run4_20.setFontFamily("Times New Roman");
             run4_20.setFontSize(10);
             run4_20.setText("SELLO");
-            run4_20.addTab();
             run4_20.addTab();
             run4_20.addTab();
             run4_20.addTab();
@@ -733,7 +733,7 @@ public class ExportacionWord {
             XWPFRun runNuevo301 = parrafoNuevo301.createRun();
             runNuevo301.setFontFamily("Times New Roman");
             runNuevo301.setFontSize(10);
-            runNuevo301.setText("Por este medio se comunica que el  CDE de el/la ");
+            runNuevo301.setText("Por este medio se comunica que el  " + encargadoCompra + " de el/la ");
 
             XWPFRun runNuevo302 = parrafoNuevo301.createRun();
             runNuevo302.setFontFamily("Times New Roman");
@@ -853,11 +853,13 @@ public class ExportacionWord {
                         case 3: // Descripción/especificación técnica
                             r3020.setText(detalle3020.descripcionArticulo);
                             break;
-                        case 4: // Precio Unitario
-                            r3020.setText(String.valueOf("$" + detalle3020.precioUnitario));
+                        case 4: // Precio Unitario                          
+                            String unitarioStr = String.valueOf(formato.format(detalle3020.precioUnitario));
+                            r3020.setText(String.valueOf("$" + unitarioStr));
                             break;
                         case 5: // Precio Total
-                            r3020.setText(String.valueOf("$" + detalle3020.precioTotal));
+                            String totalStr = String.valueOf(formato.format(detalle3020.precioTotal));
+                            r3020.setText(String.valueOf("$" + totalStr));
                             break;
                         default:
                             break;
@@ -883,9 +885,9 @@ public class ExportacionWord {
                 rPie30.setFontFamily("Times New Roman");
                 rPie30.setBold(true);
                 if (i == 2) {
-                    rPie30.setText("Totales"); // Tercera columna
+                    rPie30.setText("TOTALES"); // Tercera columna
                 } else if (i == encabezadoTabla3020.length - 1) {
-                    rPie30.setText("$" + String.valueOf(totales)); // Última columna
+                    rPie30.setText("$" + totalesStr); // Última columna
                 } else {
                     rPie30.setText(""); // Otras columnas, dejar en blanco
                 }
@@ -933,7 +935,9 @@ public class ExportacionWord {
             nuevoRun30.setFontFamily("Times New Roman");
             nuevoRun30.setFontSize(10);
             nuevoRun30.addBreak();
-            nuevoRun30.setText("Para efectos de cobro presentar esta orden de compra, original y copia de factura de consumidor final a nombre de:  C.D.E. " + nombreInstitucion + ".");
+            nuevoRun30.setText("Para efectos de cobro presentar esta orden de "
+                    + "compra, original y copia de factura de consumidor final a"
+                    + " nombre de: "+ encargadoCompra + ". " + nombreInstitucion + ".");
             nuevoRun30.addBreak();
 
             XWPFParagraph parrafoNuevo3020 = documento.createParagraph();
@@ -960,7 +964,6 @@ public class ExportacionWord {
             run3_3020.addTab();
             run3_3020.addTab();
             run3_3020.addTab();
-            run3_3020.addTab();
             run3_3020.setText(encargadoOrden);
 
             XWPFRun run4_3020 = parrafoNuevo3020.createRun();
@@ -968,7 +971,6 @@ public class ExportacionWord {
             run4_3020.setFontFamily("Times New Roman");
             run4_3020.setFontSize(10);
             run4_3020.setText("SELLO");
-            run4_3020.addTab();
             run4_3020.addTab();
             run4_3020.addTab();
             run4_3020.addTab();
@@ -1046,7 +1048,13 @@ public class ExportacionWord {
             XWPFRun runContenidoNuevo = parrafoContenidoNuevo.createRun();
             runContenidoNuevo.setFontSize(10);
             runContenidoNuevo.setFontFamily("Times New Roman");
-            runContenidoNuevo.setText("QUE EN FECHA " + fechaRecepcionStr + ", EL PRESIDENTE DEL ORGANISMO DE ADMINISTRACION ESCOLAR: CONSEJO DIRECTIVO ESCOLAR QUE ADMINISTRA EL/LA DEL CENTRO ESCOLAR Y EL SUSCRITO HACEN CONSTAR QUE HA RECIBIDO DE ACUERDO A LO CONVENIDO CON EL/LA SEÑOR/A: " + encargadoOrden + ", LOS BIENES QUE A CONTINUACIÓN SE DETALLAN:");
+            runContenidoNuevo.setText("QUE EN FECHA " + fechaRecepcionStr + ", "
+                    + "EL PRESIDENTE DEL ORGANISMO DE ADMINISTRACION ESCOLAR: "
+                    + "CONSEJO DIRECTIVO ESCOLAR QUE ADMINISTRA EL/LA DEL CENTRO"
+                    + " ESCOLAR Y EL SUSCRITO HACEN CONSTAR QUE HA RECIBIDO DE "
+                    + "ACUERDO A LO CONVENIDO CON EL/LA "
+                    + "SEÑOR/A: " + encargadoOrden + ", LOS BIENES QUE A "
+                            + "CONTINUACIÓN SE DETALLAN:");
 
             // Crear el párrafo del título
             XWPFParagraph separador2 = documento.createParagraph();
@@ -1135,11 +1143,13 @@ public class ExportacionWord {
                         case 3: // Descripción/especificación técnica
                             r40.setText(detalle40.descripcionArticulo);
                             break;
-                        case 4: // Precio Unitario
-                            r40.setText(String.valueOf("$" + detalle40.precioUnitario));
+                        case 4: // Precio Unitario                          
+                            String unitarioStr = String.valueOf(formato.format(detalle40.precioUnitario));
+                            r40.setText(String.valueOf("$" + unitarioStr));
                             break;
                         case 5: // Precio Total
-                            r40.setText(String.valueOf("$" + detalle40.precioTotal));
+                            String totalStr = String.valueOf(formato.format(detalle40.precioTotal));
+                            r40.setText(String.valueOf("$" + totalStr));
                             break;
                         default:
                             break;
@@ -1167,7 +1177,7 @@ public class ExportacionWord {
                 if (i == 2) {
                     rPie40.setText("Totales"); // Tercera columna
                 } else if (i == encabezadoTabla40.length - 1) {
-                    rPie40.setText("$" + String.valueOf(totales)); // Última columna
+                    rPie40.setText("$" + totalesStr); // Última columna
                 } else {
                     rPie40.setText(""); // Otras columnas, dejar en blanco
                 }
@@ -1240,6 +1250,7 @@ public class ExportacionWord {
             run2_4030.addBreak();
             run2_4030.setText(encargadoOrden);
             run2_4030.addTab();
+            run2_4030.addTab();
             run2_4030.setText("PROVEEDORA");
             run2_4030.addTab();
             run2_4030.setText("FIRMA Y SELLO.");
@@ -1279,7 +1290,7 @@ public class ExportacionWord {
             planrun.setBold(true);
             planrun.setText(" ");
             planrun.addBreak();
-            planrun.setText("ORGANISMO DE ADMINISTRACION ESCOLAR: C.D.E. " + nombreInstitucion + ", CODIGO: " + codigo);
+            planrun.setText("ORGANISMO DE ADMINISTRACION ESCOLAR: "+ encargadoCompra + ". " + nombreInstitucion + ", CODIGO: " + codigo);
             planrun.addBreak();
 
             XWPFRun planrun2 = plan.createRun();
@@ -1380,11 +1391,13 @@ public class ExportacionWord {
                         case 4: // Descripción/especificación técnica
                             rPlan12.setText(detallePlan12.descripcionArticulo);
                             break;
-                        case 5: // Precio Unitario
-                            rPlan12.setText(String.valueOf("$" + detallePlan12.precioUnitario));
+                        case 5: // Precio Unitario                          
+                            String unitarioStr = String.valueOf(formato.format(detallePlan12.precioUnitario));
+                            rPlan12.setText(String.valueOf("$" + unitarioStr));
                             break;
                         case 6: // Precio Total
-                            rPlan12.setText(String.valueOf("$" + detallePlan12.precioTotal));
+                            String totalStr = String.valueOf(formato.format(detallePlan12.precioTotal));
+                            rPlan12.setText(String.valueOf("$" + totalStr));
                             break;
                         case 7: // FECHA DE COMPRA (Dejar vacío o agregar un valor si corresponde)
                             rPlan12.setText(" "); // Suponiendo que hay un campo 'fechaCompra'
@@ -1417,7 +1430,7 @@ public class ExportacionWord {
                 if (i == 3) {
                     rPiePlan12.setText("Totales"); // Cuarta columna
                 } else if (i == encabezadoTablaPlan12.length - 2) {
-                    rPiePlan12.setText("$" + String.valueOf(totales)); // Penúltima columna
+                    rPiePlan12.setText("$" + totalesStr); // Penúltima columna
                 } else {
                     rPiePlan12.setText(""); // Otras columnas, dejar en blanco
                 }
